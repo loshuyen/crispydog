@@ -16,3 +16,7 @@ def favico():
 @app.get("/product/{id}", include_in_schema=False)
 def product():
     return FileResponse("./static/product.html")
+
+@app.get("/checkout", include_in_schema=False)
+def checkout():
+    return FileResponse("./static/checkout.html")

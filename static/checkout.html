@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/checkout.css">
+    <title>CrispyDog</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header__container">
+            <div class="header__title">CrispyDog</div>
+            <div class="header__search">
+                <div class="header__search-icon">
+                    <img src="/static/icons/search.svg">
+                </div>
+                <input type="text" class="header__search-input">
+            </div>
+            <div class="header__cart-icon">
+                <img src="/static/icons/cart.svg">
+            </div>
+        </div>
+    </header>
+
+    <div class="checkout__title">結帳頁面</div>
+
+    <main>
+        <div class="checkout__container">
+            <div class="checkout__product">
+                <div class="checkout__product-container">
+                    <div class="checkout__product-image">
+                        <img src="/static/images/tobeDeleted.jpg">
+                    </div>
+                    <div class="checkout__product-content">
+                        <div class="checkout__product-name">
+                            商品名稱
+                            <div class="checkout__product-seller">
+                                賣家
+                            </div>
+                        </div>
+                        <div class="checkout__product-price">
+                            $100
+                        </div>
+                        <div class="checkout__product-quantity">
+                            數量：1
+                        </div>
+                        <div class="checkout__remove-btn">
+                            移除
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout__total">
+                    <span>結帳總額：</span>$100
+                </div>
+            </div>
+            <div class="checkout__payment">
+                <div class="checkout__email">
+                    Email 信箱
+                    <div class="checkout__email-input">
+                        <input type="text" placeholder="aaa@aaa.com">
+                    </div>
+                </div>
+                <div class="checkout__pay">
+                    付款方式
+                    <div class="checkout__pay-container">
+                        <div class="checkout__pay-method">
+                            <div class="checkout__pay-icon">
+                                <img src="/static/icons/credit_card.svg">
+                            </div>
+                            信用卡
+                        </div>
+                        <div class="checkout__pay-method">
+                            <div class="checkout__pay-icon">
+                                <img src="/static/icons/credit_card.svg">
+                            </div>
+                            信用卡
+                        </div>
+                        <div class="checkout__pay-method">
+                            <div class="checkout__pay-icon">
+                                <img src="/static/icons/credit_card.svg">
+                            </div>
+                            信用卡
+                        </div>
+                    </div>
+                    <div class="checkout__credit-info">
+                        <div class="checkout__credit-name">
+                            持卡人姓名<br>
+                            <input type="text" placeholder="John Doe">
+                        </div>
+                        <div class="checkout__credit-number">
+                            卡號<br>
+                            <input type="dial" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div class="checkout__credit-exp">
+                            到期日<br>
+                            <input type="dial" placeholder="MM/YY">
+                        </div>
+                        <div class="checkout__credit-cvc">
+                            驗證碼<br>
+                            <input type="dial" placeholder="CVC">
+                        </div>
+                        <button class="checkout__submit-btn">付款</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

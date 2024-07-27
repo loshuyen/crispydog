@@ -1,0 +1,64 @@
+.library__container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.library__item {
+    width: 16rem;
+    height: 30rem;
+    margin: 1rem;
+    border: 1px solid black;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+}
+.library__item-name {
+    font-size: 1.5rem;
+    height: 45%;
+    padding: 1rem;
+    border-bottom: 1px solid black;
+}
+.library__item > img {
+    width: 100%;
+    height: 45%;
+    object-fit: cover;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+.library__item-bottom {
+    height: 3rem;
+    padding-left: .5rem;
+    display: flex;
+    align-items: center;
+}
+.library__seller-img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.library__seller-img > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+.library__seller {
+    margin-left: .5rem;
+    margin-right: auto;
+    cursor: pointer;
+}
+.library__item-operation {
+    width: 3rem;
+    height: 3rem;
+    border-left: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.library__item-operation > img {
+    width: 50%;
+    height: 50%;
+    border: none;
+    object-fit: scale-down;
+}

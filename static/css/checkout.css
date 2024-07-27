@@ -64,6 +64,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
+    cursor: pointer;
 }
 .checkout__total {
     display: flex;
@@ -122,6 +123,7 @@
     border: 1px solid black;
     border-radius: 3px;
     font-size: 1rem;
+    cursor: pointer;
 }
 .checkout__pay-icon {
     width: 2rem;

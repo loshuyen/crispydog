@@ -18,11 +18,12 @@
     margin: 0 2rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 .header__title {
     font-size: 2rem;
     font-weight: 700;
+    cursor: pointer;
 }
 .header__search {
     flex-grow: 1;
@@ -50,11 +51,14 @@
     width: 20px;
     height: 20px;
 }
-.header__search-icon img, 
-.header__cart-icon img {
+.header__search-icon > img, 
+.header__cart-icon > img {
     width: 100%;
     height: 100%;
 }
 .header__search-icon {
     opacity: .3;
+}
+.header__cart-icon {
+    cursor: pointer;
 }

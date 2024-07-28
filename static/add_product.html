@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>CrispyDog</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/add_product.css">
+    <script type="module" src="/static/js/add_product.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <nav class="dashboard__left">
+            <div class="dashboard__website-title">
+                CrispyDog
+            </div>
+            <div class="dashboard__item">
+                <img src="/static/icons/library.svg">
+                已購商品
+            </div>
+            <div class="dashboard__item">
+                <img src="/static/icons/store.svg">
+                我的商店
+            </div>
+        </nav>
+        <div class="dashboard__right">
+            <header class="dashboard__header">
+                新增商品
+            </header>
+            
+            <div class="product__name">
+                商品名稱<br>
+                <input type="text">
+            </div>
+            <div class="product__description">
+                商品敘述<br>
+                <textarea type="text"></textarea>
+            </div>
+            <div class="product__cover">
+                封面圖片<br>
+                <div class="product__cover-container">
+                    <button class="product__cover-btn">上傳圖片</button>
+                    <input type="file">
+                </div>
+            </div>
+            <div class="product__info">
+                內容項目
+                <div class="product__info-container">
+                    <input type="text" class="product__attribute">
+                    <input type="text" class="product__value">
+                    <button class="product__delete-btn">
+                        <img src="/static/icons/trash.svg">
+                    </button>
+                </div>
+                <button class="product__add-btn">＋ 增加項目</button>
+            </div>
+            <div class="product__price">
+                售價<br>
+                <div class="product__price-container">
+                    <div class="product__dollar-sign">$</div>
+                    <input type="dial">
+                </div>
+            </div>
+            <div class="product__submit-btn">
+                <button>新增商品</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

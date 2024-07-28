@@ -1,12 +1,12 @@
-.layout {
+.dashboard {
     display: flex;
 }
-.layout__left {
+.dashboard__left {
     width: 200px;
     height: 100vh;
     background-color: black;
 }
-.layout__right {
+.dashboard__right {
     flex-grow: 1;
 }
 .dashboard__website-title {

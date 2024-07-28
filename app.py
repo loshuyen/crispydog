@@ -13,6 +13,10 @@ def home():
 def favico():
     return FileResponse("favicon.ico")
 
+@app.get("/product/add", include_in_schema=False)
+def property():
+    return FileResponse("./static/add_product.html")
+
 @app.get("/product/{id}", include_in_schema=False)
 def product():
     return FileResponse("./static/product.html")

@@ -32,3 +32,7 @@ def library():
 @app.get("/property", include_in_schema=False)
 def property():
     return FileResponse("./static/property.html")
+
+@app.get("/store", include_in_schema=False)
+def store():
+    return FileResponse("./static/store.html")

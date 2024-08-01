@@ -1,3 +1,5 @@
+import * as dashboard from "./dashboard.js";
+
 //TODO: for展示用
 const item = document.querySelector(".library__item");
 

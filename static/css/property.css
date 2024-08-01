@@ -29,7 +29,8 @@
     padding-left: 2rem;
 }
 .property__container {
-    width: 100%;
+    width: 1200px;
+    margin: 0 auto;
     display: flex;
 }
 .property__left {
@@ -100,4 +101,20 @@
     height: 100%;
     width: 10rem;
     cursor: pointer;
+}
+@media (max-width: 1200px) {
+    .property__container {
+        width: 100%;
+    }
+}
+@media (max-width: 900px) {
+    .property__container {
+        flex-wrap: wrap;
+    }
+    .property__left {
+        width: 100%;
+    }
+    .property__right {
+        width: 100%;
+    }
 }

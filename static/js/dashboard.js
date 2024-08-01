@@ -1,6 +1,6 @@
 const website_title = document.querySelector(".dashboard__website-title");
-const library = document.querySelector("#dashboard-library");
-const store = document.querySelector("#dashboard-store");
+const library = document.querySelector(".dashboard__item-library");
+const store = document.querySelector(".dashboard__item-store");
 
 document.addEventListener("DOMContentLoaded", () => {
     website_title.addEventListener("click", () => {

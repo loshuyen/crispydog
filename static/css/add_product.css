@@ -58,12 +58,13 @@
     border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
+    background-color: #ffffff;
 }
 .product__delete-btn > img {
     max-height: 50%;
     object-fit: scale-down;
 }
-.product__add-btn {
+.product__add-item-btn {
     width: 100%;
     height: 3rem;
     background-color: black;

@@ -21,7 +21,8 @@
     align-items: center;
     cursor: pointer;
 }
-.dashboard__item {
+.dashboard__item-library,
+.dashboard__item-store {
     width: 100%;
     height: 4rem;
     color: #FFFFFF;
@@ -31,16 +32,19 @@
     align-items: center;
     justify-content: center;
 }
-.dashboard__item img {
+.dashboard__item-library > img,
+.dashboard__item-store > img{
     width: 1rem;
     height: 1rem;
     margin-right: 1rem;
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(116deg) brightness(109%) contrast(109%);
 }
-.dashboard__item:hover {
+.dashboard__item-library:hover,
+.dashboard__item-store:hover {
     color: #ff90e8;
 }
-.dashboard__item:hover > img {
+.dashboard__item-library:hover > img,
+.dashboard__item-store:hover > img {
     filter: brightness(0) saturate(100%) invert(85%) sepia(14%) saturate(7293%) hue-rotate(282deg) brightness(108%) contrast(100%);
 }
 .dashboard__header {

@@ -38,6 +38,12 @@
 .product__cover-container > input {
     display: none;
 }
+.product__cover-chosen {
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    display: none;
+}
 .product__info-container {
     height: 2rem;
     display: flex;

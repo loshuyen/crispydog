@@ -65,9 +65,10 @@
     width: 5%;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 .store__item-actions > img {
-    width: 40%;
+    width: 30%;
     height: 100%;
 }
 .store__item-image {
@@ -78,9 +79,8 @@
     align-items: center;
 }
 .store__item-image > img {
-    width: 80%;
-    height: 80%;
-    object-fit: cover;
+    max-height: 40%;
+    object-fit: scale-down;
 }
 .store__total {
     width: 100%;

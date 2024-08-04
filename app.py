@@ -11,7 +11,7 @@ def home():
 
 @app.get("/favicon.ico", include_in_schema=False)
 def favico():
-    return FileResponse("favicon.ico")
+    return FileResponse("./static/images/favicon.ico")
 
 @app.get("/product/add", include_in_schema=False)
 def property():

@@ -38,23 +38,51 @@
                 <textarea type="text"></textarea>
             </div>
             <div class="product__cover">
-                封面圖片<br>
+                商品封面<br>
                 <div class="product__cover-container">
-                    <div class="product__cover-chosen"></div>
-                    <button class="product__cover-btn">上傳圖片</button>
-                    <input type="file" id="thumbnail_input">
+                    <div class="product__cover-filename"></div>
+                    <div class="product__cover-filetype"></div>
+                    <button class="product__cover-btn">
+                        <img src="/static/icons/upload.svg">
+                        上傳圖片
+                    </button>
+                    <input type="file" id="cover_input">
+                    <div class="product__cover-description">
+                        商品圖片須為橫向，且像素至少為1280x720px
+                    </div>
+                </div>
+            </div>
+            <div class="product__thumbnail">
+                封面縮圖<br>
+                <div class="product__thumbnail-container">
+                    <div class="product__thumbnail-chosen">
+                        <img src="#">
+                        <button class="product__thumbnail-btn">
+                            <img src="/static/icons/upload.svg">
+                            上傳封面
+                        </button>
+                        <input type="file" id="thumbnail_input">
+                    </div>
+                    <div class="product__thumbnail-description">
+                        縮圖會顯示在首頁、已購商品等頁面，上傳的圖片須為正方形尺寸且像素至少為600x600px，檔案類型為JPG、PNG、或GIF。
+                    </div>
                 </div>
             </div>
             <div class="product__info">
                 內容項目
-                <div class="product__info-container">
-                    <input type="text" class="product__attribute">
-                    <input type="text" class="product__value">
-                    <button class="product__delete-btn">
-                        <img src="/static/icons/trash.svg">
-                    </button>
-                </div>
                 <button class="product__add-item-btn">＋ 增加項目</button>
+            </div>
+            <div class="product__file">
+                商品檔案<br>
+                <div class="product__file-container">
+                    <div class="product__file-name"></div>
+                    <div class="product__file-type"></div>
+                    <button class="product__file-btn">
+                        <img src="/static/icons/upload.svg">
+                        上傳商品檔案
+                    </button>
+                    <input type="file" id="product_input">
+                </div>
             </div>
             <div class="product__price">
                 售價<br>
@@ -63,8 +91,22 @@
                     <input type="dial">
                 </div>
             </div>
+            <div class="product__quantity">
+                數量
+                <div class="product__quantity-container">
+                    <img src="/static/icons/infinity.svg" class="infinity-icon">
+                    <input type="dial" id="quantity-input">
+                </div>
+                <div class="product__quantity-choice">
+                    <label class="product__quantity-switch">
+                        <input type="checkbox" id="quantity-switch">
+                        <span class="product__quantity-slider"></span>
+                    </label>
+                    不限制數量
+                </div>
+            </div>
             <div class="product__submit-btn">
-                <button>新增商品</button>
+                <button>確認新增商品</button>
             </div>
         </div>
     </div>

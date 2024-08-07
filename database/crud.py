@@ -12,7 +12,6 @@ def get_published_products():
             ON product.owner_id = user.id
             WHERE status = 1;""")
         data = cursor.fetchall()
-        print(data)
         for item in data:
             result.append({
                 "id": item[0],
@@ -74,12 +73,16 @@ def get_product(id):
         cursor.close()
         db.close()
 
-def add_product(user_id):
+def add_product(product_name, user_id, price, image_urls, thumbnail_url, description, specification, file_type, file_size, stock, source_url):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        cursor.execute()
-        
+        cursor.execute("""
+            INSERT INTO product
+            (name, owner_id, price, image_urls, thumbnail_url, description, specification, file_type, file_size, stock, source_url) VALUES
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """, (product_name, user_id, price, image_urls, thumbnail_url, description, specification, file_type, file_size, stock, source_url))
+        db.commit()
     except Exception as e:
         print(e)
     finally:

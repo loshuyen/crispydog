@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from routers import product, user, review, deal
+from routers import product, user, review, deal, cart
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -10,6 +10,7 @@ app.include_router(product.router, tags=["Product"])
 app.include_router(user.router, tags=["User"])
 app.include_router(review.router, tags=["Review"])
 app.include_router(deal.router, tags=["Deal"])
+app.include_router(cart.router, tags=["Cart"])
 
 @app.get("/", include_in_schema=False)
 def home():

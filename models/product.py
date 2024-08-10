@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from models import user
 
 class ProductBase(BaseModel):
     id: int
@@ -11,3 +12,17 @@ class ProductBase(BaseModel):
 
 class Product(BaseModel):
     data: list[ProductBase]
+
+class SpecBase(BaseModel):
+    item: str
+    description: str
+
+class ProductOutBase(BaseModel):
+    name: str
+    price: int
+    rating_avg: int
+    review_count: int
+    introduction: str
+    specification: list[SpecBase]
+    images: str
+    file_size: int

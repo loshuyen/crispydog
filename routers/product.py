@@ -1,5 +1,6 @@
 from fastapi import APIRouter, UploadFile, Form, Depends
 from fastapi.responses import JSONResponse
+from pydantic import ValidationError
 from typing import Annotated
 from models import product as model
 from database import product as db
@@ -10,14 +11,22 @@ router = APIRouter()
 
 @router.get("/api/products")
 def get_all_products() -> model.Product:
-    data = db.get_published_products()
-    return {"data": data}
+    try:
+        data = db.get_published_products()
+        return JSONResponse(status_code=200, content={"data": data})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.get("/api/product/{id}")
 def get_product_by_id(id):
-    data = db.get_product(id)
-    return {"data": data}
-
+    try:
+        data = db.get_product(id)
+        return {"data": data}
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+    
 @router.post("/api/product")
 async def create_product(
     image_file: UploadFile, 
@@ -25,8 +34,8 @@ async def create_product(
     product_file: UploadFile,
     name: Annotated[str, Form()],
     price: Annotated[int, Form()],
-    description: Annotated[str | None, Form()] = None,
-    specification: Annotated[str | None, Form()] = None,
+    introduction: Annotated[str | None, Form()] = None,
+    specification: Annotated[str | None, Form(description="{'item': '商品項目', 'description': '項目說明'}")] = None,
     stock: Annotated[int, Form()] = 9999,
     user = Depends(get_auth_user)
 ):
@@ -47,7 +56,7 @@ async def create_product(
             price=price,
             image_urls=image_urls,
             thumbnail_url=thumbnail_url,
-            description=description,
+            introduction=introduction,
             specification=specification,
             file_type=product_file_type,
             file_size=product_size,
@@ -55,6 +64,8 @@ async def create_product(
             source_url=product_url
         )
         return JSONResponse(status_code=200, content={"ok": True})
+    except ValidationError:
+        return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

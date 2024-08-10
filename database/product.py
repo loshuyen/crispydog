@@ -25,6 +25,7 @@ def get_published_products():
         return result
     except Exception as e:
         print(e)
+        return None
     finally:
         cursor.close()
         db.close()
@@ -34,39 +35,30 @@ def get_product(id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT product.name, price, rating_avg, review_count, description, specification, image_urls, user.username, file_size
+            SELECT product.name, price, rating_avg, review_count, introduction, specification, image_urls, user.username, file_size, user.id, product.id
             FROM product INNER JOIN user 
             ON product.owner_id = user.id
             WHERE status = 1 AND product.id = %s;""", (id, ))
         data = cursor.fetchall()[0]
         result = {
             "user": {
+                "id": data[9],
                 "username": data[7]
             },
             "product": {
+                "id": data[10],
                 "name": data[0],
                 "price": data[1],
                 "rating_avg": data[2],
                 "review_count": data[3],
-                "description": data[4],
+                "introduction": data[4],
                 "specification": None,
-                "images": None,
+                "images": data[6],
                 "file_size": data[8]
             }
         }
         if data[5]:
-            temp_spec = []
-            specs = data[5].split(",, ")
-            for spec in specs:
-                spec = json.loads(spec)
-                temp_spec.append(spec)
-            result["product"]["specification"] = temp_spec
-        if data[6]:
-            temp_img = []
-            imgs = data[6].split(", ")
-            for img in imgs:
-                temp_img.append(img)
-            result["product"]["images"] = temp_img
+            result["product"]["specification"] = json.loads(data[5])
         return result
     except Exception as e:
         print(e)
@@ -74,15 +66,15 @@ def get_product(id):
         cursor.close()
         db.close()
 
-def add_product(product_name, user_id, price, image_urls, thumbnail_url, description, specification, file_type, file_size, stock, source_url):
+def add_product(product_name, user_id, price, image_urls, thumbnail_url, introduction, specification, file_type, file_size, stock, source_url):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
             INSERT INTO product
-            (name, owner_id, price, image_urls, thumbnail_url, description, specification, file_type, file_size, stock, source_url) VALUES
+            (name, owner_id, price, image_urls, thumbnail_url, introduction, specification, file_type, file_size, stock, source_url) VALUES
             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-            """, (product_name, user_id, price, image_urls, thumbnail_url, description, specification, file_type, file_size, stock, source_url))
+            """, (product_name, user_id, price, image_urls, thumbnail_url, introduction, json.dumps(specification), file_type, file_size, stock, source_url))
         db.commit()
     except Exception as e:
         print(e)

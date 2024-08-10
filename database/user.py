@@ -12,6 +12,7 @@ def verify_password(username, password):
             return None
     except Exception as e:
         print(e)
+        return None
     finally:
         cursor.close()
         db.close()
@@ -28,6 +29,7 @@ def get_username_by_id(id):
             return None
     except Exception as e:
         print(e)
+        return None
     finally:
         cursor.close()
         db.close()
@@ -44,6 +46,7 @@ def get_user_by_username(username):
             return None
     except Exception as e:
         print(e)
+        return None
     finally:
         cursor.close()
         db.close()
@@ -56,6 +59,7 @@ def add_user(username, password):
         db.commit()
     except Exception as e:
         print(e)
+        raise e
     finally:
         cursor.close()
         db.close()

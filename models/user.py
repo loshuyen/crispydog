@@ -9,4 +9,4 @@ class UserOut(BaseModel):
     username: str
 
 class UserResponse(BaseModel):
-    data: UserOut
+    data: UserOut | None

@@ -24,8 +24,11 @@ def get_auth_user(credentials: HTTPAuthorizationCredentials = Depends(security))
 	
 @router.get("/api/user/auth")
 def get_current_user(user = Depends(get_auth_user)) -> model.UserResponse:
-    return {"data": {"id": user["id"], "username": user["username"]}}
-
+    try:
+        return {"data": {"id": user["id"], "username": user["username"]}}
+    except:
+        return {"data": None}
+    
 @router.put("/api/user/auth")
 def login(user: model.UserIn):
     try:

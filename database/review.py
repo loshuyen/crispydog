@@ -22,11 +22,11 @@ def get_reviews(product_id, page):
                     "id":reviews[i][4],
                     "rating":reviews[i][1],
                     "content":reviews[i][2],
-                    "updated_at":reviews[i][3].strftime("%Y-%m-%d %H:%M:%S")
-                },
-                "reviewer":{
-                    "id":reviews[i][5],
-                    "name":reviews[i][0]
+                    "updated_at":reviews[i][3].strftime("%Y-%m-%d %H:%M:%S"),
+                    "reviewer":{
+                        "id":reviews[i][5],
+                        "name":reviews[i][0]
+                    }
                 }
             })
         return {"next_page": next_page, "data": result}

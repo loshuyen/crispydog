@@ -34,9 +34,9 @@ def get_all_deals(user_id, success):
                     "amount": amount,
                     "delivery_email": delivery_email,
                     "success": success,
-                    "created_at": updated_at.strftime("%Y-%m-%d %H:%M:%S")
-                },
-                "products": product_result
+                    "created_at": updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "products": product_result
+                }
             })
         return result
     except Exception as e:

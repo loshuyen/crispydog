@@ -1,6 +1,7 @@
 from .database import pool
 from datetime import datetime
 import json
+from uuid import uuid4
 
 def get_all_deals(user_id, success):
     try:
@@ -62,7 +63,58 @@ def add_deal(buyer_id, products, delivery_email, amount):
             (buyer_id, amount, products, delivery_email) VALUES
             (%s, %s, %s, %s);""", 
             (buyer_id, amount, json.dumps(products), delivery_email))
+        deal_id = cursor.lastrowid
         db.commit()
+        return deal_id
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
+def mark_as_success(deal_id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("UPDATE deal SET success = 1 WHERE id = %s", (deal_id, ))
+        db.commit()
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
+def calculate_amount(products):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+
+        placeholders = ", ".join(["%s"] * len(products))
+        query = f"SELECT SUM(price) FROM product WHERE id IN ({placeholders})"
+        cursor.execute(query, products)
+        result = cursor.fetchall()[0][0]
+        return result
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
+def add_sale_records(deal_id, buyer_id, products):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        data = []
+        for product_id in products:
+            download_url = "/api/download/" + str(uuid4())
+            data.append((deal_id, buyer_id, product_id, download_url))
+        cursor.executemany("""
+            INSERT INTO sale 
+            (deal_id, buyer_id, product_id, download_url) VALUES
+            (%s, %s, %s, %s)
+        """, data)
+        db.commit()
+        return deal_id
     except Exception as e:
         raise e
     finally:

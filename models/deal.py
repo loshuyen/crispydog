@@ -1,6 +1,16 @@
 from pydantic import BaseModel, EmailStr
 
-class Deal(BaseModel):
+class DealBase(BaseModel):
+    products: list[int]
     amount: int
     delivery_email: EmailStr | None
-    products: list[int]
+
+class Contact(BaseModel):
+    name: str
+    phone_number: str
+    email: EmailStr
+
+class Deal(BaseModel):
+    prime: str
+    deal: DealBase
+    contact: Contact

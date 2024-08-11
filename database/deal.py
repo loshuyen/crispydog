@@ -106,11 +106,11 @@ def add_sale_records(deal_id, buyer_id, products):
         cursor = db.cursor()
         data = []
         for product_id in products:
-            download_url = "/api/download/" + str(uuid4())
-            data.append((deal_id, buyer_id, product_id, download_url))
+            download_endpoint = str(uuid4())
+            data.append((deal_id, buyer_id, product_id, download_endpoint))
         cursor.executemany("""
             INSERT INTO sale 
-            (deal_id, buyer_id, product_id, download_url) VALUES
+            (deal_id, buyer_id, product_id, download_endpoint) VALUES
             (%s, %s, %s, %s)
         """, data)
         db.commit()

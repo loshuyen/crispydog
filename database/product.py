@@ -41,10 +41,6 @@ def get_product(id):
             WHERE status = 1 AND product.id = %s;""", (id, ))
         data = cursor.fetchall()[0]
         result = {
-            "user": {
-                "id": data[9],
-                "username": data[7]
-            },
             "product": {
                 "id": data[10],
                 "name": data[0],
@@ -54,7 +50,11 @@ def get_product(id):
                 "introduction": data[4],
                 "specification": None,
                 "images": data[6],
-                "file_size": data[8]
+                "file_size": data[8],
+                "user": {
+                    "id": data[9],
+                    "username": data[7]
+                }
             }
         }
         if data[5]:

@@ -6,9 +6,9 @@ def get_all_sales(user_id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT product.id, product.name, SUM(amount), COUNT(product.id) 
+            SELECT product.id, product.name, SUM(product.price), COUNT(product.id) 
             FROM sale INNER JOIN product ON sale.product_id = product.id
-            WHERE sale.seller_id = %s
+            WHERE product.owner_id = %s
             GROUP BY product.id;""", (user_id, ))
         sales = cursor.fetchall()
         result = []

@@ -38,6 +38,9 @@
     border-right: 1px solid black;
     border-left: 1px solid black;
 }
+.product__seller > a {
+    color: inherit;
+}
 .product__description {
     border-top: 1px solid black;
     padding: 1rem;
@@ -52,14 +55,15 @@
     border: 1px solid black;
     cursor: pointer;
 }
+.product__add-to-cart-btn:hover {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    transform: translate(-3px, -3px);
+}
+
 .product__spec-container {
     border: 1px solid black;
     border-radius: 3px;
     margin: 0 1rem;
-}
-.product__spec-brief {
-    border-bottom: 1px solid black;
-    padding: 1rem;
 }
 .product__spec {
     font-weight: 700;

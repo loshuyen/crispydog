@@ -6,7 +6,7 @@
     <title>CrispyDog</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/product.css">
-    <script defer type="module" src="/static/js/product.js"></script>
+    <script defer type="module" src="/static/controllers/product.js"></script>
 </head>
 <body>
     <header class="header">
@@ -24,8 +24,28 @@
             <div class="header__member">
                 <img src="/static/images/member.png">
             </div>
+            <div class="header__login">
+                登入
+            </div>
+            <div class="header__logout">
+                登出
+            </div>
         </div>
     </header>
+    
+    <div class="background-mask">
+        <div class="login">
+            <div class="login__leave-btn">X</div>
+            <div class="login__message"></div>
+            <div class="login__username">
+                <input type="text">
+            </div>
+            <div class="login__password">
+                <input type="password">
+            </div>
+            <button class="login__submit-btn">登入</button>
+        </div>
+    </div>
 
     <main>
         <div class="product__container">
@@ -34,7 +54,7 @@
             </div>
             <div class="product__content">
                 <div class="product__detail">
-                    <div class="product__name">日系清新調色組合 Photo Preset</div>
+                    <!-- <div class="product__name">日系清新調色組合 Photo Preset</div>
                     <div class="product__price">$300</div>
                     <div class="product__seller">賣家</div>
                     <div class="product__rating">⭑⭑⭑⭑⭑ 1000個評價</div>
@@ -42,12 +62,12 @@
                         Adobe Lightroom presets that give your images a dreamy film look and work in Lightroom Classic, Lightroom CC, and the Lightroom mobile app.
                         <br>
                         Back in 2021, I fell in love with film photography, I especially love the dark and punchy look you get from disposable cameras. But, buying a new camera every time you have taken 36 photos is less than ideal. That's why I spent the past months developing a full suite of presets that can give you the perfect disposable camera look, for those grungy flash photos you take with friends. These presets aren't meant to replicate specific film stocks by Fujifilm, Kodak, or alike. Rather, they are aimed at bringing general film characteristics and tones to your digital images. With soft highlights, punchy colors, and a nostalgic 90s feel I am actually surprised by myself.
-                    </div>
+                    </div> -->
                 </div>
                 <div class="product__purchase">
                     <button class="product__add-to-cart-btn">加入購物車</button>
                     <div class="product__spec-container">
-                        <div class="product__spec-brief">
+                        <!-- <div class="product__spec-brief">
                             套用在照片原始檔，後製照片色調
                         </div>
                         <div class="product__spec">
@@ -58,13 +78,13 @@
                         </div>
                         <div class="product__size">
                             檔案容量<span>20MB</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="testimonial">
                         <div class="testimonial__rating">
-                            評價 ⭑5.0 (1000個)
+                            <!-- 評價 ⭑5.0 (1000個) -->
                         </div>
-                        <div class="testimonial__container">
+                        <!-- <div class="testimonial__container">
                             <div class="testimonial__rating-star">
                                 ⭑⭑⭑⭑⭑
                             </div>
@@ -74,8 +94,8 @@
                             <div class="testimonial__consumer">
                                 Anonymous about 2 months ago
                             </div>
-                        </div>
-                        <div class="testimonial__container">
+                        </div> -->
+                        <!-- <div class="testimonial__container">
                             <div class="testimonial__rating-star">
                                 ⭑⭑⭑⭑⭑
                             </div>
@@ -85,7 +105,7 @@
                             <div class="testimonial__consumer">
                                 Anonymous about 2 months ago
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

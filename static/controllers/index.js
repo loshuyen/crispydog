@@ -4,8 +4,6 @@ import * as header from "../controllers/header.js";
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-    header.update_auth_links();
-    
     const products = await model.get_all_products();
     await view.render_all_products(products);
 

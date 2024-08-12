@@ -24,6 +24,8 @@ export async function update_auth_links() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+    await update_auth_links();
+    
     title.addEventListener("click", () => {
         window.location.href = "/";
     });

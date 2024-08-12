@@ -15,6 +15,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     add_to_cart_btn.addEventListener("click", async() => {
         await add_to_cart(product_id);
-        alert("商品已加入購物車");
     });
 });

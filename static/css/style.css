@@ -67,6 +67,7 @@
     height: 2rem;
     cursor: pointer;
     margin-left: 1rem;
+    /* display: none; */
 }
 .header__member > img {
     width: 100%;
@@ -74,4 +75,50 @@
     object-fit: cover;
     border: 1px solid black;
     border-radius: 50%;
+}
+.header__login {
+    cursor: pointer;
+    margin-left: 1rem;
+}
+.header__logout {
+    cursor: pointer;
+    margin-left: 1rem;
+    display: none;
+}
+.background-mask {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 999;
+    top: 10%;
+    display: none;
+    justify-content: center;
+    background-color: #fff;
+}
+.login {
+    width: 30%;
+    display: none;
+    /* position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+.login__leave-btn {
+    cursor: pointer;
+}
+.login__username,
+.login__password,
+.login__submit-btn {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: .5rem;
+}
+.login__username > input,
+.login__password > input {
+    width: 100%;
+    height: 100%;
+    padding-left: .5rem;
+}
+.login__submit-btn {
+    cursor: pointer;
 }

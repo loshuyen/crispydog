@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from fastapi.responses import JSONResponse
-from database import deal as db
+from database import deal as db, cart
 from .user import get_auth_user
 from models import deal as model
 from datetime import datetime
@@ -41,6 +41,7 @@ def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
         elif pay_result["payment"]["status"] == 0:
             db.mark_as_success(deal_id)
             db.add_sale_records(deal_id, user["id"], deal.deal.products)
+            cart.remove_all_product_from_cart(user["id"])
             pay_result["payment"]["message"] = "付款成功"
             return {"data": pay_result}
         else:

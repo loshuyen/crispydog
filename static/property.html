@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/property.css">
+    <script type="module" src="/static/controllers/property.js"></script>
     <title>CrispyDog</title>
 </head>
 <body>
@@ -14,7 +15,7 @@
             <a href="/library">回到已購商品</a>
         </div>
         <div class="property__product-name">
-            日系清新調色組合 Photo Preset
+        
         </div>
     </header>
 
@@ -23,7 +24,16 @@
             <div class="property__rating">
                 給商品一個評論：
                 <div class="property__rating-star">
-                    ⭑⭑⭑⭑⭑
+                    <!-- <form> -->
+                        <!-- <label for="options">Choose an option:</label> -->
+                        <select id="star-options" name="options">
+                            <option value="1">1顆星</option>
+                            <option value="2">2顆星</option>
+                            <option value="3">3顆星</option>
+                            <option value="4">4顆星</option>
+                            <option value="5">5顆星</option>
+                        </select>
+                    <!-- </form> -->
                 </div>
                 <textarea class="property__comment"></textarea>
                 <button class="property__comment-submit">送出評論</button>
@@ -31,17 +41,10 @@
         </div>
         <div class="property__right">
             <div class="property__description">
-                感謝你的購買，很開心能和你分享我自己正在使用的調色檔。
+                <!-- 感謝你的購買，很開心能和你分享我自己正在使用的調色檔。 -->
             </div>
             <div class="property__product">
-                <img src="/static/icons/file.svg">
-                <div class="property__name">
-                    日系清新調色組合 Photo Preset
-                    <div class="property__type">
-                        .zip 12MB
-                    </div>
-                </div>
-                <button class="property__download-btn">下載</button>
+                
             </div>
         </div>
     </div>

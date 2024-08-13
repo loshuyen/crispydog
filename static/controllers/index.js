@@ -1,4 +1,4 @@
-import * as model from "../models/index.js";
+import * as model from "../models/product.js";
 import * as view from "../views/index.js";
 import * as header from "../controllers/header.js";
 

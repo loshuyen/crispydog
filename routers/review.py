@@ -14,13 +14,21 @@ def get_reviews(product_id: int, page: Annotated[int, Query(ge=0)]):
         return JSONResponse(status_code=200, content=result)
     except:
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+    
+@router.get("/api/review")
+def get_my_reviews(product_id: int | None = None, user = Depends(get_auth_user)):
+    try:
+        result = db.get_review(product_id, user["id"])
+        return JSONResponse(status_code=200, content= {"data": result})
+    except:
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.post("/api/review")
 def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
-        product_bought = deal.get_all_deals(user_id=user["id"], role=0, product_id=review.product_id, success=1)
+        product_bought = deal.get_all_deals(user_id=user["id"], success=1)
         review_existed = db.get_review(product_id=review.product_id, user_id=user["id"])
         if product_bought and not review_existed:
             review = review.model_dump()
@@ -28,7 +36,8 @@ def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
             return JSONResponse(status_code=200, content={"ok": True})
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "重複評論或未購買該商品"})
-    except:
+    except Exception as e:
+        print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/review")
@@ -36,10 +45,10 @@ def update_review(review: model.ReviewIn, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
-        review_existed_id = db.get_review(product_id=review.product_id, user_id=user["id"])
-        if review_existed_id:
+        review_list = db.get_review(product_id=review.product_id, user_id=user["id"])
+        if review_list:
             review = review.model_dump()
-            db.update_review(**review, review_id=review_existed_id)
+            db.update_review(**review, review_id=review_list[0]["review"]["id"])
             return JSONResponse(status_code=200, content={"ok": True})
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "評論不存在"})

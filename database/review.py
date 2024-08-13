@@ -68,12 +68,39 @@ def get_review(product_id, user_id):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        cursor.execute("SELECT id FROM review WHERE product_id = %s and reviewer_id = %s", (product_id, user_id))
-        review = cursor.fetchall()[0]
-        return review[0]
+        if not product_id:
+            cursor.execute("""
+                SELECT review.id, rating, content, product.id, product.name, review.updated_at 
+                FROM review INNER JOIN product ON review.product_id = product.id 
+                WHERE reviewer_id = %s 
+                ORDER BY review.updated_at DESC
+            """, (user_id, ))
+        else:
+            cursor.execute("""
+                SELECT review.id, rating, content, product.id, product.name, review.updated_at
+                FROM review INNER JOIN product ON review.product_id = product.id 
+                WHERE reviewer_id = %s AND product.id = %s
+                ORDER BY review.updated_at DESC
+            """, (user_id, product_id))
+        reviews = cursor.fetchall()
+        result = []
+        for review in reviews:
+            review_id, rating, content, product_id, product_name, review_updated_at = review
+            result.append({
+                "review": {
+                    "id": review_id,
+                    "rating": rating,
+                    "content": content,
+                    "updated_at": review_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "product": {
+                        "id": product_id,
+                        "name": product_name
+                    }
+                }
+            })
+        return result
     except Exception as e:
         print(e)
-        return None
     finally:
         cursor.close()
         db.close()

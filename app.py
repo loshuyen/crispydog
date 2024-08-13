@@ -38,7 +38,7 @@ def checkout():
 def library():
     return FileResponse("./static/library.html")
 
-@app.get("/property", include_in_schema=False)
+@app.get("/property/{id}", include_in_schema=False)
 def property():
     return FileResponse("./static/property.html")
 

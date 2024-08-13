@@ -6,7 +6,8 @@
     <title>CrispyDog</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/checkout.css">
-    <script type="module" src="/static/js/checkout.js"></script>
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+    <script type="module" src="/static/controllers/checkout.js"></script>
 </head>
 <body>
     <header class="header">
@@ -24,45 +25,45 @@
             <div class="header__member">
                 <img src="/static/images/member.png">
             </div>
+            <div class="header__login">
+                登入
+            </div>
+            <div class="header__logout">
+                登出
+            </div>
         </div>
     </header>
+    
+    <div class="background-mask">
+        <div class="login">
+            <div class="login__leave-btn">X</div>
+            <div class="login__message"></div>
+            <div class="login__username">
+                <input type="text">
+            </div>
+            <div class="login__password">
+                <input type="password">
+            </div>
+            <button class="login__submit-btn">登入</button>
+        </div>
+    </div>
 
     <div class="checkout__title">結帳頁面</div>
 
     <main>
         <div class="checkout__container">
             <div class="checkout__product">
-                <div class="checkout__product-container">
-                    <div class="checkout__product-image">
-                        <img src="/static/images/tobeDeleted.jpg">
-                    </div>
-                    <div class="checkout__product-content">
-                        <div class="checkout__product-name">
-                            日系清新調色組合 Photo Preset
-                            <div class="checkout__product-seller">
-                                賣家
-                            </div>
-                        </div>
-                        <div class="checkout__product-price">
-                            $100
-                        </div>
-                        <div class="checkout__product-quantity">
-                            數量：1
-                        </div>
-                        <div class="checkout__remove-btn">
-                            移除
-                        </div>
-                    </div>
-                </div>
-                <div class="checkout__total">
-                    <span>結帳總額：</span>$100
-                </div>
+                
             </div>
             <div class="checkout__payment">
                 <div class="checkout__email">
                     Email 信箱
                     <div class="checkout__email-input">
                         <input type="text" placeholder="aaa@aaa.com">
+                    </div>
+                    聯絡電話
+                    <div class="checkout__phone-input">
+                        <input type="dial" placeholder="0912345678">
                     </div>
                 </div>
                 <div class="checkout__pay">
@@ -88,19 +89,22 @@
                     <div class="checkout__credit-info">
                         <div class="checkout__credit-name">
                             持卡人姓名<br>
-                            <input type="text" placeholder="John Doe">
+                            <input type="text" placeholder="name">
                         </div>
                         <div class="checkout__credit-number">
                             卡號<br>
-                            <input type="dial" placeholder="0000 0000 0000 0000">
+                            <!-- <input type="dial" placeholder="0000 0000 0000 0000" id="card-number"> -->
+                            <div class="checkout__credit-container" id="card-number"></div>
                         </div>
                         <div class="checkout__credit-exp">
                             到期日<br>
-                            <input type="dial" placeholder="MM/YY">
+                            <!-- <input type="dial" placeholder="MM/YY" id="card-expiration-date"> -->
+                            <div class="checkout__credit-container" id="card-expiration-date"></div>
                         </div>
                         <div class="checkout__credit-cvc">
                             驗證碼<br>
-                            <input type="dial" placeholder="CVC">
+                            <!-- <input type="dial" placeholder="CVC" id="card-ccv"> -->
+                            <div class="checkout__credit-container" id="card-ccv"></div>
                         </div>
                         <button class="checkout__submit-btn">付款</button>
                     </div>

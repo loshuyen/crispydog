@@ -26,6 +26,9 @@ def add_product_to_cart(product: model.cartIn, user = Depends(get_auth_user)):
         existed_product = product_db.get_product(product.id)
         if not existed_product:
             return JSONResponse(status_code=400, content={"error": True, "message": "輸入格式錯誤或product_id不存在"})
+        product_in_cart = db.find_product_in_card(user["id"], product.id)
+        if product_in_cart:
+            return JSONResponse(status_code=400, content={"error": True, "message": "商品已在購物車中"})
         db.add_product_to_cart(user["id"], product.id)
         return JSONResponse(status_code=200, content={"ok": True})
     except Exception as e:

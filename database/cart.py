@@ -27,6 +27,20 @@ def get_all_from_cart(user_id):
         cursor.close()
         db.close()
 
+def find_product_in_card(user_id, product_id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("SELECT * from cart WHERE user_id = %s AND product_id = %s", (user_id, product_id))
+        product = cursor.fetchall()
+        return product
+    except Exception as e:
+        print(e)
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
 def add_product_to_cart(user_id, product_id):
     try:
         db = pool.get_connection()
@@ -56,3 +70,16 @@ def remove_product_from_cart(user_id, product_id):
         cursor.close()
         db.close()
 
+def remove_all_product_from_cart(user_id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("DELETE FROM cart WHERE user_id = %s", (user_id, ))
+        db.commit()
+    except IndexError as e:
+        raise e
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()

@@ -27,17 +27,18 @@ export async function render_product(reviews, product_data) {
             ${product_data.product.introduction}
         </div>
     `;
-    spec.innerHTML = `
-        <div class="product__spec">
-            ${product_data.product.specification}
-        </div>
-        <div class="product__spec">
-            ${product_data.product.specification}
-        </div>
-        <div class="product__size">
-            檔案容量<span>${product_data.product.file_size}MB</span>
-        </div>
-    `;
+    const specifications = product_data.product.specification?.split("&").filter(Boolean);
+    specifications?.forEach(element => {
+        const [i, j] = element.split(","); 
+        const item = document.createElement("div");
+        item.className = "product__spec";
+        item.textContent = `${i} ${j}`;
+        spec.appendChild(item);
+    });
+    const file_content = document.createElement("div");
+    file_content.className = "product__size";
+    file_content.innerHTML = `檔案容量 <span>${product_data.product.file_size}MB</span>`;
+    spec.appendChild(file_content);
     rating.textContent = `評價 ⭑${product_data.product.rating_avg.toFixed(1)} (${product_data.product.review_count}個)`;
     if (reviews.length === 0) return;
     reviews.forEach((review) => {

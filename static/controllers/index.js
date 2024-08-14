@@ -4,16 +4,16 @@ import * as header from "../controllers/header.js";
 
 
 document.addEventListener("DOMContentLoaded", async () => {
+    const search_bar = document.querySelector(".header__search-input");
     const products = await model.get_all_products();
     await view.render_all_products(products);
 
-    const product_cards = document.querySelectorAll(".gallery__product");
-    product_cards.forEach(card => {
-        const product_id = card.id.split("-")[2];
-        card.addEventListener("click", () => {
-            window.location.href = `/product/${product_id}`;
-        })
+    search_bar.addEventListener("keypress", async (event) => {
+        if (event.key === "Enter") {
+            const keyword = search_bar.value;
+            const products = await model.get_all_products(keyword);
+            await view.render_all_products(products);
+        }
     });
-
 
 });

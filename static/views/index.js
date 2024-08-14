@@ -1,8 +1,9 @@
 export async function render_all_products(products) {
     const gallery = document.querySelector(".gallery__container");
+    gallery.innerHTML = "";
     for (let product of products) {
         const product_card = document.createElement("div");
-        product_card.id = "gallery-product-" + product.id;
+        // product_card.id = "gallery-product-" + product.id;
         product_card.className = "gallery__product";
         product_card.innerHTML = `
             <div class="gallery__image">
@@ -23,6 +24,9 @@ export async function render_all_products(products) {
                 $${product.price}
             </div>
         `;
+        product_card.addEventListener("click", () => {
+            window.location.href = `/product/${product.id}`;
+        })
         gallery.appendChild(product_card);
     }
 }

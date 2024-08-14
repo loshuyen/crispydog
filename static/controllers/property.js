@@ -32,5 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             response = await add_review(rating, content, product_id);
         }
+        if (response.status === 200) {
+            alert("評論已更新");
+        }
     });
 });

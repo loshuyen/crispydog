@@ -75,11 +75,10 @@ export default async function order_submit(product_id_list, amount) {
             }
         }
         const pay_result = await create_deal(request_body);
+        console.log(pay_result)
         if (!pay_result || pay_result.payment.status !== 0) {
             return alert("付款失敗");
         }
-        const order_number= pay_result.number;
-        //TODO: 建立付款資料
-        // window.location.href = "/library";
+        window.location.href = "/library";
     });
 }

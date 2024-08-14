@@ -26,3 +26,6 @@ class ProductOutBase(BaseModel):
     specification: list[SpecBase]
     images: str
     file_size: int
+
+class ProductId(BaseModel):
+    id: int

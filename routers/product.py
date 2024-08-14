@@ -10,9 +10,9 @@ from .user import get_auth_user
 router = APIRouter()
 
 @router.get("/api/products")
-def get_all_products() -> model.Product:
+def get_all_products(keyword: str | None = None) -> model.Product:
     try:
-        data = db.get_published_products()
+        data = db.get_published_products(keyword)
         return JSONResponse(status_code=200, content={"data": data})
     except Exception as e:
         print(e)
@@ -33,10 +33,10 @@ async def create_product(
     thumbnail_file: UploadFile,
     product_file: UploadFile,
     name: Annotated[str, Form()],
-    price: Annotated[int, Form()],
+    price: Annotated[str, Form()],
     introduction: Annotated[str | None, Form()] = None,
-    specification: Annotated[str | None, Form(description="{'item': '商品項目', 'description': '項目說明'}")] = None,
-    stock: Annotated[int, Form()] = 9999,
+    specification: Annotated[str | None, Form()] = None,
+    stock: Annotated[str, Form()] = "9999",
     user = Depends(get_auth_user)
 ):
     try:
@@ -66,6 +66,17 @@ async def create_product(
         return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+
+@router.put("/api/product")
+async def toggle_product_status(product: model.ProductId, user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        db.toggle_my_product(user["id"], product.id)
+        return JSONResponse(status_code=200, content={"ok": True})
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

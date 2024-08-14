@@ -14,6 +14,9 @@ async function handle_click_remove(event) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+    const search_bar = document.querySelector(".header__search");
+    search_bar.style.visibility = "hidden";
+
     const products = await get_cart_list();
     await render_cart_list(products);
 

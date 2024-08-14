@@ -10,6 +10,10 @@ const add_to_cart_btn = document.querySelector(".product__add-to-cart-btn");
 
 let review_page = 0;
 document.addEventListener("DOMContentLoaded", async () => {
+        
+    const search_bar = document.querySelector(".header__search");
+    search_bar.style.visibility = "hidden";
+    
     const reviews = await get_reviews(product_id, review_page);
     const product_data = await model.get_product(product_id);
     review_page = await view.render_product(reviews, product_data);

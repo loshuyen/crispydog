@@ -12,16 +12,22 @@ export function render_store(sales_list) {
             </div>
             <div class="store__item-name">${product.name}</div>
             <div class="store__item-sales">${product.sales}</div>
-            <div class="store__item-revenue">$${product.revenue}</div>
+            <div class="store__item-revenue">$${product.sales * product.price}</div>
             <div class="store__item-price">$${product.price}</div>
             <div class="store__item-status">
                 ${product.status === 0 ? "未上架" : "已上架"}
             </div>
             <div class="store__item-actions">
-                <img src="/static/icons/ellipsis.svg">
+                <img src="/static/icons/ellipsis.svg" data-product-id=${product.id}>
+                <div class="store__item-edit">
+                    <div>編輯商品</div>
+                    <div class="store__toggle-status" data-product-id=${product.id}>
+                       ${product.status === 0 ? "上架商品" : "下架商品"}
+                    </div>
+                </div>
             </div>
         `;
-        total_revenue += product.revenue;
+        total_revenue += product.sales * product.price;
         total_sales += product.sales;
         store_content.appendChild(item);
     });

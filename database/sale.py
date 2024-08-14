@@ -6,14 +6,14 @@ def get_all_sales(user_id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT product.id, product.name, product.price, SUM(product.price), COUNT(product.id), product.thumbnail_url, product.status 
+            SELECT product.id, product.name, product.price, COUNT(sale.id), product.thumbnail_url, product.status 
             FROM product LEFT JOIN sale ON sale.product_id = product.id
             WHERE product.owner_id = %s
             GROUP BY product.id;""", (user_id, ))
         sales = cursor.fetchall()
         result = []
         for sale in sales:
-            product_id, product_name, product_price, revenue, sale_count, product_thumbnail, product_status = sale
+            product_id, product_name, product_price, sale_count, product_thumbnail, product_status = sale
             result.append({
                 "product": {
                     "id": product_id,
@@ -21,7 +21,6 @@ def get_all_sales(user_id):
                     "price": product_price,
                     "thumbnail": product_thumbnail,
                     "status": product_status,
-                    "revenue": int(revenue),
                     "sales": sale_count
                 }
             })

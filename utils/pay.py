@@ -26,8 +26,14 @@ def tappay_direct_pay(prime, amount, order_number, phone_number, name, email):
     response_data = {
             "number": result["order_number"],
             "payment": {
+                "pay_method": "credit card",
                 "status": result["status"],
-                "message": result["msg"]
+                "message": result["msg"],
+                "rec_trade_id": result["rec_trade_id"],
+                "auth_code": result["auth_code"],
+                "amount": result["amount"],
+                "currency": result["currency"],
+                "transaction_time": result["transaction_time_millis"],
             }
         }
     return response_data

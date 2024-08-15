@@ -34,9 +34,11 @@ export async function update_cart_count() {
     if (!user) return;
     const cart_list = await get_cart_list();
     const conut_display = document.querySelector(".header__cart-count");
-    if (cart_list) {
+    if (cart_list.length > 0) {
         conut_display.textContent = cart_list.length;
         conut_display.style.display = "flex";
+    } else {
+        conut_display.style.display = "none";
     }
 }
 

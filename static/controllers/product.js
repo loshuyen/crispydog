@@ -18,7 +18,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const product_data = await model.get_product(product_id);
     review_page = await view.render_product(reviews, product_data);
 
-    add_to_cart_btn.addEventListener("click", async() => {
-        await add_to_cart(product_id);
+    add_to_cart_btn.addEventListener("click", async () => {
+        const response = await add_to_cart(product_id);
+        if (response.status === 200) {
+            // alert("已加入購物車");
+            await header.update_cart_count();
+        } else if (response.status === 403) {
+            header.open_login_box();
+        } else {
+            const result = await response.json();
+            alert(result.message);
+        }
     });
 });

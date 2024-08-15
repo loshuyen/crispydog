@@ -3,12 +3,7 @@ import { fetch_with_token } from "./user.js";
 export async function add_to_cart(product_id) {
     const request_body = {id: product_id};
     const response = await fetch_with_token("/api/cart", "POST", request_body);
-    if (response.status === 200) {
-        alert("商品已加入購物車");
-    } else {
-        const data = await response.json();
-        alert(data.message);
-    }
+    return response;
 }
 
 export async function get_cart_list() {

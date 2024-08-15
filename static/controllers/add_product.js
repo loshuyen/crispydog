@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     upload_cover_btn.addEventListener("click", () => {
         upload_cover_input.click();
     });
-
+    
     cover_input.addEventListener("change", (event) => {
         const file = event.target.files[0];
         const [file_name, file_type] = file.name.split(".");

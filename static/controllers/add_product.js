@@ -37,6 +37,28 @@ document.addEventListener("DOMContentLoaded", () => {
         cover_filetype.textContent = file_type.toUpperCase() + "。" + file_size + " MB";
         cover_filename.style.display = "flex";
         cover_filetype.style.display = "flex";
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.querySelector(".product__cover-container > img");
+                img.src = e.target.result;
+                img.style.display = "block";
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    thumbnail_input.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.querySelector(".product__thumbnail-chosen > img");
+                img.src = e.target.result;
+                img.style.display = "block";
+            }
+            reader.readAsDataURL(file);
+        }
     });
 
     upload_thumbnail_btn.addEventListener("click", () => {
@@ -81,7 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
         value_input.type = "text";
         info_container.className = "product__info-container";
         attribute_input.className = "product__attribute";
+        attribute_input.placeholder = "項目名稱";
         value_input.className = "product__value";
+        value_input.placeholder = "項目說明";
         img.src = "/static/icons/trash.svg";
         img.onclick = function(event) {
             event.stopPropagation();
@@ -107,6 +131,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let specification = "";
         for (let i = 0; i < spec_attributes.length; i++) {
             specification += `${spec_attributes[i].value},${spec_values[i].value}&`;
+        }
+        if (!cover_input.files[0] || !thumbnail_input.files[0] || !product_input.files[0] || !name || !price || !introduction || !stock) {
+            alert("請輸入正確的資訊");
+            return;
         }
         request_body.append("image_file", cover_input.files[0]);
         request_body.append("thumbnail_file", thumbnail_input.files[0]);

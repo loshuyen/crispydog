@@ -32,6 +32,14 @@
     flex-direction: column;
     align-items: center;
 }
+.product__cover-container > img {
+    display: none;
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 2rem;
+    border: 1px solid black;
+}
 .product__cover-btn {
     width: 100%;
     height: 3rem;
@@ -82,15 +90,22 @@
     align-items: center;
 }
 .product__thumbnail-chosen {
-    flex: none;
     width: 12rem;
-    height: 12rem;
     border: 1px dashed black;
     border-radius: 5px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     position: relative;
+}
+.product__thumbnail-chosen > img {
+    display: none;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-top: 2rem;
+    border: 1px solid black;
 }
 .product__thumbnail-btn {
     width: 60%;
@@ -100,6 +115,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    margin: 2rem;
 }
 .product__thumbnail-btn:hover {
     background-color: #ff90e8;
@@ -108,13 +124,13 @@
     border: 1px solid black;
     transform: translate(-3px, -3px);
 }
-.product__thumbnail-btn:hover > img {
-    filter: brightness(0) saturate(100%) invert(0%) sepia(3%) saturate(2108%) hue-rotate(193deg) brightness(92%) contrast(103%);
-}
 .product__thumbnail-btn > img {
     height: 20%;
     object-fit: scale-down;
     filter: brightness(0) saturate(100%) invert(100%) sepia(6%) saturate(0%) hue-rotate(315deg) brightness(103%) contrast(108%);
+}
+.product__thumbnail-btn:hover > img {
+    filter: brightness(0) saturate(100%) invert(0%) sepia(3%) saturate(2108%) hue-rotate(193deg) brightness(92%) contrast(103%);
 }
 .product__thumbnail-chosen > input {
     display: none;
@@ -122,7 +138,7 @@
 .product__thumbnail-description {
     padding: 1rem;
 }
-.product__thumbnail-chosen > img {
+/* .product__thumbnail-btn > img {
     width: 100%;
     height: 100%;
     object-fit: scale-down;
@@ -130,7 +146,7 @@
     top: 0;
     left: 0;
     display: none;
-}
+} */
 .product__info-container {
     height: 2rem;
     display: flex;

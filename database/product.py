@@ -11,13 +11,15 @@ def get_published_products(keyword):
                 SELECT product.id, product.name, user.username, price, rating_avg, review_count, thumbnail_url
                 FROM product INNER JOIN user 
                 ON product.owner_id = user.id
-                WHERE status = 1;""")
+                WHERE status = 1 
+                ORDER BY product.created_at DESC;""")
         else:
             cursor.execute("""
                 SELECT product.id, product.name, user.username, price, rating_avg, review_count, thumbnail_url
                 FROM product INNER JOIN user 
                 ON product.owner_id = user.id
-                WHERE status = 1 AND product.name LIKE %s;""", (f"%{keyword}%", ))
+                WHERE status = 1 AND product.name LIKE %s 
+                ORDER BY product.created_at DESC;""", (f"%{keyword}%", ))
         data = cursor.fetchall()
         for item in data:
             result.append({

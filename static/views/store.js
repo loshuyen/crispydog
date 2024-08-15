@@ -15,12 +15,13 @@ export function render_store(sales_list) {
             <div class="store__item-revenue">$${product.sales * product.price}</div>
             <div class="store__item-price">$${product.price}</div>
             <div class="store__item-status">
+                <img src=${product.status === 0 ? "/static/icons/circle_x.svg" : "/static/icons/circle_v.svg"} />
                 ${product.status === 0 ? "未上架" : "已上架"}
             </div>
             <div class="store__item-actions">
                 <img src="/static/icons/ellipsis.svg" data-product-id=${product.id}>
                 <div class="store__item-edit">
-                    <div>編輯商品</div>
+                    <div class="store__edit-product" data-product-id=${product.id}>編輯商品</div>
                     <div class="store__toggle-status" data-product-id=${product.id}>
                        ${product.status === 0 ? "上架商品" : "下架商品"}
                     </div>

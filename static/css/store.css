@@ -69,6 +69,13 @@
 }
 .store__item-status {
     width: 20%;
+    display: flex;
+    align-items: center;
+}
+.store__item-status > img {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
 }
 .store__item-actions {
     width: 5%;
@@ -126,4 +133,7 @@
 .store__total-sales,
 .store__total-revenue {
     width: 10%;
+}
+.store__edit-product {
+    cursor: not-allowed;
 }

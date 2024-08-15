@@ -1,4 +1,5 @@
 config.js
+google_secret.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

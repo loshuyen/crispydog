@@ -63,3 +63,16 @@ def add_user(username, password):
     finally:
         cursor.close()
         db.close()
+
+def add_google_user(id, username):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO user (id, username, password) VALUES (%s, %s, %s)", (id, username, "google"))
+        db.commit()
+    except Exception as e:
+        print(e)
+        raise e
+    finally:
+        cursor.close()
+        db.close()

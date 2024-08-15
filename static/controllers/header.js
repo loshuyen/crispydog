@@ -18,6 +18,12 @@ const signup_submit_btn = document.querySelector(".signup__submit-btn");
 
 let user;
 export async function update_auth_links() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (token) {
+        localStorage.setItem("token", token);
+        return window.location.href = "/";
+    }
     user = await model.fetch_auth_user();
     if (user) {
         login_link.style.display = "none";
@@ -150,5 +156,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             const data = await response.json();
             message.textContent = data.message;
         }
+    });
+
+    const google_login_btn = document.querySelector(".login__google");
+    google_login_btn.addEventListener("click", async () => {
+        const data = await fetch("/api/user/auth/google").then(res => res.json());
+        window.location.href = data.url;
+        // window.open(data.url, "_blank");
     });
 })

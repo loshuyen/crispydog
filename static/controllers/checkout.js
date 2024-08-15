@@ -2,6 +2,7 @@ import * as header from "../controllers/header.js";
 import {get_cart_list, remove_from_cart} from "../models/cart.js";
 import {render_cart_list} from "../views/checkout.js";
 import order_submit from "../utils/tappay.js";
+import {fetch_auth_user} from "../models/user.js";
 
 const checkout_btn = document.querySelector(".checkout__submit-btn");
 const line_btn = document.querySelector(".checkout__line-icon");
@@ -14,6 +15,14 @@ async function handle_click_remove(event) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+    const cart_icon = document.querySelector(".header__cart-icon");
+    cart_icon.style.visibility = "hidden";
+    
+    const user = await fetch_auth_user();
+    if (!user) {
+        window.location.href = "/";
+    }
+    
     const search_bar = document.querySelector(".header__search");
     search_bar.style.visibility = "hidden";
 

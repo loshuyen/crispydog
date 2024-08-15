@@ -1,8 +1,14 @@
 import {get_storage_by_product_id, download_file} from "../models/storage.js";
 import * as views from "../views/property.js";
 import {add_review, get_my_review, update_review} from "../models/review.js";
+import {fetch_auth_user} from "../models/user.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    const user = await fetch_auth_user();
+    if (!user) {
+        window.location.href = "/";
+    }
+    
     const url = window.location.pathname;
     const product_id = url.substring(url.lastIndexOf("/") + 1);
     const storage = await get_storage_by_product_id(product_id);

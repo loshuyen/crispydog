@@ -37,7 +37,7 @@ export async function fetch_token(request_body) {
     return response;
 }
 
-export async function fetch_signUp(request_body) {
+export async function fetch_signup(request_body) {
     let response = await fetch("/api/user", {
         method: "POST",
         headers: {"Content-Type": "application/json"},

@@ -50,7 +50,7 @@ def signup(user: model.UserIn):
     try:
         exist_user = db.get_user_by_username(user.username)
         if exist_user:
-            return JSONResponse(status_code=400, content={"error": True, "message": "註冊失敗，重複的Email"})
+            return JSONResponse(status_code=400, content={"error": True, "message": "註冊失敗，重複的帳號"})
         db.add_user(user.username, user.password)
         return JSONResponse(status_code=200, content={"ok": True})
     except:

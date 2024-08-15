@@ -29,7 +29,8 @@ export async function render_product(reviews, product_data) {
     `;
     const specifications = product_data.product.specification?.split("&").filter(Boolean);
     specifications?.forEach(element => {
-        const [i, j] = element.split(","); 
+        const [i, j] = element.split(",").filter(Boolean); 
+        if (!i || !j) return;
         const item = document.createElement("div");
         item.className = "product__spec";
         item.textContent = `${i} ${j}`;

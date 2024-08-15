@@ -130,9 +130,16 @@
 .login__leave-btn,
 .signup__leave-btn {
     cursor: pointer;
+    width: 20px;
+    height: 20px;
     position: absolute;
     top: .5rem;
     right: .5rem;
+}
+.login__leave-btn > img,
+.signup__leave-btn > img {
+    width: 100%;
+    height: 100%;
 }
 .login__username,
 .login__password,

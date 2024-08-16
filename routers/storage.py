@@ -22,15 +22,13 @@ def download_product(download_endpoint, user = Depends(get_auth_user)):
     if not user:
          return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
-        soure_url = db.get_source_url(user["id"], download_endpoint)
-        if not soure_url:
+        source_url = db.get_source_url(user["id"], download_endpoint)
+        if not source_url:
              return JSONResponse(status_code=404, content={"error": True, "message": "檔案不存在"})
-        file_type = soure_url.split(".")[-1]
-        response = requests.get(soure_url, stream=True)
+        response = requests.get(source_url, stream=True)
         return StreamingResponse(
             response.raw, 
             media_type='application/octet-stream', 
-            headers={"Content-Disposition": f"attachment; filename={user["username"]}.{file_type}"}
         )
     except Exception as e:
         print(e)

@@ -43,6 +43,7 @@ def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
             db.add_sale_records(deal_id, user["id"], deal.deal.products)
             cart.remove_all_product_from_cart(user["id"])
             payment.add_payment(pay_result, deal_id, user["id"])
+            db.update_savings(deal.deal.products)
             return {"data": pay_result}
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "訂單建立失敗，輸入不正確或其他原因"})

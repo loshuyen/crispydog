@@ -120,3 +120,22 @@ def add_sale_records(deal_id, buyer_id, products):
     finally:
         cursor.close()
         db.close()
+
+def update_savings(products):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        for product_id in products:
+            cursor.execute("""
+                SELECT user.id, product.price, user.savings
+                FROM product INNER JOIN user ON product.owner_id = user.id
+                WHERE product.id = %s
+            """, (product_id, ))
+            user_id, price, savings = cursor.fetchall()[0]
+            cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (savings + price, user_id))
+            db.commit()
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()

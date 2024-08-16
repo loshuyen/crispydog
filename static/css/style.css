@@ -191,3 +191,11 @@ hr {
     cursor: pointer;
     text-decoration-line: underline;
 }
+.loading__animation {
+    width: 40px;
+    position: absolute;
+    top: 40%;
+    right: 50%;
+    z-index: 999;
+    display: none;
+}

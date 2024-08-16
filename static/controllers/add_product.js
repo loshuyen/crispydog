@@ -24,11 +24,31 @@ function deleteSpecItem(event) {
     event.target.parentElement.remove();
 }
 
+function triggerEvent(element, eventType, eventDetail) {
+    const event = new CustomEvent(eventType, {detail: eventDetail});
+    element.dispatchEvent(event);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     upload_cover_btn.addEventListener("click", () => {
         upload_cover_input.click();
     });
-    
+
+    const background_mask = document.querySelector(".background-mask");
+    const loading_effect = document.querySelector(".loading__animation");
+    document.addEventListener("request-start", () => {
+        window.scrollTo(0, 0);
+        background_mask.style.display = "block";
+        background_mask.style.opacity = ".7";
+        loading_effect.style.display = "block";
+    });
+
+    document.addEventListener("request-end", () => {
+        background_mask.style.display = "none";
+        background_mask.style.opacity = "1";
+        loading_effect.style.display = "none";
+    });
+
     cover_input.addEventListener("change", (event) => {
         const file = event.target.files[0];
         const [file_name, file_type] = file.name.split(".");
@@ -144,9 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
         request_body.append("introduction", introduction);
         request_body.append("specification", specification);
         request_body.append("stock", stock);
+        triggerEvent(document, "request-start", null)
         const response = await add_product(request_body);
+        triggerEvent(document, "request-end", null)
         if (response.status === 200) {
-            alert("新增商品成功");
+            window.location.href = "/store";
         } else {
             const error = await response.json();
             console.log(error)

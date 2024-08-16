@@ -15,6 +15,7 @@ const signup_nav_link = document.querySelector(".signup__link");
 const signup_box = document.querySelector(".signup");
 const signup_leave_btn = document.querySelector(".signup__leave-btn");
 const signup_submit_btn = document.querySelector(".signup__submit-btn");
+const loading_effect = document.querySelector(".loading__animation");
 
 let user;
 export async function update_auth_links() {
@@ -74,9 +75,26 @@ function close_signup_box() {
     document.body.style.overflow = "";
 }
 
+export function triggerEvent(element, eventType, eventDetail) {
+    const event = new CustomEvent(eventType, {detail: eventDetail});
+    element.dispatchEvent(event);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     await update_auth_links();
     await update_cart_count();
+
+    document.addEventListener("request-start", () => {
+        background_mask.style.display = "block";
+        background_mask.style.opacity = ".7";
+        loading_effect.style.display = "block";
+    });
+
+    document.addEventListener("request-end", () => {
+        background_mask.style.display = "none";
+        background_mask.style.opacity = "1";
+        loading_effect.style.display = "none";
+    });
 
     title.addEventListener("click", () => {
         window.location.href = "/";
@@ -159,9 +177,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const google_login_btn = document.querySelector(".login__google");
-    google_login_btn.addEventListener("click", async () => {
+    google_login_btn?.addEventListener("click", async () => {
         const data = await fetch("/api/user/auth/google").then(res => res.json());
         window.location.href = data.url;
-        // window.open(data.url, "_blank");
     });
 })

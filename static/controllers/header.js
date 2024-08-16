@@ -22,7 +22,7 @@ export async function update_auth_links() {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
     if (token) {
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
         return window.location.href = "/";
     }
     user = await model.fetch_auth_user();
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     logout_link.addEventListener("click", () => {
-        localStorage.clear();
+        sessionStorage.clear();
         window.location.reload();
     });
 
@@ -151,11 +151,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const response = await model.fetch_token({username, password});
         if (response.status === 200) {
             const token = await response.json();
-            localStorage.setItem("token", token.token);
-            message.textContent = "登入成功";
+            sessionStorage.setItem("token", token.token);
+            // message.textContent = "登入成功";
             window.location.reload();
         } else {
-            message.textContent = "帳號或密碼錯誤";
+            const error_message = await response.json();
+            message.textContent = error_message.message;
         }
     });
 

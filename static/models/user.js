@@ -1,6 +1,6 @@
 
 export async function fetch_with_token(url, method, request_body=null) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     let statement;
     if (method === "GET") {
         statement = {

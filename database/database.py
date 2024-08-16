@@ -5,7 +5,7 @@ import dotenv
 dotenv.load_dotenv()
 
 dbconfig = {
-    "host": "localhost",
+    "host": os.getenv("MYSQL_HOST"),
     "database": "crispydogDB",
     "user": os.getenv("MYSQL_USERNAME"),
     "password": os.getenv("MYSQL_PASSWORD")

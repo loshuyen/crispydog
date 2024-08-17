@@ -12,6 +12,8 @@ export async function render_product(reviews, product_data) {
     const spec = document.querySelector(".product__spec-container");
     const rating = document.querySelector(".testimonial__rating");
     const testimonial = document.querySelector(".testimonial");
+    const product_img = document.querySelector(".product__image > img");
+    product_img.src = product_data.product.images;
     product_detail.innerHTML = `
         <div class="product__name">${product_data.product.name}</div>
         <div class="product__price">$${product_data.product.price}</div>

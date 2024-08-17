@@ -75,10 +75,14 @@ def get_google_auth_token(code: str):
     headers = {"Authorization": f"Bearer {credentials.token}"}
     response = requests.get(user_info_url, headers=headers)
     user_name = None
+    user_id = None
+    user_email = None
     if response.status_code == 200:
         user_info = response.json()
         user_name = user_info.get("name")
-    user_id = int(client_id.split("-")[0]) % 100000000
+        user_id = user_info.get("sub")
+        user_email = user_info.get("email")
+    user_id = int(user_id) % 100000000
     user = db.get_username_by_id(user_id)
     if not user:
         db.add_google_user(user_id, user_name)

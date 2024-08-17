@@ -14,7 +14,7 @@ flow = google_auth_oauthlib.flow.Flow.from_client_config(
             "redirect_uris": os.getenv("GOOGLE_REGISTERED_REDIRECT_URI")
         }
     },
-    scopes=["https://www.googleapis.com/auth/userinfo.profile"])
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "openid", "https://www.googleapis.com/auth/userinfo.email"])
 flow.redirect_uri = os.getenv("GOOGLE_AUTH_REDIRECT_URL")
 
 def fetch_auth():

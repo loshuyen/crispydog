@@ -11,7 +11,7 @@ flow = google_auth_oauthlib.flow.Flow.from_client_config(
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_secret": os.getenv("GOOGLE_CLIENT_KEY"),
-            "redirect_uris": ["http://localhost", "https://crispydog.xyz"]
+            "redirect_uris": os.getenv("GOOGLE_REGISTERED_REDIRECT_URI")
         }
     },
     scopes=["https://www.googleapis.com/auth/userinfo.profile"])

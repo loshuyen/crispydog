@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     add_to_cart_btn.addEventListener("click", async () => {
         const response = await add_to_cart(product_id);
         if (response.status === 200) {
-            // alert("已加入購物車");
             await header.update_cart_count();
+            alert("已加入購物車");
         } else if (response.status === 403) {
             header.open_login_box();
         } else {

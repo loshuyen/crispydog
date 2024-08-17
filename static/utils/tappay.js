@@ -1,5 +1,6 @@
 import config from "./config.js";
 import {create_deal} from "../models/deal.js";
+import {triggerEvent} from "../controllers/header.js";
 
 TPDirect.setupSDK(151595, config.TAPPAY_APP_KEY, "sandbox");
 let fields = {
@@ -39,6 +40,7 @@ TPDirect.card.setup({
 });
 
 export default async function order_submit(product_id_list, amount) {
+    triggerEvent(document, "request-start", null);
     // 取得 TapPay Fields 的 status
     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
     
@@ -75,7 +77,7 @@ export default async function order_submit(product_id_list, amount) {
             }
         }
         const pay_result = await create_deal(request_body);
-        console.log(pay_result)
+        triggerEvent(document, "request-end", null);
         if (!pay_result || pay_result.payment.status !== 0) {
             return alert("付款失敗");
         }

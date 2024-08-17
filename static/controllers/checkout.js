@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             product_id_list.push(element.id);
             amount += element.price;
         });
-        header.triggerEvent(document, "request-start", null);
+        // header.triggerEvent(document, "request-start", null);
         await order_submit(product_id_list, amount);
-        header.triggerEvent(document, "request-end", null);
+        // header.triggerEvent(document, "request-end", null);
     });
 });

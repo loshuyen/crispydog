@@ -22,7 +22,7 @@
 .library__item > img {
     width: 100%;
     height: 45%;
-    object-fit: cover;
+    object-fit: scale-down;
     border-bottom: 1px solid black;
 }
 .library__item-bottom {

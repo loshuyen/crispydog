@@ -182,4 +182,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await fetch("/api/user/auth/google").then(res => res.json());
         window.location.href = data.url;
     });
+
+    const google_signup_btn = document.querySelector(".signup__google");
+    google_signup_btn?.addEventListener("click", async () => {
+        const data = await fetch("/api/user/auth/google").then(res => res.json());
+        window.location.href = data.url;
+    });
+
 })

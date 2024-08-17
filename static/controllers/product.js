@@ -3,6 +3,7 @@ import * as model from "../models/product.js";
 import * as view from "../views/product.js";
 import {get_reviews} from "../models/review.js";
 import {add_to_cart} from "../models/cart.js";
+import {fetch_auth_user} from "../models/user.js";
 
 const path = window.location.pathname.split("/");
 const product_id = path[path.length - 1];
@@ -17,6 +18,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const reviews = await get_reviews(product_id, review_page);
     const product_data = await model.get_product(product_id);
     review_page = await view.render_product(reviews, product_data);
+
+    const user = await fetch_auth_user();
+    if (product_data.product.user.id === user.id) {
+        add_to_cart_btn.disabled = true;
+        add_to_cart_btn.style.opacity = ".5";
+        add_to_cart_btn.style.pointerEvents = "none";
+    }
 
     add_to_cart_btn.addEventListener("click", async () => {
         const response = await add_to_cart(product_id);

@@ -56,26 +56,31 @@
                 <div class="checkout__pay">
                     付款方式
                     <div class="checkout__pay-container">
-                        <div class="checkout__pay-method">
+                        <div class="checkout__pay-method-credit">
                             <div class="checkout__pay-icon">
                                 <img src="/static/icons/credit_card.svg">
                             </div>
                             信用卡
                         </div>
-                        <div class="checkout__pay-method">
+                        <div class="checkout__pay-method-line">
                             <div class="checkout__line-icon">
                                 <img src="/static/icons/line_pay.png">
                             </div>
                         </div>
-                        <div class="checkout__pay-method">
-                            <div class="checkout__apple-icon">
-                                <img src="/static/icons/apple_pay.svg">
+                        <div class="checkout__pay-method-wallet">
+                            <div class="checkout__wallet-icon">
+                                <img src="/static/icons/wallet.svg">
                             </div>
+                            錢包付款
                         </div>
                     </div>
                     <div class="checkout__credit-info">
                         <div class="checkout__credit-name">
                             持卡人姓名<br>
+                            <input type="text" placeholder="name">
+                        </div>
+                        <div class="checkout__line-name">
+                            購買人姓名<br>
                             <input type="text" placeholder="name">
                         </div>
                         <div class="checkout__credit-number">
@@ -94,6 +99,8 @@
                             <div class="checkout__credit-container" id="card-ccv"></div>
                         </div>
                         <button class="checkout__submit-btn">付款</button>
+                        <button class="checkout__submit-line-btn">付款</button>
+                        <button class="checkout__submit-wallet-btn">付款</button>
                     </div>
                 </div>
             </div>

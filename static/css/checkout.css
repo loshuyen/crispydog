@@ -113,7 +113,9 @@
     justify-content: space-between;
     margin-top: 1rem;
 }
-.checkout__pay-method {
+.checkout__pay-method-credit,
+.checkout__pay-method-line,
+.checkout__pay-method-wallet {
     width: calc(33% - 1rem);
     height: 8rem;
     display: flex;
@@ -125,34 +127,38 @@
     font-size: 1rem;
     cursor: pointer;
 }
-.checkout__pay-icon {
+.checkout__pay-icon,
+.checkout__wallet-icon {
     width: 2rem;
     height: 2rem;
-    margin: 1rem;
 }
-.checkout__pay-icon img {
+.checkout__pay-icon img,
+.checkout__wallet-icon > img {
     width: 100%;
     height: 100%;
 }
-.checkout__line-icon,
-.checkout__apple-icon {
+.checkout__line-icon {
     height: 3rem;
     margin: 1rem;
 }
-.checkout__line-icon > img,
-.checkout__apple-icon > img {
+.checkout__line-icon > img {
     max-height: 100%;
 }
 .checkout__credit-name,
 .checkout__credit-number,
 .checkout__credit-exp,
-.checkout__credit-cvc {
+.checkout__credit-cvc,
+.checkout__line-name {
     margin: 1rem 0;
 }
-.checkout__credit-name input {
+.checkout__credit-name input,
+.checkout__line-name input {
     width: 100%;
     height: 2rem;
     padding: 1rem;
+}
+.checkout__line-name {
+    display: none;
 }
 .checkout__credit-container {
     width: 100%;
@@ -160,7 +166,9 @@
     padding-left: 1rem;
     border: 1px solid black;
 }
-.checkout__submit-btn {
+.checkout__submit-btn,
+.checkout__submit-line-btn,
+.checkout__submit-wallet-btn {
     width: 100%;
     height: 3rem;
     margin: 1rem 0;
@@ -169,9 +177,15 @@
     border: 1px solid black;
     border-radius: 3px;
 }
-.checkout__submit-btn:hover {
+.checkout__submit-btn:hover,
+.checkout__submit-line-btn:hover,
+.checkout__submit-wallet-btn:hover {
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     transform: translate(-3px, -3px);
+}
+.checkout__submit-line-btn,
+.checkout__submit-wallet-btn {
+    display: none;
 }
 @media (max-width: 1200px) {
     .checkout__container {

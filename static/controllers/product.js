@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     review_page = await view.render_product(reviews, product_data);
 
     const user = await fetch_auth_user();
-    if (product_data.product.user.id === user.id) {
+    if (product_data.product.user.id === user?.id) {
         add_to_cart_btn.disabled = true;
         add_to_cart_btn.style.opacity = ".5";
         add_to_cart_btn.style.pointerEvents = "none";

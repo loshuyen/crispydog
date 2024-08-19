@@ -17,7 +17,7 @@ export async function get_product(id) {
 }
 
 export async function add_product(request_body) {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const statement = {
         method: "POST",
         body: request_body,

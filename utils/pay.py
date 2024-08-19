@@ -37,3 +37,30 @@ def tappay_direct_pay(prime, amount, order_number, phone_number, name, email):
             }
         }
     return response_data
+
+def tappay_line_pay(prime, amount, order_number, phone_number, name, email):
+    url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+    headers = {
+        "Content-Type": "application/json",
+        "x-api-key": os.getenv("TAPPAY_PARTNER_KEY")
+    }
+    data = {
+            "prime": prime,
+            "partner_key": os.getenv("TAPPAY_PARTNER_KEY"),
+            "merchant_id": "shuyen_LINEPAY",
+            "amount": amount,
+            "order_number": order_number,
+            "details": "digital content",
+            "cardholder": {
+                "phone_number": phone_number,
+                "name": name,
+                "email": email,
+            },
+            "result_url": {
+                "frontend_redirect_url": os.getenv("LINE_PAY_FRONTEND_REDIRECT_URL"),
+                "backend_notify_url": os.getenv("LINE_PAY_BACKEND_NOTIFY_URL")
+            }
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    result = response.json()
+    return result

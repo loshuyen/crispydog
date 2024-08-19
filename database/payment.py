@@ -16,3 +16,16 @@ def add_payment(payment, deal_id, user_id):
     finally:
         cursor.close()
         db.close()
+
+def get_payment(id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("SELECT deal_id, user_id FROM payment WHERE id = %s", (id, ))
+        deal_id, user_id = cursor.fetchall()[0]
+        return (deal_id, user_id)
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()

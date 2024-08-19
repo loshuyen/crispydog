@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, Query
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, Query, Body
+from fastapi.responses import JSONResponse, RedirectResponse
 from database import deal as db, cart, payment
 from .user import get_auth_user
 from models import deal as model
 from datetime import datetime
 from utils import pay
+import json
 
 router = APIRouter()
 
@@ -51,3 +52,63 @@ def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
     
+@router.post("/api/deal/line")
+def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
+    try:
+        if not user:
+            return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+        if deal.deal.amount != db.calculate_amount(deal.deal.products):
+            return JSONResponse(status_code=400, content={"error": True, "message": "輸入金額錯誤"})
+        deal_id = db.add_deal(user["id"], deal.deal.products, deal.deal.delivery_email, deal.deal.amount)
+        pay_result = pay.tappay_line_pay(
+            prime=deal.prime, 
+            amount=deal.deal.amount, 
+            order_number=datetime.now().strftime("%Y%m%d-%H%M%S-") + str(user["id"]), 
+            phone_number=deal.contact.phone_number, 
+            name=deal.contact.name, 
+            email=deal.contact.email
+        )
+        if pay_result["status"] == 0:
+            payment_body = {
+                "number": pay_result["order_number"],
+                "payment": {
+                    "pay_method": "LINE_Pay",
+                    "status": 0,
+                    "message": pay_result["bank_result_msg"],
+                    "rec_trade_id": pay_result["rec_trade_id"],
+                    "auth_code": "no",
+                    "amount": pay_result["amount"],
+                    "currency": "no",
+                    "transaction_time": pay_result["transaction_time_millis"],
+                }
+            }
+            payment.add_payment(payment_body, deal_id, user["id"])
+            return {"payment_url": pay_result["payment_url"]}
+        return JSONResponse(status_code=400, content={"error": True, "message": "訂單建立失敗，輸入不正確或其他原因"})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
+
+@router.post("/api/deal/line/notify", include_in_schema=False)
+def get_line_callback(body = Body()):
+    try:
+        if body["status"] == 0:
+            deal_id, user_id = payment.get_payment(body["order_number"])
+            db.mark_as_success(deal_id)
+            products = db.get_deal_products_by_id(deal_id)
+            products = json.loads(products)
+            db.add_sale_records(deal_id, user_id, products)
+            cart.remove_all_product_from_cart(user_id)
+            db.update_savings(products)
+            # payment.update_payment(pay_result, deal_id, user["id"])
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
+    
+@router.get("/api/deal/line/redirect", include_in_schema=False)
+def line_frontend(status:int = Query()):
+    try:
+        if status == 0:
+            return RedirectResponse("/library")
+    except Exception as e:
+        print(e)

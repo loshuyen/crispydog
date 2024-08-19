@@ -46,6 +46,19 @@ def get_all_deals(user_id, success):
         cursor.close()
         db.close()
 
+def get_deal_products_by_id(id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("SELECT products FROM deal WHERE id = %s", (id, ))
+        products = cursor.fetchall()[0]
+        return products[0]
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        db.close()
+
 def add_deal(buyer_id, products, delivery_email, amount):
     try:
         db = pool.get_connection()

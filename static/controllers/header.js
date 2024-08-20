@@ -2,7 +2,7 @@ import * as model from "../models/user.js";
 import {get_cart_list} from "../models/cart.js";
 
 const title = document.querySelector(".header__title");
-const cart = document.querySelector(".header__cart-icon");
+const cart_icon = document.querySelector(".header__cart-icon");
 const member_link = document.querySelector(".header__member");
 const login_link = document.querySelector(".header__login");
 const logout_link =document.querySelector(".header__logout");
@@ -20,6 +20,7 @@ const dropdown_menu = document.querySelector(".header__dropdown-menu");
 const menu_library_link = document.querySelector(".header__menu-library");
 const menu_store_link = document.querySelector(".header__menu-store");
 const menu_member_link = document.querySelector(".header__menu-member");
+const notification_icon = document.querySelector(".header__notification-icon");
 
 let user;
 export async function update_auth_links() {
@@ -33,9 +34,11 @@ export async function update_auth_links() {
     if (user) {
         login_link.style.display = "none";
         member_link.style.display = "block";
+        notification_icon.style.display = "block";
     } else {
         login_link.style.display = "block";
         member_link.style.display = "none";
+        notification_icon.style.display = "none";
     }
 }
 
@@ -126,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = "/";
     });
 
-    cart.addEventListener("click", () => {
+    cart_icon.addEventListener("click", () => {
         if (user) {
             window.location.href = "/checkout";
         } else {

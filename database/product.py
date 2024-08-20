@@ -107,3 +107,19 @@ def toggle_my_product(user_id, product_id):
     finally:
         cursor.close()
         db.close()
+
+def get_owner_by_product_id(id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("""
+            SELECT owner_id
+            FROM product INNER JOIN user ON product.owner_id = user.id
+            WHERE product.id = %s;""", (id, ))
+        owner_id = cursor.fetchall()[0][0]
+        return owner_id
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        db.close()

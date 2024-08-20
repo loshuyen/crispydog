@@ -1,13 +1,20 @@
 from fastapi import APIRouter, Depends, Query, Body
 from fastapi.responses import JSONResponse, RedirectResponse
-from database import deal as db, cart, payment
+from database import deal as db, cart, payment, notification, product
 from .user import get_auth_user
+from .notification import notify_user
 from models import deal as model
 from datetime import datetime
 from utils import pay
 import json
 
 router = APIRouter()
+
+async def add_notification_to_db(sender_id, sender_name, product_id_list, message_type, message = None):
+    receiver_id_list = []
+    for product_id in product_id_list:
+        receiver_id_list.append(product.get_owner_by_product_id(product_id))
+    await notification.add_notification(sender_id, sender_name, receiver_id_list, message_type, message)
 
 @router.get("/api/deals")
 def get_deal(
@@ -22,7 +29,7 @@ def get_deal(
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.post("/api/deal")
-def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
+async def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -45,6 +52,7 @@ def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
             cart.remove_all_product_from_cart(user["id"])
             payment.add_payment(pay_result, deal_id, user["id"])
             db.update_savings(deal.deal.products)
+            await add_notification_to_db(user["id"], user["username"], deal.deal.products, 0, message = None)
             return {"data": pay_result}
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "訂單建立失敗，輸入不正確或其他原因"})
@@ -53,7 +61,7 @@ def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
     
 @router.post("/api/deal/line")
-def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
+async def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -90,17 +98,17 @@ def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
 
 @router.post("/api/deal/line/notify", include_in_schema=False)
-def get_line_callback(body = Body()):
+async def get_line_callback(body = Body()):
     try:
         if body["status"] == 0:
-            deal_id, user_id = payment.get_payment(body["order_number"])
+            deal_id, user_id, username = payment.get_payment(body["order_number"])
             db.mark_as_success(deal_id)
             products = db.get_deal_products_by_id(deal_id)
             products = json.loads(products)
             db.add_sale_records(deal_id, user_id, products)
             cart.remove_all_product_from_cart(user_id)
             db.update_savings(products)
-            # payment.update_payment(pay_result, deal_id, user["id"])
+            await add_notification_to_db(user_id, username, products, 0, message = None)
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  

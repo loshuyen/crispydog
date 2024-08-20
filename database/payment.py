@@ -21,9 +21,9 @@ def get_payment(id):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        cursor.execute("SELECT deal_id, user_id FROM payment WHERE id = %s", (id, ))
-        deal_id, user_id = cursor.fetchall()[0]
-        return (deal_id, user_id)
+        cursor.execute("SELECT deal_id, user_id, user.username FROM payment INNER JOIN user ON payment.user_id = user.id WHERE payment.id = %s", (id, ))
+        deal_id, user_id, username = cursor.fetchall()[0]
+        return (deal_id, user_id, username)
     except Exception as e:
         raise e
     finally:

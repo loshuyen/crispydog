@@ -1,3 +1,4 @@
+import * as dashboard from "./dashboard.js";
 import {get_storage_by_product_id, download_file} from "../models/storage.js";
 import * as views from "../views/property.js";
 import {add_review, get_my_review, update_review} from "../models/review.js";

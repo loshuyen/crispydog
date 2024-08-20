@@ -3,7 +3,6 @@ export async function render_all_products(products) {
     gallery.innerHTML = "";
     for (let product of products) {
         const product_card = document.createElement("div");
-        // product_card.id = "gallery-product-" + product.id;
         product_card.className = "gallery__product";
         product_card.innerHTML = `
             <div class="gallery__image">

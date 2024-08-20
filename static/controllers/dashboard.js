@@ -27,4 +27,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     member.className = "dashboard__item-member";
     member.innerHTML = `<img src="/static/icons/user.svg">${user.username}`;
     sidebar.appendChild(member);
+    const logout = document.createElement("div");
+    logout.className = "dashboard__item-logout";
+    logout.innerHTML = `<img src="/static/icons/logout.svg">登出`;
+    logout.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.reload();
+    });
+    sidebar.appendChild(logout);
 });

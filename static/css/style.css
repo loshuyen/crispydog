@@ -88,6 +88,7 @@
     display: none;
     border-radius: 50%;
     border: none;
+    position: relative;
 }
 .header__member > img {
     width: 100%;
@@ -96,14 +97,39 @@
     border: 1px solid black;
     border-radius: 50%;
 }
+.header__dropdown-menu {
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    border: 1px solid black;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: white;
+    color: black;
+    z-index: 999;
+    display: none;
+}
+.header__menu-library,
+.header__menu-store,
+.header__menu-member,
+.header__logout {
+    width: 8rem;
+    height: 2rem;
+    padding: 1.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header__menu-library:hover,
+.header__menu-store:hover,
+.header__menu-member:hover,
+.header__logout:hover {
+    background-color: black;
+    color: #ff90e8;
+}
 .header__login {
     cursor: pointer;
     margin-left: 1rem;
-}
-.header__logout {
-    cursor: pointer;
-    margin-left: 1rem;
-    display: none;
 }
 .background-mask {
     width: 100%;

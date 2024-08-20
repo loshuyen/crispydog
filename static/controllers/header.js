@@ -16,6 +16,10 @@ const signup_box = document.querySelector(".signup");
 const signup_leave_btn = document.querySelector(".signup__leave-btn");
 const signup_submit_btn = document.querySelector(".signup__submit-btn");
 const loading_effect = document.querySelector(".loading__animation");
+const dropdown_menu = document.querySelector(".header__dropdown-menu");
+const menu_library_link = document.querySelector(".header__menu-library");
+const menu_store_link = document.querySelector(".header__menu-store");
+const menu_member_link = document.querySelector(".header__menu-member");
 
 let user;
 export async function update_auth_links() {
@@ -28,11 +32,9 @@ export async function update_auth_links() {
     user = await model.fetch_auth_user();
     if (user) {
         login_link.style.display = "none";
-        logout_link.style.display = "block";
         member_link.style.display = "block";
     } else {
         login_link.style.display = "block";
-        logout_link.style.display = "none";
         member_link.style.display = "none";
     }
 }
@@ -80,6 +82,14 @@ export function triggerEvent(element, eventType, eventDetail) {
     element.dispatchEvent(event);
 }
 
+function open_dropdown_menu() {
+    dropdown_menu.style.display = "block";
+}
+
+function close_dropdown_menu() {
+    dropdown_menu.style.display = "none";
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     await update_auth_links();
     await update_cart_count();
@@ -96,6 +106,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         loading_effect.style.display = "none";
     });
 
+    document.addEventListener("close-menu", (event) => {
+        event.stopPropagation();
+            close_dropdown_menu();
+    });
+
+    document.addEventListener("open-menu", (event) => {
+        event.stopPropagation();
+            open_dropdown_menu();
+    });
+
+
+    document.addEventListener("click", (event) => {
+        event.stopPropagation();
+        triggerEvent(document, "close-menu", null);
+    });
+
     title.addEventListener("click", () => {
         window.location.href = "/";
     });
@@ -107,9 +133,26 @@ document.addEventListener("DOMContentLoaded", async () => {
             open_login_box();
         }
     });
+    
+    member_link.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (dropdown_menu.style.display === "block") {
+            triggerEvent(document, "close-menu", null)
+        } else {
+            triggerEvent(document, "open-menu", null)
+        }
+    });
 
-    member_link.addEventListener("click", () => {
+    menu_library_link.addEventListener("click", () => {
         window.location.href = "/library";
+    });
+
+    menu_store_link.addEventListener("click", () => {
+        window.location.href = "/store";
+    });
+
+    menu_member_link.addEventListener("click", () => {
+        // window.location.href = "profile"
     });
 
     logout_link.addEventListener("click", () => {

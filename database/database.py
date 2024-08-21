@@ -1,4 +1,4 @@
-from mysql.connector.pooling import MySQLConnectionPool, CNX_POOL_MAXSIZE
+from mysql.connector.pooling import MySQLConnectionPool
 import os
 import dotenv
 
@@ -13,6 +13,6 @@ dbconfig = {
 
 pool = MySQLConnectionPool(
     pool_name="my_pool",
-    pool_size=CNX_POOL_MAXSIZE,
+    pool_size=32,
     **dbconfig
 )

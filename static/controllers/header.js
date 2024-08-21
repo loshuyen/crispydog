@@ -1,5 +1,7 @@
 import * as model from "../models/user.js";
+import {get_notifications} from "../models/notification.js";
 import {get_cart_list} from "../models/cart.js";
+import {render_notifications} from "../views/header.js";
 
 const title = document.querySelector(".header__title");
 const cart_icon = document.querySelector(".header__cart-icon");
@@ -17,6 +19,7 @@ const signup_leave_btn = document.querySelector(".signup__leave-btn");
 const signup_submit_btn = document.querySelector(".signup__submit-btn");
 const loading_effect = document.querySelector(".loading__animation");
 const dropdown_menu = document.querySelector(".header__dropdown-menu");
+const dropdown_notification = document.querySelector(".header__dropdown-notification");
 const menu_library_link = document.querySelector(".header__menu-library");
 const menu_store_link = document.querySelector(".header__menu-store");
 const menu_member_link = document.querySelector(".header__menu-member");
@@ -48,6 +51,17 @@ export async function update_cart_count() {
     const conut_display = document.querySelector(".header__cart-count");
     if (cart_list.length > 0) {
         conut_display.textContent = cart_list.length;
+        conut_display.style.display = "flex";
+    } else {
+        conut_display.style.display = "none";
+    }
+}
+
+export function update_notification_count(count) {
+    if (!user) return;
+    const conut_display = document.querySelector(".header__notification-count");
+    if (count > 0) {
+        conut_display.textContent = count;
         conut_display.style.display = "flex";
     } else {
         conut_display.style.display = "none";
@@ -93,9 +107,46 @@ function close_dropdown_menu() {
     dropdown_menu.style.display = "none";
 }
 
+function open_dropdown_notification() {
+    dropdown_notification.style.display = "block";
+}
+
+function close_dropdown_notification() {
+    if (dropdown_notification.style.display === "none" || dropdown_notification.style.display === "") {
+        return;
+    }
+    notitfications_count = 0;
+    update_notification_count(notitfications_count);
+    dropdown_notification.style.display = "none";
+}
+
+let notifications = [];
+let notitfications_count = 0;
 document.addEventListener("DOMContentLoaded", async () => {
     await update_auth_links();
     await update_cart_count();
+
+    notifications = await get_notifications();
+    render_notifications(notifications);
+    notifications.forEach(element => {
+        if (element.notification.is_read === 0) {
+            notitfications_count += 1;
+        }
+    });
+    update_notification_count(notitfications_count)
+
+    const token = localStorage.getItem("token");
+    const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
+    ws.onmessage = async function(event) {
+        notifications.push(event.data);
+        console.log(event.data);
+        update_notification_count(notitfications_count);
+    };
+
+    function sendMessage(event) {
+        ws.send()
+        event.preventDefault()
+    }
 
     document.addEventListener("request-start", () => {
         background_mask.style.display = "block";
@@ -119,10 +170,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             open_dropdown_menu();
     });
 
+    document.addEventListener("close-notification", (event) => {
+        event.stopPropagation();
+            close_dropdown_notification();
+    });
+
+    document.addEventListener("open-notification", (event) => {
+        event.stopPropagation();
+            open_dropdown_notification();
+    });
 
     document.addEventListener("click", (event) => {
         event.stopPropagation();
         triggerEvent(document, "close-menu", null);
+    });
+
+    document.addEventListener("click", (event) => {
+        event.stopPropagation();
+        triggerEvent(document, "close-notification", null);
     });
 
     title.addEventListener("click", () => {
@@ -143,6 +208,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             triggerEvent(document, "close-menu", null)
         } else {
             triggerEvent(document, "open-menu", null)
+            triggerEvent(document, "close-notification", null)
+        }
+    });
+
+    notification_icon.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (dropdown_notification.style.display === "block") {
+            triggerEvent(document, "close-notification", null)
+        } else {
+            triggerEvent(document, "open-notification", null)
+            triggerEvent(document, "close-menu", null)
         }
     });
 

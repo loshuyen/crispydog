@@ -8,17 +8,20 @@ def get_notifications(user_id, is_read = None):
         db = pool.get_connection()
         cursor = db.cursor()
         if not is_read: 
-            cursor.execute("SELECT * FROM notification WHERE receiver_id = %s ORDER BY created_at DESC", (user_id, ))
+            cursor.execute("SELECT user.username, notification.id, sender_id, receiver_id, message_type, message, is_read, notification.created_at FROM notification INNER JOIN user ON notification.sender_id = user.id WHERE receiver_id = %s ORDER BY notification.created_at DESC", (user_id, ))
         else:
-            cursor.execute("SELECT * FROM notification WHERE receiver_id = %s and is_read = %s ORDER BY created_at DESC", (user_id, is_read))
+            cursor.execute("SELECT user.username, notification.id, sender_id, receiver_id, message_type, message, is_read, notification.created_at FROM notification INNER JOIN user ON notification.sender_id = user.id WHERE receiver_id = %s and is_read = %s ORDER BY notification.created_at DESC", (user_id, is_read))
         notes = cursor.fetchall()
         result = []
         for note in notes:
-            id, sender_id, receiver_id, message_type, message, is_read, created_at = note
+            sender_username, notification_id, sender_id, receiver_id, message_type, message, is_read, created_at = note
             result.append({
                 "notification": {
-                    "id": id,
-                    "sender_id": sender_id,
+                    "id": notification_id,
+                    "sender": {
+                        "id": sender_id,
+                        "username": sender_username
+                    },
                     "receiver_id": receiver_id,
                     "message_type": message_type,
                     "message": message,

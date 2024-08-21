@@ -84,6 +84,11 @@
     right: -5px;
     display: none;
 }
+.header__notification-count {
+    color: white;
+    background-color: red;
+    border: none;
+}
 .header__member {
     border-radius: 50%;
     border: none;
@@ -96,7 +101,8 @@
     border: 1px solid black;
     border-radius: 50%;
 }
-.header__dropdown-menu {
+.header__dropdown-menu,
+.header__dropdown-notification {
     position: absolute;
     top: 3rem;
     right: 0;
@@ -107,17 +113,23 @@
     color: black;
     z-index: 999;
     display: none;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 1);
 }
 .header__menu-library,
 .header__menu-store,
 .header__menu-member,
-.header__logout {
+.header__logout,
+.header__notification {
     width: 8rem;
     height: 2rem;
     padding: 1.5rem 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.header__notification {
+    width: 12rem;
+    border-bottom: 1px solid black;
 }
 .header__menu-library:hover,
 .header__menu-store:hover,

@@ -47,6 +47,10 @@ def property():
 def store():
     return FileResponse("./static/store.html")
 
+@app.get("/sale/{product_id}", include_in_schema=False)
+def sale():
+    return FileResponse("./static/sale.html")
+
 @app.get("/notification", include_in_schema=False)
 def notification():
     return FileResponse("./static/notification.html")

@@ -4,6 +4,7 @@ const website_title = document.querySelector(".dashboard__website-title");
 const library = document.querySelector(".dashboard__item-library");
 const store = document.querySelector(".dashboard__item-store");
 const sidebar = document.querySelector(".dashboard__left");
+const notification = document.querySelector(".dashboard__item-notification");
 
 document.addEventListener("DOMContentLoaded", async () => {
     const user = await fetch_auth_user();
@@ -21,6 +22,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     store.addEventListener("click", () => {
         window.location.href = "/store";
+    });
+
+    notification.addEventListener("click", () => {
+        window.location.href = "/notification";
     });
 
     const member = document.createElement("div");

@@ -1,11 +1,14 @@
-function select_response(message_type) {
+export function select_response(message_type) {
     let response;
     switch (message_type) {
       case 0:
         response = "購買了你的商品";
         break;
       case 1:
-        response = "Tuesresponse";
+        response = "評論了你的商品";
+        break;
+      case 2:
+        response = "更新了評論";
         break;
       default:
         response = "";
@@ -13,9 +16,10 @@ function select_response(message_type) {
     return response;
 }
 
-export function render_notifications(notifications) {
+export function render_header_notifications(notifications) {
     const dropdown = document.querySelector(".header__dropdown-notification");
-    notifications.forEach(element => {
+    dropdown.innerHTML = "";
+    notifications?.forEach(element => {
         const notification = element.notification;
         const notification_div = document.createElement("div");
         notification_div.className = "header__notification";

@@ -1,7 +1,7 @@
 import * as model from "../models/user.js";
 import {get_notifications} from "../models/notification.js";
 import {get_cart_list} from "../models/cart.js";
-import {render_notifications} from "../views/header.js";
+import {render_header_notifications} from "../views/header.js";
 
 const title = document.querySelector(".header__title");
 const cart_icon = document.querySelector(".header__cart-icon");
@@ -120,33 +120,37 @@ function close_dropdown_notification() {
     dropdown_notification.style.display = "none";
 }
 
-let notifications = [];
+async function refresh_notification() {
+    notifications = await get_notifications();
+    render_header_notifications(notifications);
+    update_notification_count(notitfications_count);
+}
+
+let notifications;
 let notitfications_count = 0;
 document.addEventListener("DOMContentLoaded", async () => {
     await update_auth_links();
     await update_cart_count();
-
     notifications = await get_notifications();
-    render_notifications(notifications);
-    notifications.forEach(element => {
+    notifications?.forEach(element => {
         if (element.notification.is_read === 0) {
             notitfications_count += 1;
         }
     });
-    update_notification_count(notitfications_count)
+    await refresh_notification();
 
     const token = localStorage.getItem("token");
     const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
     ws.onmessage = async function(event) {
-        notifications.push(event.data);
         console.log(event.data);
-        update_notification_count(notitfications_count);
+        notitfications_count++;
+        await refresh_notification();
     };
 
-    function sendMessage(event) {
-        ws.send()
-        event.preventDefault()
-    }
+    // function sendMessage(event) {
+    //     ws.send()
+    //     event.preventDefault()
+    // }
 
     document.addEventListener("request-start", () => {
         background_mask.style.display = "block";

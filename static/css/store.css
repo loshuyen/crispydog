@@ -99,6 +99,10 @@
     color: black;
     padding: 12px 16px;
 }
+.store__item-edit div:hover {
+    background-color: black;
+    color: white;
+}
 .store__item-actions > img {
     width: 30%;
     height: 100%;

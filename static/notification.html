@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <title>CrispyDog</title>
     <link rel="stylesheet" href="/static/css/dashboard.css">
-    <link rel="stylesheet" href="/static/css/library.css">
-    <script type="module" src="/static/controllers/library.js"></script>
+    <link rel="stylesheet" href="/static/css/notification.css">
+    <script type="module" src="/static/controllers/notification.js"></script>
 </head>
 <body>
     <div class="dashboard">
@@ -27,13 +27,22 @@
                 <img src="/static/icons/notification.svg">
                 通知訊息
             </div>
+            
         </nav>
         <div class="dashboard__right">
             <header class="dashboard__header">
-                已購商品
+                我的商店
             </header>
-            <div class="library__container">
-                
+            <div class="notification">
+                <div class="notification__list">
+                    <div class="notification__category">
+                        通知訊息
+                        <button class="notification__mark-all-read">全部標示為已讀</button>
+                    </div>
+                    <div class="notification__content">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>

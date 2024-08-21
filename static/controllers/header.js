@@ -115,7 +115,7 @@ function close_dropdown_notification() {
     if (dropdown_notification.style.display === "none" || dropdown_notification.style.display === "") {
         return;
     }
-    notitfications_count = 0;
+    // notitfications_count = 0;
     update_notification_count(notitfications_count);
     dropdown_notification.style.display = "none";
 }

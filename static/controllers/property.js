@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const rating = parseInt(document.querySelector("#star-options").value);
         const content = document.querySelector(".property__comment").value;
         let response;
+        const data = await get_my_review(product_id);
+        const existing_review = data[0];
         if (existing_review) {
             response = await update_review(rating, content, product_id);
         } else {

@@ -1,3 +1,5 @@
+import {mark_all_as_read, mark_as_read} from "../models/notification.js";
+
 export function select_response(message_type) {
     let response;
     switch (message_type) {
@@ -23,7 +25,14 @@ export function render_header_notifications(notifications) {
         const notification = element.notification;
         const notification_div = document.createElement("div");
         notification_div.className = "header__notification";
+        notification_div.addEventListener("click", async () => {
+          await mark_as_read(notification.id);
+          window.location.href = `/sale/${notification.product_id}`;
+        });
         notification_div.textContent = `${notification.sender.username} ${select_response(notification.message_type)}`;
+        if (notification.is_read === 1) {
+          notification_div.style.opacity = "0.5";
+        }
         dropdown.appendChild(notification_div);
     });
 

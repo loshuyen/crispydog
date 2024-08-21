@@ -11,7 +11,7 @@ export function render_notification(sales_list) {
             <div class="notification__item-sender">
                 ${notification.sender.username}
             </div>
-            <div class="notification__item-message-type" data-notification-id=${notification.id}>
+            <div class="notification__item-message-type" data-notification-id=${notification.id} data-product-id=${notification.product_id}>
                 ${select_response(notification.message_type)}
             </div>
             <div class="notification__item-read">
@@ -27,10 +27,6 @@ export function render_notification(sales_list) {
                 </div>
             </div>
         `;
-        item.addEventListener("click", (event) => {
-            event.stopPropagation();
-            window.location.href = `/notification/${notification.id}`;
-        });
         notification_content.appendChild(item);
     });
     

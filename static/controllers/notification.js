@@ -8,6 +8,14 @@ async function refresh_notification() {
    notifications = await model.get_notifications();
    view.render_notification(notifications);
    
+   const sale_items = document.querySelectorAll(".notification__item-message-type");
+   sale_items.forEach(element => {
+      element.addEventListener("click", (event) => {
+         const product_id = event.target.getAttribute("data-product-id");
+         window.location.href = `/sale/${product_id}`;
+      })
+   });
+
    const edit_btn = document.querySelectorAll(".notification__item-actions > img");
    edit_btn.forEach(element => {
       element.addEventListener("click", (event) => {

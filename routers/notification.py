@@ -39,3 +39,29 @@ def get_notifications(is_read: int | None = None, user = Depends(get_auth_user))
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+    
+@router.put("/api/notifications")
+async def update_all_as_read(user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        await db.mark_all_as_read(user["id"])
+        return JSONResponse(status_code=200, content={"ok": True})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+
+@router.put("/api/notification")
+async def update_as_read(notification_id:int, is_read:int, user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        if is_read == 0:
+            await db.mark_as_un_read(user["id"], notification_id)
+            return JSONResponse(status_code=200, content={"ok": True})
+        else:
+            await db.mark_as_read(user["id"], notification_id)
+            return JSONResponse(status_code=200, content={"ok": True})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

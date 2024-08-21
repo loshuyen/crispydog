@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Query, Depends
 from fastapi.responses import JSONResponse
 from typing import Annotated
-from database import review as db, deal
+from database import review as db, deal, product, notification
 from models import review as model
 from .user import get_auth_user
+import json
 
 router = APIRouter()
 
@@ -24,7 +25,7 @@ def get_my_reviews(product_id: int | None = None, user = Depends(get_auth_user))
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.post("/api/review")
-def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
+async def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -33,6 +34,8 @@ def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
         if product_bought and not review_existed:
             review = review.model_dump()
             db.add_review(**review, reviewer_id=user["id"])
+            owner_id = product.get_owner_by_product_id(review["product_id"])
+            await notification.add_single_notification(user["id"], user["username"], owner_id, 1, json.dumps({"product_id": review["product_id"]}))
             return JSONResponse(status_code=200, content={"ok": True})
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "重複評論或未購買該商品"})
@@ -41,7 +44,7 @@ def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/review")
-def update_review(review: model.ReviewIn, user = Depends(get_auth_user)):
+async def update_review(review: model.ReviewIn, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -49,8 +52,11 @@ def update_review(review: model.ReviewIn, user = Depends(get_auth_user)):
         if review_list:
             review = review.model_dump()
             db.update_review(**review, review_id=review_list[0]["review"]["id"])
+            owner_id = product.get_owner_by_product_id(review["product_id"])
+            await notification.add_single_notification(user["id"], user["username"], owner_id, 2, json.dumps({"product_id": review["product_id"]}))
             return JSONResponse(status_code=200, content={"ok": True})
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "評論不存在"})
-    except:
+    except Exception as e:
+        print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

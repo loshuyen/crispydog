@@ -10,9 +10,9 @@ from .user import get_auth_user
 router = APIRouter()
 
 @router.get("/api/products")
-def get_all_products(keyword: str | None = None) -> model.Product:
+def get_all_products(keyword: str | None = None, product_type: str | None = None) -> model.Product:
     try:
-        data = db.get_published_products(keyword)
+        data = db.get_published_products(keyword, product_type)
         return JSONResponse(status_code=200, content={"data": data})
     except Exception as e:
         print(e)

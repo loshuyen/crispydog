@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrispyDog</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/product.css">
+    <script defer type="module" src="/static/controllers/product.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header__container">
+            <div class="header__title">CrispyDog</div>
+            <div class="header__search">
+                <div class="header__search-icon">
+                    <img src="/static/icons/search.svg">
+                </div>
+                <input type="text" class="header__search-input">
+            </div>
+            <div class="header__cart-icon">
+                <div class="header__cart-count"></div>
+                <img src="/static/icons/cart.svg">
+            </div>
+            <div class="header__notification-icon">
+                <div class="header__notification-count"></div>
+                <img src="/static/icons/notification.svg">
+                <div class="header__dropdown-notification">
+                
+                </div>
+            </div>
+            <div class="header__member">
+                <img src="/static/icons/user.svg">
+                <div class="header__dropdown-menu">
+                    <div class="header__menu-library">
+                        已購商品
+                    </div>
+                    <div class="header__menu-store">
+                        我的商店
+                    </div>
+                    <div class="header__menu-member">
+                        個人資料
+                    </div>
+                    <div class="header__logout">
+                        登出
+                    </div>
+                </div>
+            </div>
+            <div class="header__login">
+                登入
+            </div>
+        </div>
+    </header>
+    
+    <div class="background-mask"></div>
+    <div class="login">
+        會員登入
+        <div class="login__leave-btn">
+            X
+        </div>
+        <button class="login__google">Google 帳號</button>
+        <hr>
+        <div class="login__username">
+            帳號：
+            <input type="text">
+        </div>
+        <div class="login__password">
+            密碼：
+            <input type="password">
+        </div>
+        <button class="login__submit-btn">登入</button>
+        <div class="login__message"></div>
+        <div class="signup__link">註冊帳號</div>
+    </div>
+    <div class="signup">
+        會員註冊
+        <div class="signup__leave-btn">
+            X
+        </div>
+        <button class="signup__google">Google 帳號</button>
+        <hr>
+        <div class="signup__username">
+            帳號：
+            <input type="text">
+        </div>
+        <div class="signup__password">
+            密碼：
+            <input type="password">
+        </div>
+        <button class="signup__submit-btn">註冊</button>
+        <div class="signup__message"></div>
+        <div class="login__link">登入頁面</div>
+    </div>
+
+    <main>
+        <div class="product__container">
+            <div class="product__image">
+                <img src="#">
+            </div>
+            <div class="product__content">
+                <div class="product__detail">
+                
+                </div>
+                <div class="product__purchase">
+                    <button class="product__add-to-cart-btn">加入購物車</button>
+                    <div class="product__spec-container">
+                        
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial__rating">
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="product__container">
+            <div class="product__image">
+                <img src="https://shoplineimg.com/64f2c0c3f72dc20017a0c070/650d577cf7f73300179dc7bd/2000x.webp?source_format=png">
+            </div>
+            <div class="product__content">
+                <div class="product__detail">
+                <div class="product__name">《漫彩繪風》顏繪設計師</div>
+                <div class="product__price">$350</div>
+                <div class="product__seller">
+                    <a href="http://aaa.localhost:8000">
+                        aaa
+                    </a>
+                </div>
+                <div class="product__rating">
+                    4.0 (3個評價)
+                </div>
+                <div class="product__description">
+                    ◉畫風介紹 《漫彩繪風》<br>
+                    韓式中性帶有漫畫感 <br>
+                    <br>
+                    ◉ 似顏繪計價方式 <br>
+                    • 單人：$550( 增加一人再+$550，以此類推 ) <br>
+                    • 單隻寵物：$500 ( 增加一隻再+$500，以此類推 ) <br>
+                    <br>
+                    ◉注意事項 <br>
+                    • 圖檔不接受任何非經授權商業行為若有要商業用途請事先說明，計價方式另計<br>
+                    • 本人保有使用圖的權利｜廣告｜發文<br>
+                    • 客製商品不適用7天鑑賞期<br>
+                    • 此商品為設計費用，非實體商品，請另外搭配客製化商品做購買。<br>
+                </div>
+            </div>
+            <div class="product__purchase">
+                <button class="product__add-to-cart-btn">開始客製</button>
+                <div class="product__spec-container">
+                <div class="product__spec">調色檔 1份</div>
+                <div class="product__size">檔案容量 <span>1.02MB</span></div>
+            </div>
+                <div class="testimonial">
+                    <div class="testimonial__rating">評價 ⭑4.0 (3個)</div>
+                    
+                    <div class="testimonial__container">
+                    <div class="testimonial__rating-star">
+                        5顆星
+                    </div>
+                    <div class="testimonial__content">
+                        yyyyyyyyyyy
+                    </div>
+                    <div class="testimonial__consumer">
+                        by 羅書硯
+                    </div>
+                </div>
+            <div class="testimonial__container">
+                <div class="testimonial__rating-star">
+                    2顆星
+                </div>
+                <div class="testimonial__content">
+                    ttttttttvvvvvvtttttttt
+                </div>
+                <div class="testimonial__consumer">
+                    by bbb
+                </div>
+            </div>
+                <div class="testimonial__container">
+                    <div class="testimonial__rating-star">
+                        5顆星
+                    </div>
+                    <div class="testimonial__content">
+                        太棒了，這就是我要的！！！
+                    </div>
+                    <div class="testimonial__consumer">
+                        by 羅書硯
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div> -->
+    </main>
+</body>
+</html>

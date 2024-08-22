@@ -14,5 +14,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             window.location.href = `/property/${product_id}`;
         });
     });
+
+    const items = document.querySelectorAll(".library__item-image");
+    items.forEach(element => {
+        element.addEventListener("click", (event) => {
+            const product_id = event.target.getAttribute("data-product-id");
+            window.location.href = `/property/${product_id}`;
+        });
+    });
 });
 

@@ -54,3 +54,8 @@ def sale():
 @app.get("/notification", include_in_schema=False)
 def notification():
     return FileResponse("./static/notification.html")
+
+@app.get("/profile", include_in_schema=False)
+def profile():
+    return FileResponse("./static/profile.html")
+

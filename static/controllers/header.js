@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     menu_member_link.addEventListener("click", () => {
-        // window.location.href = "profile"
+        window.location.href = "/profile";
     });
 
     logout_link.addEventListener("click", () => {

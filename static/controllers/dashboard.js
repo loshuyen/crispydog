@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const member = document.createElement("div");
     member.className = "dashboard__item-member";
     member.innerHTML = `<img src="/static/icons/user.svg">${user.username}`;
+    member.addEventListener("click", () => {
+        window.location.href = "./profile";
+    });
     sidebar.appendChild(member);
     const logout = document.createElement("div");
     logout.className = "dashboard__item-logout";

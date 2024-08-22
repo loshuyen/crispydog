@@ -35,10 +35,7 @@ async def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
         if deal.deal.amount != db.calculate_amount(deal.deal.products):
             return JSONResponse(status_code=400, content={"error": True, "message": "輸入金額錯誤"})
-        print("進入db.add_deal")
         deal_id = db.add_deal(user["id"], deal.deal.products, deal.deal.delivery_email, deal.deal.amount)
-        print("DEAL_ID: ", deal_id)
-        print("進入tappay_direct_pay")
         pay_result = pay.tappay_direct_pay(
             prime=deal.prime, 
             amount=deal.deal.amount, 
@@ -47,7 +44,6 @@ async def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
             name=deal.contact.name, 
             email=deal.contact.email
         )
-        print("PAY_RESULT: ", pay_result)
         if pay_result["payment"]["status"] != 0:
             return {"data": pay_result}
         elif pay_result["payment"]["status"] == 0:

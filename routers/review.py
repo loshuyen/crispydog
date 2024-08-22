@@ -35,7 +35,7 @@ async def create_review(review: model.ReviewIn, user = Depends(get_auth_user)):
             review = review.model_dump()
             db.add_review(**review, reviewer_id=user["id"])
             owner_id = product.get_owner_by_product_id(review["product_id"])
-            await notification.add_single_notification(user["id"], user["username"], owner_id, 1, json.dumps({"product_id": review["product_id"]}))
+            await notification.add_single_notification(user["id"], user["username"], owner_id, 1, review["product_id"])
             return JSONResponse(status_code=200, content={"ok": True})
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "重複評論或未購買該商品"})
@@ -53,7 +53,7 @@ async def update_review(review: model.ReviewIn, user = Depends(get_auth_user)):
             review = review.model_dump()
             db.update_review(**review, review_id=review_list[0]["review"]["id"])
             owner_id = product.get_owner_by_product_id(review["product_id"])
-            await notification.add_single_notification(user["id"], user["username"], owner_id, 2, json.dumps({"product_id": review["product_id"]}))
+            await notification.add_single_notification(user["id"], user["username"], owner_id, 2, review["product_id"])
             return JSONResponse(status_code=200, content={"ok": True})
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "評論不存在"})

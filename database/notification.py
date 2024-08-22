@@ -69,15 +69,15 @@ async def add_notification(sender_id, sender_name, receiver_id_list, message_typ
         cursor.close()
         db.close()
 
-async def add_single_notification(sender_id, sender_name, receiver_id, message_type, message = None):
+async def add_single_notification(sender_id, sender_name, receiver_id, message_type, product_id, message = None):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
             INSERT INTO notification
-            (sender_id, receiver_id, message_type, message) VALUES
-            (%s, %s ,%s, %s)
-        """, (sender_id, receiver_id, message_type, message))
+            (sender_id, receiver_id, message_type, product_id, message) VALUES
+            (%s, %s ,%s, %s, %s)
+        """, (sender_id, receiver_id, message_type, product_id, message))
         await notification.notify_user(receiver_id, json.dumps({"sender": sender_name, "message_type": message_type}))
         db.commit()
     except Exception as e:

@@ -116,7 +116,7 @@
     box-shadow: 5px 5px 0px rgba(0, 0, 0, 1);
 }
 .header__dropdown-notification {
-    height: 18rem;
+    max-height: 18rem;
     overflow-y: scroll;
 }
 .header__menu-library,

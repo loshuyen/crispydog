@@ -21,7 +21,11 @@ export function select_response(message_type) {
 export function render_header_notifications(notifications) {
     const dropdown = document.querySelector(".header__dropdown-notification");
     dropdown.innerHTML = "";
-    notifications?.forEach(element => {
+    if (notifications.length === 0 || !notifications) {
+      dropdown.innerHTML = "<div class='header__notification'>無通知訊息<div>";
+      return;
+    }
+    notifications.forEach(element => {
         const notification = element.notification;
         const notification_div = document.createElement("div");
         notification_div.className = "header__notification";

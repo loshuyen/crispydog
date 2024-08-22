@@ -59,3 +59,10 @@ def notification():
 def profile():
     return FileResponse("./static/profile.html")
 
+@app.get("/commission/{product_id}", include_in_schema=False)
+def commission():
+    return FileResponse("./static/commission.html")
+
+@app.get("/commission/apply", include_in_schema=False)
+def apply():
+    return FileResponse("./static/apply.html")

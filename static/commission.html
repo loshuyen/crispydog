@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>CrispyDog</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/product.css">
-    <script defer type="module" src="/static/controllers/product.js"></script>
+    <link rel="stylesheet" href="/static/css/commission.css">
+    <script type="module" src="/static/controllers/commission.js"></script>
 </head>
 <body>
     <header class="header">
@@ -56,7 +57,7 @@
     <div class="login">
         會員登入
         <div class="login__leave-btn">
-            X
+            <img src="/static/icons/x.svg">
         </div>
         <button class="login__google">Google 帳號</button>
         <hr>
@@ -75,7 +76,7 @@
     <div class="signup">
         會員註冊
         <div class="signup__leave-btn">
-            X
+            <img src="/static/icons/x.svg">
         </div>
         <button class="signup__google">Google 帳號</button>
         <hr>
@@ -92,30 +93,40 @@
         <div class="login__link">登入頁面</div>
     </div>
 
-    <main>
-        <div class="product__container">
-            <div class="product__image">
-                <img src="#">
-            </div>
-            <div class="product__content">
-                <div class="product__detail">
-                
-                </div>
-                <div class="product__purchase">
-                    <button class="product__add-to-cart-btn">加入購物車</button>
-                    <button class="product__add-commission">訂購商品</button>
-                    <div class="product__spec-container">
-                        
-                    </div>
-                    <div class="testimonial">
-                        <div class="testimonial__rating">
-                            
-                        </div>
-                        
-                    </div>
-                </div>
+    <div class="commission">
+        <img src="/static/images/commission_flow.png">
+        <div class="commission-container">
+            <div class="commission__photo">繪圖參考用照片</div>
+            <img src="#">
+            <div class="commission-filename"></div>
+            <div class="commission-filetype"></div>
+            <button class="commission-btn">
+                <img src="/static/icons/upload.svg">
+                上傳照片
+            </button>
+            <input type="file" id="photo_input">
+            <div class="commission-description">
+                照片需注意光線充足且人物清楚
             </div>
         </div>
-    </main>
+        
+        <div class="commission__submit-btn">
+            <button>確認送出</button>
+        </div>
+    </div>
+    <div class="background-mask"></div>
+    <div class="loading__animation">
+        <svg width="70" height="50" viewBox="0 0 70 50" xmlns="http://www.w3.org/2000/svg" fill="#000000">    
+            <circle cx="15" cy="25" r="6">
+            <animate attributeName="cy" values="25;10;25" dur="0.6s" begin="0s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="35" cy="25" r="6">
+            <animate attributeName="cy" values="25;10;25" dur="0.6s" begin="0.1s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="55" cy="25" r="6">
+            <animate attributeName="cy" values="25;10;25" dur="0.6s" begin="0.2s" repeatCount="indefinite" />
+            </circle>
+        </svg>
+    </div>
 </body>
 </html>

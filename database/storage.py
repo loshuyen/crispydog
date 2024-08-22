@@ -7,14 +7,14 @@ def get_all_storage(user_id, product_id):
         cursor = db.cursor()
         if not product_id:
             cursor.execute("""
-                SELECT product.file_type, product.file_size, product.id, product.name, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
+                SELECT product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id
                 INNER JOIN user ON product.owner_id = user.id
                 WHERE sale.buyer_id = %s
                 ORDER BY sale.created_at DESC;""", (user_id, ))
         else:
             cursor.execute("""
-                SELECT product.file_type, product.file_size, product.id, product.name, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
+                SELECT product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id
                 INNER JOIN user ON product.owner_id = user.id
                 WHERE sale.buyer_id = %s AND product.id = %s
@@ -22,12 +22,13 @@ def get_all_storage(user_id, product_id):
         products = cursor.fetchall()
         result = []
         for product in products:
-            product_file_type, product_file_size, product_id, product_name, product_owner_id, user_username, product_thumbnail_url, sale_download_endpoint, sale_created_at = product
+            product_file_type, product_file_size, product_id, product_name, product_price,product_owner_id, user_username, product_thumbnail_url, sale_download_endpoint, sale_created_at = product
             result.append({
                 "storage": {
                     "product": {
                         "id": product_id, 
                         "name": product_name,
+                        "price": product_price,
                         "thumbnail": product_thumbnail_url,
                         "download_endpoint": sale_download_endpoint,
                         "file_type": product_file_type,

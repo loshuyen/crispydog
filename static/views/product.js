@@ -40,7 +40,7 @@ export async function render_product(reviews, product_data) {
     });
     const file_content = document.createElement("div");
     file_content.className = "product__size";
-    file_content.innerHTML = `檔案容量 <span>${product_data.product.file_size}MB</span>`;
+    file_content.innerHTML = product_data.product.file_size? `檔案容量 <span>${product_data.product.file_size}MB</span>` : "無預設購買檔案";
     spec.appendChild(file_content);
     rating.textContent = `評價 ⭑${product_data.product.rating_avg.toFixed(1)} (${product_data.product.review_count}個)`;
     if (reviews.length === 0) return;

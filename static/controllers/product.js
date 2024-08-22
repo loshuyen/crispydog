@@ -8,6 +8,7 @@ import {fetch_auth_user} from "../models/user.js";
 const path = window.location.pathname.split("/");
 const product_id = path[path.length - 1];
 const add_to_cart_btn = document.querySelector(".product__add-to-cart-btn");
+const add_commission = document.querySelector(".product__add-commission");
 
 let review_page = 0;
 document.addEventListener("DOMContentLoaded", async () => {
@@ -25,6 +26,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         add_to_cart_btn.style.opacity = ".5";
         add_to_cart_btn.style.pointerEvents = "none";
     }
+
+    if (product_data.product.product_type === 1) {
+        add_commission.style.display = "block";
+        add_to_cart_btn.style.display = "none";
+    } else {
+        add_commission.style.display = "none";
+        add_to_cart_btn.style.display = "block";
+    }
+
+    add_commission.addEventListener("click", () => {
+        window.location.href = `/commission/${product_data.product.id}`;
+    });
 
     add_to_cart_btn.addEventListener("click", async () => {
         const response = await add_to_cart(product_id);

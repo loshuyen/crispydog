@@ -52,7 +52,7 @@ async def update_all_as_read(user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/notification")
-async def update_as_read(notification_id:int, is_read:int, user = Depends(get_auth_user)):
+async def update_read_status(notification_id:int, is_read:int, user = Depends(get_auth_user)):
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:

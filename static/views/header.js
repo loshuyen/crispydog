@@ -12,8 +12,23 @@ export function select_response(message_type) {
       case 2:
         response = "更新了評論";
         break;
+      case 3:
+        response = "有新委託";
+        break;
+      case 4:
+        response = "已確認照片";
+        break;
+      case 5:
+        response = "已付款";
+        break;
+      case 6:
+        response = "已完成作品";
+        break;
+      case 7:
+        response = "已收到作品";
+        break;
       default:
-        response = "";
+        response = "傳來新通知";
     }
     return response;
 }

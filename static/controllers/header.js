@@ -126,6 +126,14 @@ async function refresh_notification() {
     update_notification_count(notitfications_count);
 }
 
+const token = localStorage.getItem("token");
+const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
+ws.onmessage = async function(event) {
+    console.log(event.data);
+    notitfications_count++;
+    await refresh_notification();
+};
+
 let notifications;
 let notitfications_count = 0;
 document.addEventListener("DOMContentLoaded", async () => {
@@ -139,13 +147,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     await refresh_notification();
 
-    const token = localStorage.getItem("token");
-    const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
-    ws.onmessage = async function(event) {
-        console.log(event.data);
-        notitfications_count++;
-        await refresh_notification();
-    };
+    // const token = localStorage.getItem("token");
+    // const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
+    // ws.onmessage = async function(event) {
+    //     console.log(event.data);
+    //     notitfications_count++;
+    //     await refresh_notification();
+    // };
 
     // function sendMessage(event) {
     //     ws.send()

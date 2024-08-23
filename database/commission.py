@@ -100,3 +100,15 @@ def update_commission(commission_id, is_accepted=None, is_paied=None, is_deliver
     finally:
         cursor.close()
         db.close()
+
+def update_file_url(commission_id, file_url):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("UPDATE commission SET file_url = %s, updated_at = %s WHERE id = %s", (file_url, datetime.now(), commission_id))
+        db.commit()
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()

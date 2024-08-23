@@ -112,16 +112,16 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
 #         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/commission/delivery")
-async def deliver_outcome(commission: model.Commission, user = Depends(get_auth_user)):
+async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: UploadFile, user = Depends(get_auth_user)):
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
-        commission_info = db.get_commission(commission.id)
+        commission_info = db.get_commission(commission_id)
         if commission_info["owner"]["id"] != user["id"]:
             return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
-        #TODO: 上傳作品，更新file_url
-        
-        db.update_commission(commission_id=commission.id, is_delivered=1)
+        file_type = outcome.filename.split(".")[1]
+        file_url, _ = aws_s3.upload_file(outcome.file, file_type).values()
+        db.update_file_url(commission_id, file_url)
         await notification.add_notification(user["id"], user["username"], [commission_info["buyer"]["id"]], 6, [commission_info["product"]["id"]], None)
         return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:

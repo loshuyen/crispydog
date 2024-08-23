@@ -1,6 +1,6 @@
 import google_auth_oauthlib.flow
 import os
-print(os.getcwd())
+
 flow = google_auth_oauthlib.flow.Flow.from_client_config(
     {
         "installed":

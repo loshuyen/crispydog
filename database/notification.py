@@ -55,7 +55,7 @@ async def add_notification(sender_id, sender_name, receiver_id_list, message_typ
         data = []
         for i in range(len(receiver_id_list)):
             data.append((sender_id, receiver_id_list[i], message_type, message, product_id_list[i]))
-            await notification.notify_user(id, json.dumps({"sender": sender_name, "message_type": message_type}))
+            await notification.notify_user(receiver_id_list[i], json.dumps({"sender": sender_name, "message_type": message_type}))
         cursor.executemany("""
             INSERT INTO notification
             (sender_id, receiver_id, message_type, message, product_id) VALUES

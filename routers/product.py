@@ -46,7 +46,6 @@ async def create_product(
         image_file_type = image_file.filename.split(".")[1]
         thumbnail_file_type = thumbnail_file.filename.split(".")[1]
         product_file_type = product_file.filename.split(".")[1]
-        image_file
         image_urls, _ = aws_s3.upload_file(image_file.file, image_file_type).values()
         thumbnail_url, _ = aws_s3.upload_file(thumbnail_file.file, thumbnail_file_type).values()
         product_url, product_size = aws_s3.upload_file(product_file.file, product_file_type).values()

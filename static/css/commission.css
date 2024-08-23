@@ -1,5 +1,5 @@
 .commission {
-    width: 90%;
+    max-width: 1200px;
     margin: 2rem auto;
 }
 .commission > img {
@@ -86,4 +86,10 @@
 .commission__submit-btn:hover > button {
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     transform: translate(-3px, -3px);
+}
+
+@media (max-width: 1200px) {
+    .commission {
+        width: 90%;
+    }
 }

@@ -44,9 +44,9 @@ async def create_commission(product_id: Annotated[int, Form()], photo_file: Uplo
         photo_file_type = photo_file.filename.split(".")[1]
         photo_url, _ = aws_s3.upload_file(photo_file.file, photo_file_type).values()
         deal_id = deal.add_deal(user["id"], [product_id], "", 0)
-        db.add_commission(deal_id, photo_url)
+        commission_id = db.add_commission(deal_id, photo_url)
         owner_id = product.get_owner_by_product_id(product_id)
-        await notification.add_notification(user["id"], user["username"], [owner_id], 3, [product_id], None)
+        await notification.add_notification(user["id"], user["username"], [owner_id], 3, [product_id], None, commission_id=commission_id)
         return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
@@ -63,7 +63,7 @@ async def confirm_photo(commission: model.Commission, user = Depends(get_auth_us
         if commission_info["owner"]["id"] != user["id"]:
             return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
         db.update_commission(commission_id=commission.id, is_accepted=1)
-        await notification.add_notification(user["id"], user["username"], [commission_info["buyer"]["id"]], 4, [commission_info["product"]["id"]], None)
+        await notification.add_notification(user["id"], user["username"], [commission_info["buyer"]["id"]], 4, [commission_info["product"]["id"]], None, commission_id=commission.id)
         return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
@@ -92,7 +92,7 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
             deal.add_sale_records(commission_info["deal"]["id"], user["id"], [commission_info["product"]["id"]])
             payment.add_payment(pay_result, commission_info["deal"]["id"], user["id"])
             db.update_commission(commission_id=commission.commission_id, is_paid=1)
-            await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 5, [commission_info["product"]["id"]], None)
+            await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 5, [commission_info["product"]["id"]], None, commission_id=commission.commission_id)
             return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
@@ -149,7 +149,7 @@ async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: Upload
         file_url, _ = aws_s3.upload_file(outcome.file, file_type).values()
         db.update_file_url(commission_id, file_url)
         db.update_commission(commission_id, is_delivered=1)
-        await notification.add_notification(user["id"], user["username"], [commission_info["buyer"]["id"]], 6, [commission_info["product"]["id"]], None)
+        await notification.add_notification(user["id"], user["username"], [commission_info["buyer"]["id"]], 6, [commission_info["product"]["id"]], None, commission_id=commission_id)
         return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})

@@ -58,17 +58,14 @@ function show_wallet_ui() {
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const cart_icon = document.querySelector(".header__cart-icon");
-    cart_icon.style.visibility = "hidden";
-    
+    const title = document.querySelector(".header__title");
+    title.style.marginRight = "auto";
+
     const user = await fetch_auth_user();
     if (!user) {
         window.location.href = "/";
     }
     
-    const search_bar = document.querySelector(".header__search");
-    search_bar.style.visibility = "hidden";
-
     const products = await get_cart_list();
     await render_cart_list(products);
 

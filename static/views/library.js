@@ -1,6 +1,5 @@
 export function render_library(storage_list) {
     const container = document.querySelector(".library__container");
-    console.log(storage_list)
     storage_list.forEach(element => {
         const library_item = document.createElement("div");
         library_item.className = "library__item";

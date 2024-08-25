@@ -7,7 +7,6 @@ const product_id = parseInt(window.location.pathname.split("/")[2]);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const sales_list = await get_sales(product_id);
-    console.log(sales_list)
     await views.render_product(sales_list[0].product);
     await views.render_sales(sales_list);
     

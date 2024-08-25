@@ -5,6 +5,8 @@ const library = document.querySelector(".dashboard__item-library");
 const store = document.querySelector(".dashboard__item-store");
 const sidebar = document.querySelector(".dashboard__left");
 const notification = document.querySelector(".dashboard__item-notification");
+const commission = document.querySelector(".dashboard__item-commission");
+const work = document.querySelector(".dashboard__item-work");
 
 document.addEventListener("DOMContentLoaded", async () => {
     const user = await fetch_auth_user();
@@ -26,6 +28,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     notification.addEventListener("click", () => {
         window.location.href = "/notification";
+    });
+
+    commission.addEventListener("click", () => {
+        window.location.href = "/library/commission";
+    });
+
+    work.addEventListener("click", () => {
+        window.location.href = "/commission";
     });
 
     const member = document.createElement("div");

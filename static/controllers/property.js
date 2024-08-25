@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const url = window.location.pathname;
     const product_id = url.substring(url.lastIndexOf("/") + 1);
     const storage = await get_storage_by_product_id(product_id);
-    views.render_property(storage);
-    
+    views.render_library_property(storage);
+
     const data = await get_my_review(product_id);
     const existing_review = data[0];
     if (existing_review) {
         const my_review = data[0].review;
-        views.render_review(my_review.rating, my_review.content);
+        views.render_library_review(my_review.rating, my_review.content);
     }
 
     const download_btn = document.querySelector(".property__download-btn");

@@ -12,9 +12,8 @@ const add_commission = document.querySelector(".product__add-commission");
 
 let review_page = 0;
 document.addEventListener("DOMContentLoaded", async () => {
-        
-    const search_bar = document.querySelector(".header__search");
-    search_bar.style.visibility = "hidden";
+    const title = document.querySelector(".header__title");
+    title.style.marginRight = "auto";
     
     const reviews = await get_reviews(product_id, review_page);
     const product_data = await model.get_product(product_id);
@@ -23,8 +22,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const user = await fetch_auth_user();
     if (product_data.product.user.id === user?.id) {
         add_to_cart_btn.disabled = true;
+        add_commission.disabled = true;
         add_to_cart_btn.style.opacity = ".5";
         add_to_cart_btn.style.pointerEvents = "none";
+        add_commission.style.opacity = ".5";
+        add_commission.style.pointerEvents = "none";
     }
 
     if (product_data.product.product_type === 1) {
@@ -36,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     add_commission.addEventListener("click", () => {
-        window.location.href = `/commission/${product_data.product.id}`;
+        window.location.href = `/add_commission/${product_data.product.id}`;
     });
 
     add_to_cart_btn.addEventListener("click", async () => {

@@ -1,28 +1,42 @@
 from .database import pool
 from datetime import datetime
 
-def get_all_storage(user_id, product_id):
+def get_all_storage(user_id, product_id, product_type):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        if not product_id:
+        if not product_id and product_type == None:
             cursor.execute("""
-                SELECT product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
+                SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id
                 INNER JOIN user ON product.owner_id = user.id
                 WHERE sale.buyer_id = %s
                 ORDER BY sale.created_at DESC;""", (user_id, ))
-        else:
+        elif product_id and product_type == None:
             cursor.execute("""
-                SELECT product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
+                SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id
                 INNER JOIN user ON product.owner_id = user.id
                 WHERE sale.buyer_id = %s AND product.id = %s
                 ORDER BY sale.created_at DESC;""", (user_id, product_id))
+        elif not product_id and product_type:
+            cursor.execute("""
+                SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
+                FROM sale INNER JOIN product ON sale.product_id = product.id
+                INNER JOIN user ON product.owner_id = user.id
+                WHERE sale.buyer_id = %s AND product.product_type = %s
+                ORDER BY sale.created_at DESC;""", (user_id, product_type))
+        else:
+            cursor.execute("""
+                SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
+                FROM sale INNER JOIN product ON sale.product_id = product.id
+                INNER JOIN user ON product.owner_id = user.id
+                WHERE sale.buyer_id = %s AND product.id = %s AND product.product_type = %s
+                ORDER BY sale.created_at DESC;""", (user_id, product_id, product_type))
         products = cursor.fetchall()
         result = []
         for product in products:
-            product_file_type, product_file_size, product_id, product_name, product_price,product_owner_id, user_username, product_thumbnail_url, sale_download_endpoint, sale_created_at = product
+            product_type, product_file_type, product_file_size, product_id, product_name, product_price,product_owner_id, user_username, product_thumbnail_url, sale_download_endpoint, sale_created_at = product
             result.append({
                 "storage": {
                     "product": {
@@ -33,6 +47,7 @@ def get_all_storage(user_id, product_id):
                         "download_endpoint": sale_download_endpoint,
                         "file_type": product_file_type,
                         "file_size": product_file_size,
+                        "product_type": product_type,
                         "seller": {
                             "id": product_owner_id,
                             "username": user_username

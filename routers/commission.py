@@ -10,6 +10,32 @@ from datetime import datetime
 
 router = APIRouter()
 
+@router.get("/api/commissions")
+def get_all_commissions_by_seller(user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        data = db.get_commissions_by_seller(user["id"])
+        return JSONResponse(status_code=200, content={"data": data})
+    except ValidationError:
+        return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+
+@router.get("/api/commission/{commission_id}")
+def get_commission_by_seller(commission_id:int, user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        data = db.get_commission_by_id_by_seller(user["id"], commission_id)
+        return JSONResponse(status_code=200, content=data[0])
+    except ValidationError:
+        return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+
 @router.post("/api/commission")
 async def create_commission(product_id: Annotated[int, Form()], photo_file: UploadFile, user = Depends(get_auth_user)):
     if not user:
@@ -65,7 +91,7 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
             deal.mark_as_success(commission_info["deal"]["id"])
             deal.add_sale_records(commission_info["deal"]["id"], user["id"], [commission_info["product"]["id"]])
             payment.add_payment(pay_result, commission_info["deal"]["id"], user["id"])
-            db.update_commission(commission_id=commission.commission_id, is_paied=1)
+            db.update_commission(commission_id=commission.commission_id, is_paid=1)
             await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 5, [commission_info["product"]["id"]], None)
             return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
@@ -122,6 +148,7 @@ async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: Upload
         file_type = outcome.filename.split(".")[1]
         file_url, _ = aws_s3.upload_file(outcome.file, file_type).values()
         db.update_file_url(commission_id, file_url)
+        db.update_commission(commission_id, is_delivered=1)
         await notification.add_notification(user["id"], user["username"], [commission_info["buyer"]["id"]], 6, [commission_info["product"]["id"]], None)
         return JSONResponse(status_code=200, content={"ok": True})
     except ValidationError:
@@ -130,20 +157,20 @@ async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: Upload
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
-@router.put("/api/commission/complete")
-async def complete_commission(
-    commission: model.Commission, user = Depends(get_auth_user)):
-    if not user:
-        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
-    try:
-        commission_info = db.get_commission(commission.id)
-        if commission_info["buyer"]["id"] != user["id"]:
-            return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
-        db.update_commission(commission_id=commission.id, is_downloaded=1)
-        await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 7, [commission_info["product"]["id"]], None)
-        return JSONResponse(status_code=200, content={"ok": True})
-    except ValidationError:
-        return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
-    except Exception as e:
-        print(e)
-        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+# @router.put("/api/commission/complete")
+# async def complete_commission(
+#     commission: model.Commission, user = Depends(get_auth_user)):
+#     if not user:
+#         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+#     try:
+#         commission_info = db.get_commission(commission.id)
+#         if commission_info["buyer"]["id"] != user["id"]:
+#             return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
+#         db.update_commission(commission_id=commission.id, is_downloaded=1)
+#         await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 7, [commission_info["product"]["id"]], None)
+#         return JSONResponse(status_code=200, content={"ok": True})
+#     except ValidationError:
+#         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
+#     except Exception as e:
+#         print(e)
+#         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

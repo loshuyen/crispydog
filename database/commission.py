@@ -12,6 +12,7 @@ def get_commissions_by_buyer(user_id):
             INNER JOIN deal ON commission.deal_id = deal.id
             INNER JOIN user ON deal.buyer_id = user.id
             WHERE user.id = %s
+            ORDER BY commission.updated_at DESC;
         """, (user_id, ))
         data = []
         commissions = cursor.fetchall()
@@ -68,6 +69,7 @@ def get_commission_by_id_by_buyer(user_id, commission_id):
             INNER JOIN deal ON commission.deal_id = deal.id
             INNER JOIN user ON deal.buyer_id = user.id
             WHERE user.id = %s AND commission.id = %s
+            ORDER BY commission.updated_at DESC;
         """, (user_id, commission_id))
         data = []
         commissions = cursor.fetchall()
@@ -124,6 +126,7 @@ def get_commission(commission_id):
             INNER JOIN deal ON commission.deal_id = deal.id
             INNER JOIN user ON deal.buyer_id = user.id
             WHERE commission.id = %s
+            ORDER BY commission.updated_at DESC;
         """, (commission_id, ))
         deal_id ,photo_url, file_url, is_accepted, is_paid, is_delivered, is_downloaded, commission_updated_at, buyer_id, buyer_name, products, deal_success = cursor.fetchall()[0]
         product_id_list = json.loads(products)
@@ -176,9 +179,9 @@ def add_commission(deal_id, photo_url):
             (deal_id, photo_url) VALUES
             (%s, %s)
         """, (deal_id, photo_url))
-        deal_id = cursor.lastrowid
+        commission_id = cursor.lastrowid
         db.commit()
-        return deal_id
+        return commission_id
     except Exception as e:
         raise e
     finally:
@@ -234,6 +237,7 @@ def get_commissions_by_seller(user_id):
             FROM commission 
             INNER JOIN deal ON commission.deal_id = deal.id
             INNER JOIN user ON deal.buyer_id = user.id
+            ORDER BY commission.updated_at DESC;
         """)
         data1 = cursor.fetchall()
         data = []
@@ -286,6 +290,7 @@ def get_commission_by_id_by_seller(user_id, commission_id):
             INNER JOIN deal ON commission.deal_id = deal.id
             INNER JOIN user ON deal.buyer_id = user.id
             WHERE commission.id = %s
+            ORDER BY commission.updated_at DESC;
         """, (commission_id, ))
         data1 = cursor.fetchall()
         data = []
@@ -338,6 +343,7 @@ def get_commission_download_by_id_by_buyer(user_id, commission_id):
             INNER JOIN deal ON commission.deal_id = deal.id
             INNER JOIN user ON deal.buyer_id = user.id
             WHERE user.id = %s AND commission.id = %s
+            ORDER BY commission.updated_at DESC;
         """, (user_id, commission_id))
         data = []
         commissions = cursor.fetchall()

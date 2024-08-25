@@ -15,7 +15,7 @@
     margin: 1rem 0;
     border-radius: 5px;
     border: 1px solid black;
-    background-color: #ff90e8;
+    background-color: #ff74f9;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
@@ -76,7 +76,7 @@
 }
 .commission-btn:hover,
 .commission-submit-btn:hover {
-    background-color: #ff90e8;
+    background-color: #ff74f9;
     color: black;
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     border: 1px solid black;

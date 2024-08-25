@@ -6,7 +6,7 @@
 .store__add-commission-product-btn {
     height: 3rem;
     width: 10rem;
-    background-color: #ff90e8;
+    background-color: #ff74f9;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 1rem;
@@ -15,7 +15,7 @@
     transition: transform .3s ease;
 }
 .store__add-commission-product-btn {
-    background-color: #90a8ed;
+    background-color: #f0ff43;
 }
 .store__add-product-btn:hover,
 .store__add-commission-product-btn:hover {

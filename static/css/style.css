@@ -140,7 +140,7 @@
 .header__menu-member:hover,
 .header__logout:hover {
     background-color: black;
-    color: #ff90e8;
+    color: #ff74f9;
 }
 .header__login {
     cursor: pointer;
@@ -220,7 +220,7 @@
 .signup__submit-btn:hover {
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     transform: translate(-3px, -3px);
-    background-color: #ff90e8;
+    background-color: #ff74f9;
     color: black
 }
 hr {

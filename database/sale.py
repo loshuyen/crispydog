@@ -9,7 +9,8 @@ def get_all_sales(user_id):
             SELECT product.id, product.name, product.price, COUNT(sale.id), product.thumbnail_url, product.status 
             FROM product LEFT JOIN sale ON sale.product_id = product.id
             WHERE product.owner_id = %s
-            GROUP BY product.id;""", (user_id, ))
+            GROUP BY product.id
+            ORDER BY product.created_at DESC;""", (user_id, ))
         sales = cursor.fetchall()
         result = []
         for sale in sales:

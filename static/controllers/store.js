@@ -5,14 +5,19 @@ import {toggle_product_status} from "../models/product.js";
 
 
  const add_product = document.querySelector(".store__add-product-btn");
+ const add_product_commission = document.querySelector(".store__add-commission-product-btn");
 
  document.addEventListener("DOMContentLoaded", async () => {
     const sales_list = await get_all_sales();
-    await views.render_store(sales_list);
+    views.render_store(sales_list);
 
     add_product.addEventListener("click", () => {
         window.location.href = "/product/add";
     });
+
+    add_product_commission.addEventListener("click", () => {
+        window.location.href = "/product/add?product_type=1";
+    }); 
 
     const edit_btn = document.querySelectorAll(".store__item-actions > img");
     edit_btn.forEach(element => {
@@ -45,6 +50,14 @@ import {toggle_product_status} from "../models/product.js";
             } else {
                 console.log(await response.json());
             }
+        });
+    });
+
+    const products_image = document.querySelectorAll(".store__item-image");
+    products_image.forEach(element => {
+        element.addEventListener("click", (event) => {
+            const product_id = event.currentTarget.getAttribute("data-product-id");
+            window.location.href = `/sale/${product_id}`;
         });
     });
  });

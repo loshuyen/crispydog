@@ -19,6 +19,7 @@ const quantity_swich = document.querySelector("#quantity-switch");
 const quantity_input = document.querySelector("#quantity-input");
 const infinity_icon = document.querySelector(".infinity-icon");
 const confirm_btn = document.querySelector(".product__submit-btn > button");
+const product_file_div = document.querySelector(".product__file");
 
 function deleteSpecItem(event) {
     event.target.parentElement.remove();
@@ -29,10 +30,18 @@ function triggerEvent(element, eventType, eventDetail) {
     element.dispatchEvent(event);
 }
 
+const url = new URL(window.location.href);
+const params = new URLSearchParams(url.search);
+const product_type = params.get("product_type");
+
 document.addEventListener("DOMContentLoaded", () => {
     upload_cover_btn.addEventListener("click", () => {
         upload_cover_input.click();
     });
+
+    if (product_type == 1) {
+        product_file_div.style.display = "none";
+    }
 
     const background_mask = document.querySelector(".background-mask");
     const loading_effect = document.querySelector(".loading__animation");
@@ -152,18 +161,28 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < spec_attributes.length; i++) {
             specification += `${spec_attributes[i].value},${spec_values[i].value}&`;
         }
-        if (!cover_input.files[0] || !thumbnail_input.files[0] || !product_input.files[0] || !name || !price || !introduction || !stock) {
-            alert("請輸入正確的資訊");
-            return;
-        }
         request_body.append("image_file", cover_input.files[0]);
         request_body.append("thumbnail_file", thumbnail_input.files[0]);
-        request_body.append("product_file", product_input.files[0]);
         request_body.append("name", name);
         request_body.append("price", price);
         request_body.append("introduction", introduction);
         request_body.append("specification", specification);
         request_body.append("stock", stock);
+
+        if (product_type == 0) {
+            if (!cover_input.files[0] || !thumbnail_input.files[0] || !product_input.files[0] || !name || !price || !introduction || !stock) {
+                alert("請輸入正確的資訊");
+                return;
+            }
+            request_body.append("product_file", product_input.files[0]);
+        } else {
+            if (!cover_input.files[0] || !thumbnail_input.files[0] || !name || !price || !introduction || !stock) {
+                alert("請輸入正確的資訊");
+                return;
+            }
+            request_body.append("product_type", product_type);
+        }
+        
         triggerEvent(document, "request-start", null)
         const response = await add_product(request_body);
         triggerEvent(document, "request-end", null)

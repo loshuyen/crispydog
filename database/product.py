@@ -79,15 +79,15 @@ def get_product(id):
         cursor.close()
         db.close()
 
-def add_product(product_name, user_id, price, image_urls, thumbnail_url, introduction, specification, file_type, file_size, stock, source_url):
+def add_product(product_name, user_id, price, image_urls, thumbnail_url, introduction, specification, file_type, file_size, stock, source_url, product_type):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
             INSERT INTO product
-            (name, owner_id, price, image_urls, thumbnail_url, introduction, specification, file_type, file_size, stock, source_url) VALUES
-            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-            """, (product_name, user_id, price, image_urls, thumbnail_url, introduction, json.dumps(specification), file_type, file_size, stock, source_url))
+            (name, owner_id, price, image_urls, thumbnail_url, introduction, specification, file_type, file_size, stock, source_url, product_type) VALUES
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """, (product_name, user_id, price, image_urls, thumbnail_url, introduction, json.dumps(specification), file_type, file_size, stock, source_url, product_type))
         db.commit()
     except Exception as e:
         print(e)

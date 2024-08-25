@@ -11,9 +11,17 @@ async function refresh_notification() {
    const sale_items = document.querySelectorAll(".notification__item-message-type");
    sale_items.forEach(element => {
       element.addEventListener("click", (event) => {
-         const product_id = event.target.getAttribute("data-product-id");
-         window.location.href = `/sale/${product_id}`;
-      })
+         const url = event.target.getAttribute("data-url");
+         window.location.href = url;
+      });
+   });
+
+   const sender_divs = document.querySelectorAll(".notification__item-sender");
+   sender_divs.forEach(element => {
+      element.addEventListener("click", (event) => {
+         const url = event.target.getAttribute("data-url");
+         window.location.href = url;
+      });
    });
 
    const edit_btn = document.querySelectorAll(".notification__item-actions > img");

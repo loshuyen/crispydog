@@ -1,5 +1,5 @@
 
-function get_progress({is_accepted, is_paid, is_delivered, is_downloaded}) {
+export function get_progress({is_accepted, is_paid, is_delivered, is_downloaded}) {
     let progress;
     if (is_accepted === 0 && is_paid === 0 && is_delivered === 0 && is_downloaded === 0) {
         progress = 0;

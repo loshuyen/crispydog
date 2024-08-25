@@ -275,7 +275,7 @@ def get_commissions_by_seller(user_id):
                 })
         return data
     except Exception as e:
-        raise e
+        return []
     finally:
         cursor.close()
         db.close()

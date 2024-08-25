@@ -10,7 +10,7 @@ export function render_store(sales_list) {
             <div class="store__item-image">
                 <img src=${product.thumbnail}>
             </div>
-            <div class="store__item-name">${product.name}</div>
+            <div class="store__item-name" data-product-id=${product.id}>${product.name}</div>
             <div class="store__item-sales">${product.sales}</div>
             <div class="store__item-revenue">$${product.sales * product.price}</div>
             <div class="store__item-price">$${product.price}</div>

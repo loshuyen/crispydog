@@ -26,6 +26,15 @@ import {toggle_product_status} from "../models/product.js";
         });
     });
 
+    const name_divs = document.querySelectorAll(".store__item-name");
+    name_divs.forEach(element => {
+        element.addEventListener("click", (event) => {
+            const product_id = event.target.getAttribute("data-product-id");
+            event.stopPropagation();
+            window.location.href = `/sale/${product_id}`;
+        })
+    });
+
     const toggle_status_btn = document.querySelectorAll(".store__toggle-status");
     toggle_status_btn.forEach(element => {
         element.addEventListener("click", async (event) => {

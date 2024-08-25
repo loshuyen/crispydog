@@ -115,7 +115,6 @@ function close_dropdown_notification() {
     if (dropdown_notification.style.display === "none" || dropdown_notification.style.display === "") {
         return;
     }
-    // notitfications_count = 0;
     update_notification_count(notitfications_count);
     dropdown_notification.style.display = "none";
 }
@@ -147,18 +146,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     await refresh_notification();
 
-    // const token = localStorage.getItem("token");
-    // const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
-    // ws.onmessage = async function(event) {
-    //     console.log(event.data);
-    //     notitfications_count++;
-    //     await refresh_notification();
-    // };
-
-    // function sendMessage(event) {
-    //     ws.send()
-    //     event.preventDefault()
-    // }
 
     document.addEventListener("request-start", () => {
         background_mask.style.display = "block";

@@ -1,5 +1,5 @@
-export function render_property(storage) {
-    const product = storage[0].storage.product;
+export function render_library_property(storage) {
+    const product = storage.storage.product;
     const name_element = document.querySelector(".property__product-name");
     name_element.textContent = product.name;
     const product_property = document.querySelector(".property__product");
@@ -8,14 +8,75 @@ export function render_property(storage) {
         <div class="property__name">
             ${product.name}
             <div class="property__type">
-                    .${product.file_type} ${product.file_size}MB
+                .${product.file_type} ${product.file_size}MB
             </div>
         </div>
         <button class="property__download-btn" id=${product.download_endpoint} data-filename=${product.name + "." + product.file_type}>下載</button>
     `
 }
 
-export function render_review(rating, content) {
+function get_progress({is_accepted, is_paid, is_delivered, is_downloaded}) {
+    let progress;
+    if (is_accepted === 0 && is_paid === 0 && is_delivered === 0 && is_downloaded === 0) {
+        progress = 0;
+    } else if (is_accepted === 1 && is_paid === 0 && is_delivered === 0 && is_downloaded === 0) {
+        progress = 1;
+    } else if (is_accepted === 1 && is_paid === 1 && is_delivered === 0 && is_downloaded === 0) {
+        progress = 2;
+    } else if (is_accepted === 1 && is_paid === 1 && is_delivered === 1 && is_downloaded === 0) {
+        progress = 3;
+    } else {
+        progress = 4;
+    } 
+    return progress;
+}
+
+export function render_commission_property(storage) {
+    const product = storage.commission.product;
+    const name_element = document.querySelector(".property__product-name");
+    name_element.textContent = product.name;
+    const product_property = document.querySelector(".property__product-commission");
+    product_property.innerHTML = `
+        <img src="/static/icons/file.svg">
+        <div class="property__name-commission">
+            作品
+            <div class="property__type-commission">
+            </div>
+        </div>
+        <button class="property__delivery-download-btn" data-filename=${product.name + "." + product.file_type}>下載</button>
+    `;
+    const uploaded_photo = document.querySelector(".property__product-photo > img");
+    uploaded_photo.src = storage.commission.photo_url;
+
+    const checkout_btn = document.querySelector(".property__checkout-btn");
+    if (get_progress(storage.commission) === 1) {
+        checkout_btn.style.display = "block";
+    }
+
+    const rating_box = document.querySelector(".property__rating");
+    if (get_progress(storage.commission) >= 3) {
+        product_property.style.display = "flex";
+        rating_box.style.display = "block";
+    } else {
+        product_property.style.display = "none";
+        rating_box.style.display = "none";
+    }
+}
+
+export function render_commission_progress(storage) {
+    const progress = get_progress(storage.commission);
+    for (let i = 0; i < progress; i++) {
+        const icon = document.querySelector(`.commission__progress-icon-${i + 2}`);
+        const progress_title = document.querySelector(`.commission__progress-${i + 2}`);
+        progress_title.classList.add("on-progress");
+        if (i + 2 === 5) {
+            break;
+        }
+        icon.classList.add("icon-on-progress");
+    }
+}
+
+export function render_library_review(rating, content) {
     const rating_element = document.querySelector("#star-options");
     const content_element = document.querySelector(".property__comment");
     rating_element.value = rating;

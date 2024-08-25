@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/property.css">
+    <script type="module" src="/static/controllers/property_commission.js"></script>
+    <title>CrispyDog</title>
+</head>
+<body>
+    <div class="dashboard">
+        <nav class="dashboard__left">
+            <div class="dashboard__website-title">
+                CrispyDog
+            </div>
+            <div class="dashboard__item-library">
+                <img src="/static/icons/library.svg">
+                直購商品
+            </div>
+            <div class="dashboard__item-commission">
+                <img src="/static/icons/commission.svg">
+                客製商品
+            </div>
+            <div class="dashboard__item-store">
+                <img src="/static/icons/store.svg">
+                我的商店
+            </div>
+            <div class="dashboard__item-work">
+                <img src="/static/icons/hammer.svg">
+                工作區
+            </div>
+            <div class="dashboard__item-notification">
+                <img src="/static/icons/notification.svg">
+                通知訊息
+            </div>
+        </nav>
+        <div class="dashboard__right">
+            <header class="dashboard__header">
+                客製商品內容
+            </header>
+            <div class="property__container">
+                <div class="property__left">
+                    <div class="property__nav">
+                        <img src="/static/icons/arrow_left.svg">
+                        <a href="/library/commission">回到客製商品</a>
+                    </div>
+                    
+                    <div class="property__rating">
+                        給商品一個評論：
+                        <div class="property__rating-star">
+                            <select id="star-options" name="options">
+                                <option value="1">1顆星</option>
+                                <option value="2">2顆星</option>
+                                <option value="3">3顆星</option>
+                                <option value="4">4顆星</option>
+                                <option value="5">5顆星</option>
+                            </select>
+                        </div>
+                        <textarea class="property__comment"></textarea>
+                        <button class="property__comment-submit">送出評論</button>
+                    </div>
+                    
+                </div>
+                <div class="property__right">
+                    <div class="property__product-name">
+                        
+                    </div>
+                    <div class="commission__progress">
+                        <div class="commission__progress-1 on-progress">照片上傳</div>
+                        <div class="commission__progress-icon-1 icon-on-progress">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-2">照片確認</div>
+                        <div class="commission__progress-icon-2">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-3">付款完成</div>
+                        <div class="commission__progress-icon-3">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-4">商品交付</div>
+                        <div class="commission__progress-icon-4">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-5">撥款完成</div>
+                    </div>
+                    
+                    <div class="property__product-commission">
+                        
+                    </div>
+                    
+                    <button class="property__checkout-btn">
+                        去結帳
+                    </button>
+                    <div class="property__product-photo-title">
+                        參考照片
+                    </div>
+                    <div class="property__product-photo">
+                        <img src="#" >
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

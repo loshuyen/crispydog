@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/property.css">
+    <link rel="stylesheet" href="/static/css/work_commission.css">
+    <script type="module" src="/static/controllers/work_commission.js"></script>
+    <title>CrispyDog</title>
+</head>
+<body>
+    <div class="dashboard">
+        <nav class="dashboard__left">
+            <div class="dashboard__website-title">
+                CrispyDog
+            </div>
+            <div class="dashboard__item-library">
+                <img src="/static/icons/library.svg">
+                直購商品
+            </div>
+            <div class="dashboard__item-commission">
+                <img src="/static/icons/commission.svg">
+                客製商品
+            </div>
+            <div class="dashboard__item-store">
+                <img src="/static/icons/store.svg">
+                我的商店
+            </div>
+            <div class="dashboard__item-work">
+                <img src="/static/icons/hammer.svg">
+                工作區
+            </div>
+            <div class="dashboard__item-notification">
+                <img src="/static/icons/notification.svg">
+                通知訊息
+            </div>
+        </nav>
+        <div class="dashboard__right">
+            <header class="dashboard__header">
+                客製商品內容
+            </header>
+            <div class="property__container">
+                <div class="property__commission-left">
+                    <div class="property__nav">
+                        <img src="/static/icons/arrow_left.svg">
+                        <a href="/commission">回到工作區</a>
+                    </div>
+                    
+                    <div class="commission__delivery-container">
+                        <div class="commission__photo">交付作品</div>
+                        <img src="#">
+                        <div class="commission-filename"></div>
+                        <div class="commission-filetype"></div>
+                        <button class="commission-btn">
+                            <img src="/static/icons/upload.svg">
+                            選擇檔案
+                        </button>
+                        <button class="commission-submit-btn">確認交付</button>
+                        <input type="file" id="delivery_input">
+                    </div>
+                </div>
+                <div class="property__commission-right">
+                    <div class="property__product-name">
+                        
+                    </div>
+                    <div class="commission__progress">
+                        <div class="commission__progress-1 on-progress">照片上傳</div>
+                        <div class="commission__progress-icon-1 icon-on-progress">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-2">照片確認</div>
+                        <div class="commission__progress-icon-2">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-3">付款完成</div>
+                        <div class="commission__progress-icon-3">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-4">商品交付</div>
+                        <div class="commission__progress-icon-4">
+                            <img src="/static/icons/circle_arrow_right.svg" />
+                        </div>
+                        <div class="commission__progress-5">撥款完成</div>
+                    </div>
+                    <div class="property__product-photo-title">
+                        參考照片
+                    </div>
+                    <div class="property__product-photo">
+                        <img src="#" >
+                    </div>
+                    <button class="commission__photo-confirm-btn">
+                        確認照片
+                    </button>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="background-mask"></div>
+    <div class="loading__animation">
+        <svg width="70" height="50" viewBox="0 0 70 50" xmlns="http://www.w3.org/2000/svg" fill="#000000">    
+            <circle cx="15" cy="25" r="6">
+            <animate attributeName="cy" values="25;10;25" dur="0.6s" begin="0s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="35" cy="25" r="6">
+            <animate attributeName="cy" values="25;10;25" dur="0.6s" begin="0.1s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="55" cy="25" r="6">
+            <animate attributeName="cy" values="25;10;25" dur="0.6s" begin="0.2s" repeatCount="indefinite" />
+            </circle>
+        </svg>
+    </div>
+</body>
+</html>

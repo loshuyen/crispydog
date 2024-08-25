@@ -1,0 +1,49 @@
+.checkout__commission-back {
+    height: 3rem;
+    font-size: 1rem;
+    padding-left: 1rem;
+    margin-top: 2rem;
+}
+.checkout__commission-back > img {
+    width: 1rem;
+    height: 1rem;
+}
+.checkout__commission-back > a {
+    text-decoration: none;
+    color: inherit;
+} 
+.checkout__commission-container {
+    height: 150px;
+    display: flex;
+}
+.checkout__commission-image {
+    height: 100%;
+    width: 150px;
+}
+.checkout__commission-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-right: 1px solid black;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.checkout__commission-content {
+    flex-grow: 1;
+    position: relative;
+}
+.checkout__commission-name {
+    padding: 1rem;
+    position: absolute;
+    left: 0;
+    top: 0
+}
+.checkout__commission-seller {
+    margin-top: 1rem;
+}
+.checkout__commission-price {
+    padding: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0
+}

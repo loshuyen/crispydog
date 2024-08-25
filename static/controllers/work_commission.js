@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     views.render_commission_work(commission);
     views.render_commission_progress(commission);
 
+    const background_mask = document.querySelector(".background-mask");
+    const loading_effect = document.querySelector(".loading__animation");
     document.addEventListener("request-start", () => {
         background_mask.style.display = "block";
         background_mask.style.opacity = ".7";
@@ -37,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     confirm_photo.addEventListener("click", async () => {
         await models.confirm_photo(commission_id)
         alert("已確認照片");
+        window.location.reload();
     });
 
     const upload_delivery_btn = document.querySelector(".commission-btn");

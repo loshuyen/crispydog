@@ -6,7 +6,12 @@ import {render_commission_progress} from "../views/property.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const commissions = await models.get_all_commissions();
-    views.render_commission(commissions);
+    if (commissions.length === 0) {
+        const commission = document.querySelector(".commission");
+        commission.innerHTML = "目前無委託";
+    } else {
+        views.render_commission(commissions);
+    }
     
     const commission_container = document.querySelectorAll(".commission__container");
     commission_container.forEach(element => {

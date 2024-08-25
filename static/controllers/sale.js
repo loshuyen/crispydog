@@ -7,8 +7,13 @@ const product_id = parseInt(window.location.pathname.split("/")[2]);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const sales_list = await get_sales(product_id);
-    await views.render_product(sales_list[0].product);
-    await views.render_sales(sales_list);
+    if (sales_list.length === 0) {
+        const sale_div = document.querySelector(".sale");
+        sale_div.innerHTML = "無交易紀錄";
+    } else {
+        await views.render_product(sales_list[0].product);
+        await views.render_sales(sales_list);
+    }
     
     const edit_btn = document.querySelectorAll(".sale__item-actions > img");
     edit_btn.forEach(element => {

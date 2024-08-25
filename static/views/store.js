@@ -7,7 +7,7 @@ export function render_store(sales_list) {
         const item = document.createElement("div");
         item.className = "store__items";
         item.innerHTML = `
-            <div class="store__item-image">
+            <div class="store__item-image" data-product-id=${product.id}>
                 <img src=${product.thumbnail}>
             </div>
             <div class="store__item-name" data-product-id=${product.id}>${product.name}</div>

@@ -2,6 +2,10 @@ export async function render_product(product) {
     const sale_product = document.querySelector(".sale__product");
     const item = document.createElement("div");
     item.className = "sale__items";
+    if (!product) {
+        item.textContent = "無交易紀錄";
+        return;
+    }
     item.innerHTML = `
         <div class="sale__item-image">
             <img src=${product.thumbnail}>

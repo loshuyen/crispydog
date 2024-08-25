@@ -6,6 +6,13 @@ import {render_commission_progress} from "../views/property.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const storage = await get_all_commission_storage();
+    if (storage.length === 0) {
+        const commission = document.querySelector(".commission");
+        commission.innerHTML = "目前無購買客製商品";
+    } else {
+        views.render_commission(storage);
+    }
+    
     views.render_commission(storage);
     
     const commissions = document.querySelectorAll(".commission__container");

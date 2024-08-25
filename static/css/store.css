@@ -2,17 +2,23 @@
     width: 90%;
     margin: 0 auto;
 }
-.store__add-product-btn {
+.store__add-product-btn,
+.store__add-commission-product-btn {
     height: 3rem;
     width: 10rem;
     background-color: #ff90e8;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 1rem;
+    margin-right: 1rem;
     cursor: pointer;
     transition: transform .3s ease;
 }
-.store__add-product-btn:hover {
+.store__add-commission-product-btn {
+    background-color: #90a8ed;
+}
+.store__add-product-btn:hover,
+.store__add-commission-product-btn:hover {
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     transform: translate(-3px, -3px);
 }
@@ -62,10 +68,12 @@
 .store__item-revenue,
 .store__item-price {
     width: 10%;
+    cursor: pointer;
 }
 .store__item-name {
     width: 35%;
     padding-left: 1rem;
+    cursor: pointer;
 }
 .store__item-status {
     width: 20%;

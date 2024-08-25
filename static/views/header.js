@@ -45,7 +45,6 @@ export function render_header_notifications(notifications) {
         const notification_div = document.createElement("div");
         notification_div.className = "header__notification";
         let url;
-        console.log(notification)
         if (notification.message_type == 0 || notification.message_type == 1 || notification.message_type == 2) {
           url = `/sale/${notification.product_id}`;
         } else if (notification.message_type == 3 || notification.message_type == 5 || notification.message_type === 7) {

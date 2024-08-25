@@ -5,7 +5,12 @@ import {get_all_library_storage} from "../models/storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const storage = await get_all_library_storage();
-    views.render_library(storage);
+    if (storage.length === 0) {
+        const library = document.querySelector(".library");
+        library.innerHTML = "目前無購買直購商品";
+    } else {
+        views.render_library(storage);
+    }
 
     const property_link = document.querySelectorAll(".library__item-name");
     property_link.forEach(element => {

@@ -36,9 +36,17 @@ def product():
 def checkout():
     return FileResponse("./static/checkout.html")
 
+@app.get("/checkout/commission/{id}", include_in_schema=False)
+def checkout_commission():
+    return FileResponse("./static/checkout_commission.html")
+
 @app.get("/library", include_in_schema=False)
 def library():
     return FileResponse("./static/library.html")
+
+@app.get("/library/commission", include_in_schema=False)
+def library_commission():
+    return FileResponse("./static/commission.html")
 
 @app.get("/property/{id}", include_in_schema=False)
 def property():
@@ -60,6 +68,18 @@ def notification():
 def profile():
     return FileResponse("./static/profile.html")
 
-@app.get("/commission/{product_id}", include_in_schema=False)
+@app.get("/add_commission/{product_id}", include_in_schema=False)
+def add_commission():
+    return FileResponse("./static/add_commission.html")
+
+@app.get("/commission", include_in_schema=False)
 def commission():
-    return FileResponse("./static/commission.html")
+    return FileResponse("./static/commission_list.html")
+
+@app.get("/commission/{id}", include_in_schema=False)
+def work_commission():
+    return FileResponse("./static/work_commission.html")
+
+@app.get("/property/commission/{id}", include_in_schema=False)
+def property_commission():
+    return FileResponse("./static/property_commission.html")

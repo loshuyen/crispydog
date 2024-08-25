@@ -1,6 +1,7 @@
 import config from "./config.js";
 import {create_deal, create_line_deal} from "../models/deal.js";
 import {triggerEvent} from "../controllers/header.js";
+import {pay_commission_creditcard} from "../models/commission.js"
 
 TPDirect.setupSDK(151595, config.TAPPAY_APP_KEY, "sandbox");
 
@@ -104,5 +105,49 @@ export async function line_pay(product_id_list, amount) {
         };
         const payment_url = await create_line_deal(request_body);
         window.location.href = payment_url;
+    });
+}
+
+export async function commission_order_submit(commission_id) {
+    
+    triggerEvent(document, "request-start", null);
+    const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+    
+    const phone_number = document.querySelector(".checkout__phone-input > input").value;
+    const name = document.querySelector(".checkout__credit-name > input").value;
+    const email = document.querySelector(".checkout__email-input > input").value;
+    
+    if (!/^09[0-9]{8}$/.test(phone_number) || name === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert("請填入正確的聯絡資訊")
+        triggerEvent(document, "request-end", null);
+        return;
+    }
+    
+    if (tappayStatus.canGetPrime === false) {
+        alert("信用卡資訊錯誤");
+        triggerEvent(document, "request-end", null);
+        return;
+    }
+    
+    
+    TPDirect.card.getPrime(async (result) => {
+        if (result.status !== 0) {
+        }
+        const request_body = {
+            prime: result.card.prime,
+            commission_id,
+            contact: {
+              name,
+              phone_number,
+              email,
+            }
+        };
+        const pay_result = await pay_commission_creditcard(request_body);
+        triggerEvent(document, "request-end", null);
+        console.log(pay_result)
+        if (!pay_result || !pay_result.ok) {
+            return alert("付款失敗");
+        }
+        window.location.href = `/property/commission/${commission_id}`;
     });
 }

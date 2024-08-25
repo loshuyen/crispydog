@@ -86,3 +86,23 @@
     align-items: center;
     position: relative;
 }
+.dashboard__item-notification {
+    position: relative;
+}
+.dashboard__notification-count {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #ff4b32;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translate(0, -50%);
+    z-index: 99;
+    display: none;
+}

@@ -86,7 +86,7 @@
 }
 .header__notification-count {
     color: white;
-    background-color: red;
+    background-color: #ff4b32;
     border: none;
 }
 .header__member {

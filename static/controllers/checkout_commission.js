@@ -1,6 +1,6 @@
 import * as header from "./header.js";
 import {get_cart_list, remove_from_cart} from "../models/cart.js";
-import {commission_order_submit} from "../utils/tappay.js";
+import {commission_order_submit, commission_line_pay} from "../utils/tappay.js";
 import {fetch_auth_user} from "../models/user.js";
 import {get_commission_storage_by_id} from "../models/storage.js";
 import * as views from "../views/checkout_commission.js";
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     line_submit_btn.addEventListener("click", async () => {
         // TODO:
-        // await line_pay(product_id_list, amount);
+        await commission_line_pay(commission_id);
     });
 
     wallet_submit_btn.addEventListener("click", () => {

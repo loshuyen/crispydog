@@ -1,7 +1,7 @@
 import config from "./config.js";
 import {create_deal, create_line_deal} from "../models/deal.js";
 import {triggerEvent} from "../controllers/header.js";
-import {pay_commission_creditcard} from "../models/commission.js"
+import {pay_commission_creditcard, pay_commission_linepay} from "../models/commission.js"
 
 TPDirect.setupSDK(151595, config.TAPPAY_APP_KEY, "sandbox");
 
@@ -144,10 +144,33 @@ export async function commission_order_submit(commission_id) {
         };
         const pay_result = await pay_commission_creditcard(request_body);
         triggerEvent(document, "request-end", null);
-        console.log(pay_result)
         if (!pay_result || !pay_result.ok) {
             return alert("付款失敗");
         }
         window.location.href = `/property/commission/${commission_id}`;
+    });
+}
+
+export async function commission_line_pay(commission_id) {
+    TPDirect.linePay.getPrime(async (result) => {
+        const phone_number = document.querySelector(".checkout__phone-input > input").value;
+        const name = document.querySelector(".checkout__line-name > input").value;
+        const email = document.querySelector(".checkout__email-input > input").value;
+        if (!/^09[0-9]{8}$/.test(phone_number) || name === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert("請填入正確的聯絡資訊")
+            return;
+        }
+        const request_body = {
+            prime: result.prime,
+            commission_id,
+            contact: {
+            name,
+            phone_number,
+            email,
+            }
+        };
+        const response = await pay_commission_linepay(request_body);
+        const data = await response.json()
+        window.location.href = data.payment_url;
     });
 }

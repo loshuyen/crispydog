@@ -101,41 +101,41 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
     
 #TODO: solve redirect url
-# @router.put("/api/commission/pay/line")
-# async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_auth_user)):
-#     if not user:
-#         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
-#     try:
-#         commission_info = db.get_commission(commission.commission_id)
-#         pay_result = pay.tappay_line_pay(
-#             prime=commission.prime, 
-#             amount=commission_info["product"]["price"], 
-#             order_number=datetime.now().strftime("%Y%m%d-%H%M%S-") + str(user["id"]), 
-#             phone_number=commission.contact.phone_number, 
-#             name=commission.contact.name, 
-#             email=commission.contact.email
-#         )
-#         if pay_result["status"] == 0:
-#             payment_body = {
-#                 "number": pay_result["order_number"],
-#                 "payment": {
-#                     "pay_method": "LINE_Pay",
-#                     "status": 0,
-#                     "message": pay_result["bank_result_msg"],
-#                     "rec_trade_id": pay_result["rec_trade_id"],
-#                     "auth_code": "no",
-#                     "amount": pay_result["amount"],
-#                     "currency": "no",
-#                     "transaction_time": pay_result["transaction_time_millis"],
-#                 }
-#             }
-#             payment.add_payment(payment_body, commission_info["deal"]["id"], user["id"])
-#             return {"payment_url": pay_result["payment_url"]}
-#     except ValidationError:
-#         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
-#     except Exception as e:
-#         print(e)
-#         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+@router.put("/api/commission/pay/line")
+async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        commission_info = db.get_commission(commission.commission_id)
+        pay_result = pay.tappay_line_pay(
+            prime=commission.prime, 
+            amount=commission_info["product"]["price"], 
+            order_number=datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"]) + "-" + "commission" + "-" + str(commission.commission_id), 
+            phone_number=commission.contact.phone_number, 
+            name=commission.contact.name, 
+            email=commission.contact.email
+        )
+        if pay_result["status"] == 0:
+            payment_body = {
+                "number": pay_result["order_number"],
+                "payment": {
+                    "pay_method": "LINE_Pay",
+                    "status": 0,
+                    "message": pay_result["bank_result_msg"],
+                    "rec_trade_id": pay_result["rec_trade_id"],
+                    "auth_code": "no",
+                    "amount": pay_result["amount"],
+                    "currency": "no",
+                    "transaction_time": pay_result["transaction_time_millis"],
+                }
+            }
+            payment.add_payment(payment_body, commission_info["deal"]["id"], user["id"])
+            return {"payment_url": pay_result["payment_url"]}
+    except ValidationError:
+        return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/commission/delivery")
 async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: UploadFile, user = Depends(get_auth_user)):

@@ -48,3 +48,8 @@ export async function pay_commission_creditcard(request_body) {
     const response = await fetch_with_token("/api/commission/pay/creditcard", "PUT", request_body);
     return response;
 }
+
+export async function pay_commission_linepay(request_body) {
+    const response = await fetch_with_token("/api/commission/pay/line", "PUT", request_body);
+    return response;
+}

@@ -11,6 +11,12 @@ export async function get_all_products(keyword) {
     return products;
 }
 
+export async function get_all_products_by_type(product_type) {
+    const url = `/api/products?product_type=${product_type}`;
+    const products = await fetch(url).then(response => response.json()).then(data => data.data);
+    return products;
+}
+
 export async function get_product(id) {
     const product = await fetch(`/api/product/${id}`).then(response => response.json()).then(data => data.data);
     return product;

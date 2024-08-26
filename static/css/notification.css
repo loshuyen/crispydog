@@ -11,6 +11,14 @@
 .notification__mark-all-read {
     padding: 0 .5rem;
     cursor: pointer;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+.notification__mark-all-read:hover {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    transform: translate(-3px, -3px);
 }
 .notification__content {
     width: 100%;

@@ -23,6 +23,14 @@ async function refresh_notification() {
          window.location.href = url;
       });
    });
+   
+   const read_divs = document.querySelectorAll(".notification__item-read");
+   read_divs.forEach(element => {
+      element.addEventListener("click", (event) => {
+         const url = event.target.getAttribute("data-url");
+         window.location.href = url;
+      });
+   });
 
    const edit_btn = document.querySelectorAll(".notification__item-actions > img");
    edit_btn.forEach(element => {

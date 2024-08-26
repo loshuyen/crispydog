@@ -100,7 +100,7 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
     
-#TODO: solve redirect url
+
 @router.put("/api/commission/pay/line")
 async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_auth_user)):
     if not user:
@@ -156,21 +156,3 @@ async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: Upload
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
-
-# @router.put("/api/commission/complete")
-# async def complete_commission(
-#     commission: model.Commission, user = Depends(get_auth_user)):
-#     if not user:
-#         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
-#     try:
-#         commission_info = db.get_commission(commission.id)
-#         if commission_info["buyer"]["id"] != user["id"]:
-#             return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
-#         db.update_commission(commission_id=commission.id, is_downloaded=1)
-#         await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 7, [commission_info["product"]["id"]], None)
-#         return JSONResponse(status_code=200, content={"ok": True})
-#     except ValidationError:
-#         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
-#     except Exception as e:
-#         print(e)
-#         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

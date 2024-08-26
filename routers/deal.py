@@ -103,8 +103,6 @@ async def get_line_callback(body = Body()):
         order_number = body["order_number"]
         label = order_number.split("-")[-2]
         commission_id = order_number.split("-")[-1]
-        print("LABEL: ", label)
-        print("COMMISSION ID: ", commission_id)
         if body["status"] == 0:
             deal_id, user_id, username = payment.get_payment(order_number)
             db.mark_as_success(deal_id)

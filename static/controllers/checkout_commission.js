@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     line_submit_btn.addEventListener("click", async () => {
-        // TODO:
         await commission_line_pay(commission_id);
     });
 

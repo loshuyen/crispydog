@@ -90,7 +90,7 @@
     align-items: center;
 }
 .product__thumbnail-chosen {
-    width: 12rem;
+    min-width: 12rem;
     border: 1px dashed black;
     border-radius: 5px;
     display: flex;

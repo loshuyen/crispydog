@@ -276,3 +276,11 @@ hr {
         width: 100%;
     }
 }
+@media (max-width: 600px) {
+    .header__search {
+        display: none;
+    }
+    .header__title {
+        margin-right: auto;
+    }
+} 

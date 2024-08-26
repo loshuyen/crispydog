@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const user = await fetch_auth_user();
     if (!user) {
-        window.location.href = "/";
+        window.location.href = "/index";
     }
     
     const products = await get_cart_list();

@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, Request, Response
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from routers import product, user, review, deal, cart, storage, sale, notification, commission
 
@@ -17,7 +17,11 @@ app.include_router(notification.router, tags=["Notification"])
 app.include_router(commission.router, tags=["Commission"])
 
 @app.get("/", include_in_schema=False)
-def home():
+def landing():
+    return FileResponse("./static/landing.html")
+
+@app.get("/index", include_in_schema=False)
+def index():
     return FileResponse("./static/index.html")
 
 @app.get("/favicon.ico", include_in_schema=False)

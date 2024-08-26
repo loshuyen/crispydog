@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.landing__slogan {
+    width: 1200px;
+    margin: 15rem auto 8rem auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.landing__slogan-left,
+.landing__slogan-right {
+    width: 100%;
+    font-size: 2rem;
+    display: flex;
+    align-items: center ;
+}
+.landing__slogan-left span,
+.landing__slogan-right span{
+    font-size: 3rem;
+    font-weight: 700;
+    margin-left: 1rem;
+}
+.landing__slogan-left {
+    justify-content: flex-start;
+    padding-left: 5rem;
+}
+.landing__slogan-right {
+    justify-content: flex-end;
+    padding-right: 5rem;
+}
+.landing__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+.landing__product-commission,
+.landing__product {
+    width: 40%;
+    height: 10rem;
+    margin-right: 2rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.landing__product-commission:hover,
+.landing__product:hover {
+    background-color: #ff74f9;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    transform: translate(-3px, -3px);
+}
+.landing__product-commission span,
+.landing__product span {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}

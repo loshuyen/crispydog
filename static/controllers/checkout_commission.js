@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const user = await fetch_auth_user();
     if (!user) {
-        window.location.href = "/";
+        window.location.href = "/index";
     }
     
     const commission = await get_commission_storage_by_id(commission_id);

@@ -11,7 +11,7 @@ function triggerEvent(element, eventType, eventDetail) {
 document.addEventListener("DOMContentLoaded", async () => {
     const user = await fetch_auth_user();
     if (!user) {
-        window.location.href = "/";
+        window.location.href = "/index";
     }
     
     const url = window.location.pathname;

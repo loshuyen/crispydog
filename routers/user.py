@@ -87,4 +87,4 @@ def get_google_auth_token(code: str):
     if not user:
         db.add_google_user(user_id, user_name)
     token = generate_token({"id": user_id, "username": user_name})
-    return RedirectResponse(f"/?token={token}")
+    return RedirectResponse(f"/index?token={token}")

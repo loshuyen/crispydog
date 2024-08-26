@@ -37,7 +37,7 @@ let notitfications_count = 0;
 document.addEventListener("DOMContentLoaded", async () => {
     const user = await fetch_auth_user();
     if (!user) {
-        window.location.href = "/";
+        window.location.href = "/index";
     }
     
     notifications = await get_notifications();
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await refresh_notification();
 
     website_title.addEventListener("click", () => {
-        window.location.href = "/";
+        window.location.href = "/index";
     });
 
     library.addEventListener("click", () => {

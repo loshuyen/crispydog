@@ -31,7 +31,7 @@ export async function update_auth_links() {
     const token = urlParams.get("token");
     if (token) {
         localStorage.setItem("token", token);
-        return window.location.href = "/";
+        return window.location.href = "/index";
     }
     user = await model.fetch_auth_user();
     if (user) {
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     title.addEventListener("click", () => {
-        window.location.href = "/";
+        window.location.href = "/index";
     });
 
     cart_icon.addEventListener("click", () => {

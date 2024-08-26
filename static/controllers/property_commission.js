@@ -8,7 +8,7 @@ import {fetch_auth_user} from "../models/user.js";
 document.addEventListener("DOMContentLoaded", async () => {
     const user = await fetch_auth_user();
     if (!user) {
-        window.location.href = "/";
+        window.location.href = "/index";
     }
     
     const url = window.location.pathname;

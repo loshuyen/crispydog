@@ -31,13 +31,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (product_data.product.product_type === 1) {
         add_commission.style.display = "block";
-        add_to_cart_btn.style.display = "none";
     } else {
-        add_commission.style.display = "none";
         add_to_cart_btn.style.display = "block";
     }
 
     add_commission.addEventListener("click", () => {
+        if (!user) {
+            return header.open_login_box();
+        }
         window.location.href = `/add_commission/${product_data.product.id}`;
     });
 

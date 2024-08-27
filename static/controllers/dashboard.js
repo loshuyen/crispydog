@@ -25,7 +25,7 @@ async function refresh_notification() {
 }
 
 const token = localStorage.getItem("token");
-const ws = new WebSocket(`ws://localhost:8000/api/notification?token=${token}`);
+const ws = new WebSocket(`ws://${window.location.hostname}/api/notification?token=${token}`);
 ws.onmessage = async function(event) {
     console.log(event.data);
     notitfications_count++;

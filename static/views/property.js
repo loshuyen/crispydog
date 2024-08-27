@@ -53,13 +53,10 @@ export function render_commission_property(storage) {
         checkout_btn.style.display = "block";
     }
 
-    const rating_box = document.querySelector(".property__rating");
+    const rating_box = document.querySelector(".property__commission-rating");
     if (get_progress(storage.commission) >= 3) {
         product_property.style.display = "flex";
         rating_box.style.display = "block";
-    } else {
-        product_property.style.display = "none";
-        rating_box.style.display = "none";
     }
 }
 

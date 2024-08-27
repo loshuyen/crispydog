@@ -34,11 +34,15 @@
     padding-left: 2rem;
     padding-right: 2rem;
 }
-.property__rating {
+.property__rating,
+.property__commission-rating {
     width: 100%;
     padding: 1rem;
     border: 1px solid black;
     border-radius: 3px;
+}
+.property__commission-rating {
+    display: none;
 }
 .property__rating-star,
 .property__comment {
@@ -191,7 +195,7 @@
     height: 5rem;
     border: 1px solid black;
     border-radius: 5px;
-    display: flex;
+    display: none;
     align-items: center;
     padding: 1rem;
 }

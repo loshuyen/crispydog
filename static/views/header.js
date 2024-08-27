@@ -4,16 +4,16 @@ export function select_response(message_type) {
     let response;
     switch (message_type) {
       case 0:
-        response = "購買了你的商品";
+        response = "購買你的商品";
         break;
       case 1:
-        response = "評論了你的商品";
+        response = "評論你的商品";
         break;
       case 2:
-        response = "更新了評論";
+        response = "更新他的評論";
         break;
       case 3:
-        response = "有新委託";
+        response = "訂製你的商品";
         break;
       case 4:
         response = "已確認照片";

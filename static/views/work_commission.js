@@ -30,8 +30,16 @@ export function render_commission_work(commission) {
     }
 
     const delivery = document.querySelector(".commission__delivery-container");
-    if (progress !== 2) {
-        delivery.style.display = "none";
+    if (progress === 2) {
+        delivery.style.display = "flex";
+    }
+    if (commission.commission.file_url) {
+        const delieverd_file = document.querySelector(".commission__delivered-file");
+        const img = document.querySelector(".commission__delivered-file > img");
+        const title = document.querySelector(".commission__delivered-file-title");
+        img.src = commission.commission.file_url;
+        delieverd_file.style.display = "block";
+        title.style.display = "block";
     }
 }
 

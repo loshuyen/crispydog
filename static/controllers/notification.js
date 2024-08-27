@@ -4,10 +4,15 @@ import * as view from "../views/notification.js";
 
 const mark_all_read = document.querySelector(".notification__mark-all-read");
 
+function triggerEvent(element, eventType, eventDetail) {
+   const event = new CustomEvent(eventType, {detail: eventDetail});
+   element.dispatchEvent(event);
+}
+
 async function refresh_notification() {
    notifications = await model.get_notifications();
    view.render_notification(notifications);
-   
+
    const sale_items = document.querySelectorAll(".notification__item-message-type");
    sale_items.forEach(element => {
       element.addEventListener("click", (event) => {
@@ -32,9 +37,10 @@ async function refresh_notification() {
       });
    });
 
-   const edit_btn = document.querySelectorAll(".notification__item-actions > img");
+   const edit_btn = document.querySelectorAll(".notification__item-actions");
    edit_btn.forEach(element => {
       element.addEventListener("click", (event) => {
+         event.stopPropagation();
          const menu = event.target.nextElementSibling;
          if (menu.style.display === "none" || menu.style.display === "") {
             menu.style.display = "block";
@@ -65,5 +71,19 @@ document.addEventListener("DOMContentLoaded", async () => {
    mark_all_read.addEventListener("click", async () => {
       await model.mark_all_as_read();
       await refresh_notification();
+   });
+
+   document.addEventListener("click", (event) => {
+      event.stopPropagation();
+      triggerEvent(document, "close-edit-menu", null);
+   });
+
+   document.addEventListener("close-edit-menu", () => {
+      const edit_menus = document.querySelectorAll(".notification__item-edit");
+      edit_menus.forEach(element => {
+         if (element.style.display = "block") {
+            element.style.display = "none";
+         }
+      });
    });
 });

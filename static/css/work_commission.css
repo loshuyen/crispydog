@@ -53,7 +53,7 @@
     border: 1px dashed black;
     border-radius: 5px;
     padding: 2rem;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
@@ -111,6 +111,21 @@
     height: 40%;
     object-fit: scale-down;
     filter: brightness(0) saturate(100%) invert(100%) sepia(6%) saturate(0%) hue-rotate(315deg) brightness(103%) contrast(108%);
+}
+.commission__delivered-file-title {
+    display: none;
+}
+.commission__delivered-file {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: none;
+}
+.commission__delivered-file > img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+    object-fit: scale-down;
 }
 @media (max-width: 1200px) {
     

@@ -169,12 +169,13 @@ document.addEventListener("DOMContentLoaded", () => {
         request_body.append("specification", specification);
         request_body.append("stock", stock);
 
-        if (product_type == 0) {
+        if (product_type == 0 || !product_type) {
             if (!cover_input.files[0] || !thumbnail_input.files[0] || !product_input.files[0] || !name || !price || !introduction || !stock) {
                 alert("請輸入正確的資訊");
                 return;
             }
             request_body.append("product_file", product_input.files[0]);
+            request_body.append("product_type", 0);
         } else {
             if (!cover_input.files[0] || !thumbnail_input.files[0] || !name || !price || !introduction || !stock) {
                 alert("請輸入正確的資訊");
@@ -182,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             request_body.append("product_type", product_type);
         }
-        
+        console.log(product_type)
         triggerEvent(document, "request-start", null)
         const response = await add_product(request_body);
         triggerEvent(document, "request-end", null)

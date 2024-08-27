@@ -37,7 +37,7 @@ async def create_product(
     introduction: Annotated[str | None, Form()] = None,
     specification: Annotated[str | None, Form()] = None,
     stock: Annotated[str, Form()] = "9999",
-    product_type:Annotated[int, Form()] = 0,
+    product_type:Annotated[int | None, Form()] = 0,
     user = Depends(get_auth_user)
 ):
     try:
@@ -56,6 +56,7 @@ async def create_product(
         if product_type == 0:
             product_file_type = product_file.filename.split(".")[1]
             product_url, product_size = aws_s3.upload_file(product_file.file, product_file_type).values()
+        introduction = introduction.rstrip().replace("\n", "<br>")
         db.add_product(
             product_name=name, 
             user_id=user_id,

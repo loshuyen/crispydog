@@ -51,6 +51,17 @@ def login(user: model.UserIn):
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
+@router.get("/api/user")
+def get_user_profile(user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        result = db.get_user_profile_by_id(user["id"])
+        return JSONResponse(status_code=200, content=result)
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+
 @router.post("/api/user")
 def signup(user: model.UserIn):
     try:

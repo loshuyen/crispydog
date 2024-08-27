@@ -76,3 +76,28 @@ def add_google_user(id, username):
     finally:
         cursor.close()
         db.close()
+
+def get_user_profile_by_id(id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("""
+            SELECT username, email, savings, photo_url FROM user WHERE id = %s
+        """, (id, ))
+        username, email, savings, photo_url = cursor.fetchall()[0]
+        if username:
+            return {
+                "id": id,
+                "username": username,
+                "email": email,
+                "savings": savings,
+                "photo": photo_url
+            }
+        else:
+            return None
+    except Exception as e:
+        print(e)
+        return None
+    finally:
+        cursor.close()
+        db.close()

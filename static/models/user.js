@@ -45,3 +45,11 @@ export async function fetch_signup(request_body) {
         });
         return response;
 }
+
+export async function fetch_user_profile() {
+    const response = await fetch_with_token("/api/user", "GET");
+    if (response.status === 200) {
+        const data = await response.json()
+        return data;
+    }
+}

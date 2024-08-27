@@ -1,0 +1,48 @@
+.profile {
+
+}
+.profile__user {
+    width: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 2rem
+}
+.profile__photo {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    border: 1px solid black;
+    margin-bottom: 1rem;
+}
+.profile__photo > img {
+    max-width: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.profile__username {
+    font-size: 2rem;
+    font-weight: 700;
+}
+.profile__wallet {
+    width: 20rem;
+    height: 10rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}  
+.profile__wallet-title {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+}
+.profile__savings {
+    font-size: 2rem;
+    font-weight: 700;
+
+}

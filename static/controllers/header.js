@@ -146,7 +146,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
     await refresh_notification();
-
+    
+    const user_profile = await model.fetch_user_profile();
+    if (user_profile?.photo) {
+        const user_photo = document.querySelector(".header__member > img");
+        user_photo.src = user_profile.photo;
+    }
 
     document.addEventListener("request-start", () => {
         background_mask.style.display = "block";

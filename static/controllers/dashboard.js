@@ -1,5 +1,6 @@
 import {fetch_auth_user} from "../models/user.js";
 import {get_notifications} from "../models/notification.js";
+import config from "../utils/config.js";
 
 const website_title = document.querySelector(".dashboard__website-title");
 const library = document.querySelector(".dashboard__item-library");
@@ -25,7 +26,7 @@ async function refresh_notification() {
 }
 
 const token = localStorage.getItem("token");
-const ws = new WebSocket(`wss://${window.location.hostname}/api/notification?token=${token}`);
+const ws = new WebSocket(`${config.WEBSOCKET_URL}/api/notification?token=${token}`);
 ws.onmessage = async function(event) {
     console.log(event.data);
     notitfications_count++;

@@ -2,6 +2,7 @@ import * as model from "../models/user.js";
 import {get_notifications} from "../models/notification.js";
 import {get_cart_list} from "../models/cart.js";
 import {render_header_notifications} from "../views/header.js";
+import config from "../utils/config.js";
 
 const title = document.querySelector(".header__title");
 const cart_icon = document.querySelector(".header__cart-icon");
@@ -126,7 +127,7 @@ async function refresh_notification() {
 }
 
 const token = localStorage.getItem("token");
-const ws = new WebSocket(`wss://${window.location.hostname}/api/notification?token=${token}`);
+const ws = new WebSocket(`${config.WEBSOCKET_URL}/api/notification?token=${token}`);
 ws.onmessage = async function(event) {
     console.log(event.data);
     notitfications_count++;

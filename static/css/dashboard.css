@@ -10,6 +10,8 @@
 }
 .dashboard__right {
     flex-grow: 1;
+    height: 100vh;
+    overflow: scroll;
 }
 .dashboard__website-title {
     width: 100%;

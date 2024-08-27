@@ -15,6 +15,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const sales_list = await get_all_sales();
     views.render_store(sales_list);
 
+    const dashboard_div = document.querySelector(".dashboard__item-store");
+    const dashboard_div_img = document.querySelector(".dashboard__item-store > img");
+    dashboard_div.style.color = "#ff74f9";
+    dashboard_div_img.style.filter = "brightness(0) saturate(100%) invert(85%) sepia(14%) saturate(7293%) hue-rotate(282deg) brightness(108%) contrast(100%)";
+
     document.addEventListener("click", (event) => {
         event.stopPropagation();
         triggerEvent(document, "close-edit-menu", null);

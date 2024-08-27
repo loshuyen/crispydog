@@ -4,6 +4,7 @@ import * as models from "../models/commission.js";
 import {get_progress} from "../views/work_commission.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    
     const commissions = await models.get_all_commissions();
     if (commissions.length === 0) {
         const commission = document.querySelector(".commission");
@@ -12,6 +13,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         views.render_commission(commissions);
     }
     
+    const dashboard_div = document.querySelector(".dashboard__item-work");
+    const dashboard_div_img = document.querySelector(".dashboard__item-work > img");
+    dashboard_div.style.color = "#ff74f9";
+    dashboard_div_img.style.filter = "brightness(0) saturate(100%) invert(85%) sepia(14%) saturate(7293%) hue-rotate(282deg) brightness(108%) contrast(100%)";
+
     const commission_containers = document.querySelectorAll(".commission__container");
     commission_containers.forEach(element => {
         element.addEventListener("click", (event) => {

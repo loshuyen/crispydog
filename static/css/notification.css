@@ -1,5 +1,6 @@
 .notification {
     width: 90%;
+    height: 100%;
     margin: 0 auto;
 }
 .notification__category {
@@ -22,8 +23,10 @@
 }
 .notification__content {
     width: 100%;
+    height: 100%;
     border: 1px solid black;
     border-radius: 5px;
+    overflow: scroll;
 }
 .notification__items {
     width: 100%;

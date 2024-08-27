@@ -82,16 +82,16 @@ def get_user_profile_by_id(id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT username, email, savings, photo_url FROM user WHERE id = %s
+            SELECT username, email, savings, photo FROM user WHERE id = %s
         """, (id, ))
-        username, email, savings, photo_url = cursor.fetchall()[0]
+        username, email, savings, photo = cursor.fetchall()[0]
         if username:
             return {
                 "id": id,
                 "username": username,
                 "email": email,
                 "savings": savings,
-                "photo": photo_url
+                "photo": photo
             }
         else:
             return None

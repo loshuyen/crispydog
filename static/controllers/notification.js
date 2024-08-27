@@ -15,8 +15,10 @@ async function refresh_notification() {
 
    const sale_items = document.querySelectorAll(".notification__item-message-type");
    sale_items.forEach(element => {
-      element.addEventListener("click", (event) => {
+      element.addEventListener("click", async (event) => {
          const url = event.target.getAttribute("data-url");
+         const notification_id = event.target.getAttribute("data-notification-id");
+         await model.mark_as_read(notification_id)
          window.location.href = url;
       });
    });

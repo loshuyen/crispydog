@@ -90,12 +90,14 @@ def get_google_auth_token(code: str):
     user_email = None
     if response.status_code == 200:
         user_info = response.json()
+        print(user_info)
         user_name = user_info.get("name")
         user_id = user_info.get("sub")
         user_email = user_info.get("email")
+        user_photo = user_info.get("picture")
     user_id = int(user_id) % 100000000
     user = db.get_username_by_id(user_id)
     if not user:
-        db.add_google_user(user_id, user_name)
+        db.add_google_user(user_id, user_name, user_email, user_photo)
     token = generate_token({"id": user_id, "username": user_name})
     return RedirectResponse(f"/index?token={token}")

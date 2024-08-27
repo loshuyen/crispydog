@@ -9,8 +9,11 @@
     margin: 2rem 2rem
 }
 .profile__photo {
-    width: 10rem;
-    height: 10rem;
+    max-width: 10rem;
+    max-height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
     border: 1px solid black;
     margin-bottom: 1rem;

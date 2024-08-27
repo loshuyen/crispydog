@@ -1,4 +1,12 @@
 from .database import pool
+import os
+import hashlib
+
+def create_hash(text):
+    combined = os.getenv("TOKEN_SECRET_KEY") + text
+    hash_object = hashlib.sha256(combined.encode())
+    hash_hex = hash_object.hexdigest()
+    return hash_hex
 
 def verify_password(username, password):
     try:
@@ -64,11 +72,12 @@ def add_user(username, password):
         cursor.close()
         db.close()
 
-def add_google_user(id, username):
+def add_google_user(id, username, user_email, user_photo):
     try:
+        password = create_hash(username)
         db = pool.get_connection()
         cursor = db.cursor()
-        cursor.execute("INSERT INTO user (id, username, password) VALUES (%s, %s, %s)", (id, username, "google"))
+        cursor.execute("INSERT INTO user (id, username, password, email, photo) VALUES (%s, %s, %s, %s, %s)", (id, username, password, user_email, user_photo))
         db.commit()
     except Exception as e:
         print(e)

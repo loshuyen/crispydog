@@ -70,6 +70,7 @@ export function update_notification_count(count) {
 }
 
 export function open_login_box() {
+    window.scrollTo(0, 0);
     login_box.style.display = "block";
     signup_box.style.display = "none";
     background_mask.style.display = "block";

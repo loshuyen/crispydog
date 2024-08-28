@@ -26,7 +26,16 @@ def get_product_by_id(id):
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
-    
+
+@router.get("/api/products/owner")
+def get_products_by_owner(user = Depends(get_auth_user)):
+    try:
+        data = db.get_owner_products(user["id"])
+        return {"data": data}
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+
 @router.post("/api/product")
 async def create_product(
     image_file: UploadFile, 

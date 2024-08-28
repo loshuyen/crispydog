@@ -127,3 +127,39 @@ def get_owner_by_product_id(id):
     finally:
         cursor.close()
         db.close()
+
+def get_owner_products(user_id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("""
+            SELECT id, product.name, price, introduction, specification, image_urls, thumbnail_url, file_size, product_type , status, stock
+            FROM product WHERE owner_id = %s
+            ORDER BY created_at DESC;
+        """, (user_id, ))
+        products = cursor.fetchall()
+        if products[0][0] == None:
+            return None
+        result = []
+        for product in products:
+            id, product_name, price, introduction, specification, image_urls, thumbnail_url, file_size, product_type , status, stock = product
+            result.append({
+                "product": {
+                    "id": id,
+                    "name": product_name,
+                    "price": price,
+                    "thumbnail": thumbnail_url,
+                    "product_type": product_type,
+                    "introduction": introduction,
+                    "specification": specification,
+                    "image_urls": image_urls,
+                    "status": status,
+                    "stock": stock
+                }
+            })
+        return result
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()

@@ -61,10 +61,13 @@
     align-items: center;
     border-bottom: 1px solid black;
 }
-.store__item-image,
-.store__item-sales,
+
 .store__item-revenue,
 .store__item-price {
+    width: 10%;
+}
+.store__item-sales,
+.store__item-image {
     width: 10%;
     cursor: pointer;
 }

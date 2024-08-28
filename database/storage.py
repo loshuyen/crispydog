@@ -5,21 +5,21 @@ def get_all_storage(user_id, product_id, product_type):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        if not product_id and product_type == None:
+        if product_id == None and product_type == None:
             cursor.execute("""
                 SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id
                 INNER JOIN user ON product.owner_id = user.id
                 WHERE sale.buyer_id = %s
                 ORDER BY sale.created_at DESC;""", (user_id, ))
-        elif product_id and product_type == None:
+        elif product_id != None and product_type == None:
             cursor.execute("""
                 SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id
                 INNER JOIN user ON product.owner_id = user.id
                 WHERE sale.buyer_id = %s AND product.id = %s
                 ORDER BY sale.created_at DESC;""", (user_id, product_id))
-        elif not product_id and product_type:
+        elif product_id == None and product_type != None:
             cursor.execute("""
                 SELECT product.product_type, product.file_type, product.file_size, product.id, product.name, product.price, product.owner_id, user.username, product.thumbnail_url, sale.download_endpoint, sale.created_at
                 FROM sale INNER JOIN product ON sale.product_id = product.id

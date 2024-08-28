@@ -78,7 +78,11 @@ def get_storage(product_id: int | None = None, user = Depends(get_auth_user)):
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
         data = db.get_all_storage(user_id=user["id"], product_id=product_id, product_type=0)
-        return JSONResponse(status_code=200, content=data[0])
+        if data:
+            result = data[0]
+        else:
+            result = None
+        return JSONResponse(status_code=200, content=result)
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

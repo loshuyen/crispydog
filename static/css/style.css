@@ -101,7 +101,7 @@
 .header__dropdown-menu,
 .header__dropdown-notification {
     position: absolute;
-    top: 3rem;
+    top: 100%;
     right: 0;
     border: 1px solid black;
     border-bottom-left-radius: 5px;

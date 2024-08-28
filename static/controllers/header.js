@@ -207,26 +207,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
     
-    member_link.addEventListener("click", (event) => {
-        event.stopPropagation();
-        if (dropdown_menu.style.display === "block") {
-            triggerEvent(document, "close-menu", null)
-        } else {
-            triggerEvent(document, "open-menu", null)
-            triggerEvent(document, "close-notification", null)
-        }
+    // member_link.addEventListener("click", (event) => {
+    //     event.stopPropagation();
+    //     if (dropdown_menu.style.display === "block") {
+    //         triggerEvent(document, "close-menu", null)
+    //     } else {
+    //         triggerEvent(document, "open-menu", null)
+    //         triggerEvent(document, "close-notification", null)
+    //     }
+    // });
+
+    member_link.addEventListener("mouseenter", () => {
+        triggerEvent(document, "open-menu", null)
     });
 
-    notification_icon.addEventListener("click", (event) => {
-        event.stopPropagation();
-        if (dropdown_notification.style.display === "block") {
-            triggerEvent(document, "close-notification", null)
-        } else {
-            triggerEvent(document, "open-notification", null)
-            triggerEvent(document, "close-menu", null)
-        }
+    member_link.addEventListener("mouseleave", () => {
+        triggerEvent(document, "close-menu", null)
     });
 
+    // notification_icon.addEventListener("click", (event) => {
+    //     event.stopPropagation();
+    //     if (dropdown_notification.style.display === "block") {
+    //         triggerEvent(document, "close-notification", null)
+    //     } else {
+    //         triggerEvent(document, "open-notification", null)
+    //         triggerEvent(document, "close-menu", null)
+    //     }
+    // });
+
+    notification_icon.addEventListener("mouseenter", () => {
+        triggerEvent(document, "open-notification", null)
+    });
+
+    notification_icon.addEventListener("mouseleave", () => {
+        triggerEvent(document, "close-notification", null)
+    });
     menu_library_link.addEventListener("click", () => {
         window.location.href = "/library";
     });

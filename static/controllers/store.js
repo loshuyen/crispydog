@@ -20,17 +20,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     dashboard_div.style.color = "#ff74f9";
     dashboard_div_img.style.filter = "brightness(0) saturate(100%) invert(85%) sepia(14%) saturate(7293%) hue-rotate(282deg) brightness(108%) contrast(100%)";
 
-    document.addEventListener("click", (event) => {
-        event.stopPropagation();
-        triggerEvent(document, "close-edit-menu", null);
-    });
+    // document.addEventListener("click", (event) => {
+    //     event.stopPropagation();
+    //     triggerEvent(document, "close-edit-menu", null);
+    // });
 
-    document.addEventListener("close-edit-menu", () => {
-        const menus = document.querySelectorAll(".store__item-edit");
-        menus.forEach(element => {
-            element.style.display = "none";
-        })
-    });
+    // document.addEventListener("close-edit-menu", () => {
+    //     const menus = document.querySelectorAll(".store__item-edit");
+    //     menus.forEach(element => {
+    //         element.style.display = "none";
+    //     })
+    // });
 
     add_product.addEventListener("click", () => {
         window.location.href = "/product/add";
@@ -40,17 +40,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.location.href = "/product/add?product_type=1";
     }); 
 
-    const edit_btn = document.querySelectorAll(".store__item-actions > img");
+    // const edit_btn = document.querySelectorAll(".store__item-actions > img");
+    // edit_btn.forEach(element => {
+    //     element.addEventListener("click", (event) => {
+    //         event.stopPropagation();
+    //         triggerEvent(document, "close-edit-menu", null);
+    //         const menu = event.target.nextElementSibling;
+    //         if (menu.style.display === "none" || !menu.style.display) {
+    //             menu.style.display = "block";
+    //         } else {
+    //             menu.style.display = "none";
+    //         }
+    //     });
+    // });
+
+    const edit_btn = document.querySelectorAll(".store__item-actions");
     edit_btn.forEach(element => {
-        element.addEventListener("click", (event) => {
+        element.addEventListener("mouseenter", (event) => {
             event.stopPropagation();
-            triggerEvent(document, "close-edit-menu", null);
-            const menu = event.target.nextElementSibling;
-            if (menu.style.display === "none" || !menu.style.display) {
-                menu.style.display = "block";
-            } else {
-                menu.style.display = "none";
-            }
+            const menu = event.target.querySelector(".store__item-edit");
+            menu.style.display = "block";
+        });
+        element.addEventListener("mouseleave", (event) => {
+            event.stopPropagation();
+            const menu = event.target.querySelector(".store__item-edit");
+            menu.style.display = "none";
         });
     });
 

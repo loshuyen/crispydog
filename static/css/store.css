@@ -87,7 +87,8 @@
     margin-right: 1rem;
 }
 .store__item-actions {
-    width: 5%;
+    width: 3rem;
+    height: 90%;
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -95,13 +96,13 @@
 }
 .store__item-edit {
     position: absolute;
-    top: 1.5rem;
-    right: .5rem;
+    top: 90%;
+    right: 10%;
     background-color: white;
     border-radius: 5px;
     border: 1px solid black;
     min-width: 160px;
-    z-index: 1;
+    z-index: 99;
     display: none;
 }
 .store__item-edit div {
@@ -115,6 +116,9 @@
 .store__item-actions > img {
     width: 30%;
     height: 100%;
+}
+.store__item-actions:hover .store__item-edit {
+    display: block;
 }
 .store__item-image {
     height: 100%;

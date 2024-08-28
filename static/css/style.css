@@ -59,11 +59,12 @@
 .header__cart-icon,
 .header__notification-icon,
 .header__member {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     cursor: pointer;
     position: relative;
     margin: 0 .5rem;
+    padding: 4px;
 }
 .header__cart-count,
 .header__notification-count {

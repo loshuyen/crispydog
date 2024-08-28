@@ -36,10 +36,10 @@ export async function render_sales(sales_list) {
         item.className = "sale__content-item";
         item.innerHTML = `
             <div class="sale__buyer">${element.sale.buyer.username}</div>
-            <div class="sale__buy-time">${element.sale.created_at}</div>
-            <div class="sale__rating">${element.sale.review.rating}顆星</div>
-            <div class="sale__review-content">${element.sale.review.content}</div>
-            <div class="sale__review-time">${element.sale.review.updated_at}</div>
+            <div class="sale__buy-time">在 ${element.sale.created_at} 購買</div>
+            <div class="sale__rating"></div>
+            <div class="sale__review-content"></div>
+            <div class="sale__review-time"></div>
         `;
         sale_product.appendChild(item);
     });

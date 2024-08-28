@@ -44,18 +44,17 @@ def get_sales(user_id, product_id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT sale.id, sale.buyer_id, sale.created_at, user.username, review.id, review.rating, review.content, review.updated_at
+            SELECT sale.id, sale.buyer_id, sale.created_at, user.username
             FROM sale
             INNER JOIN user ON sale.buyer_id = user.id
             INNER JOIN product ON sale.product_id = product.id
-            INNER JOIN review ON review.reviewer_id = sale.buyer_id
             WHERE product.owner_id = %s AND sale.product_id = %s
             ORDER BY sale.created_at DESC;
         """, (user_id, product_id))
         sales = cursor.fetchall()
         sales_result = []
         for sale in sales:
-            sale_id, sale_buyer_id, sale_created_at, user_username, review_id, review_rating, review_content, review_updated_at = sale
+            sale_id, sale_buyer_id, sale_created_at, user_username = sale
             sales_result.append({
                 "sale": {
                     "id": sale_id,
@@ -63,12 +62,6 @@ def get_sales(user_id, product_id):
                     "buyer": {
                         "id": sale_buyer_id,
                         "username": user_username
-                    },
-                    "review": {
-                        "id": review_id,
-                        "rating": review_rating,
-                        "content": review_content,
-                        "updated_at": review_updated_at.strftime("%Y-%m-%d %H:%M:%S")
                     }
                 }
             })

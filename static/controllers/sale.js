@@ -6,13 +6,13 @@ import {toggle_product_status} from "../models/product.js";
 const product_id = parseInt(window.location.pathname.split("/")[2]);
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const sales_list = await get_sales(product_id);
-    if (sales_list.length === 0) {
+    const sales = await get_sales(product_id);
+    if (!sales) {
         const sale_div = document.querySelector(".sale");
         sale_div.innerHTML = "無交易紀錄";
     } else {
-        await views.render_product(sales_list[0].product);
-        await views.render_sales(sales_list);
+        await views.render_product(sales.product);
+        await views.render_sales(sales.product.sales);
     }
     
     const edit_btn = document.querySelectorAll(".sale__item-actions > img");

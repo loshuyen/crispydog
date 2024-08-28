@@ -1,7 +1,7 @@
 import * as dashboard from "./dashboard.js";
 import * as views from "../views/store.js";
 import {get_all_sales} from "../models/sale.js";
-import {toggle_product_status} from "../models/product.js";
+import {toggle_product_status, get_products_by_owner} from "../models/product.js";
 
 function triggerEvent(element, eventType, eventDetail) {
     const event = new CustomEvent(eventType, {detail: eventDetail});
@@ -12,25 +12,13 @@ const add_product = document.querySelector(".store__add-product-btn");
 const add_product_commission = document.querySelector(".store__add-commission-product-btn");
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const sales_list = await get_all_sales();
-    views.render_store(sales_list);
+    const producs = await get_products_by_owner();
+    views.render_store(producs);
 
     const dashboard_div = document.querySelector(".dashboard__item-store");
     const dashboard_div_img = document.querySelector(".dashboard__item-store > img");
     dashboard_div.style.color = "#ff74f9";
     dashboard_div_img.style.filter = "brightness(0) saturate(100%) invert(85%) sepia(14%) saturate(7293%) hue-rotate(282deg) brightness(108%) contrast(100%)";
-
-    // document.addEventListener("click", (event) => {
-    //     event.stopPropagation();
-    //     triggerEvent(document, "close-edit-menu", null);
-    // });
-
-    // document.addEventListener("close-edit-menu", () => {
-    //     const menus = document.querySelectorAll(".store__item-edit");
-    //     menus.forEach(element => {
-    //         element.style.display = "none";
-    //     })
-    // });
 
     add_product.addEventListener("click", () => {
         window.location.href = "/product/add";
@@ -39,20 +27,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     add_product_commission.addEventListener("click", () => {
         window.location.href = "/product/add?product_type=1";
     }); 
-
-    // const edit_btn = document.querySelectorAll(".store__item-actions > img");
-    // edit_btn.forEach(element => {
-    //     element.addEventListener("click", (event) => {
-    //         event.stopPropagation();
-    //         triggerEvent(document, "close-edit-menu", null);
-    //         const menu = event.target.nextElementSibling;
-    //         if (menu.style.display === "none" || !menu.style.display) {
-    //             menu.style.display = "block";
-    //         } else {
-    //             menu.style.display = "none";
-    //         }
-    //     });
-    // });
 
     const edit_btn = document.querySelectorAll(".store__item-actions");
     edit_btn.forEach(element => {

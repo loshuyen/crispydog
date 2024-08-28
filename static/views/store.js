@@ -1,8 +1,8 @@
-export function render_store(sales_list) {
+export function render_store(products) {
     const store_content = document.querySelector(".store__content");
     let total_sales = 0;
     let total_revenue = 0;
-    sales_list.forEach(element => {
+    products.forEach(element => {
         const product = element.product;
         const item = document.createElement("div");
         item.className = "store__items";
@@ -11,8 +11,8 @@ export function render_store(sales_list) {
                 <img src=${product.thumbnail}>
             </div>
             <div class="store__item-name" data-product-id=${product.id}>${product.name}</div>
-            <div class="store__item-sales" data-product-id=${product.id}>${product.sales}</div>
-            <div class="store__item-revenue">$${product.sales * product.price}</div>
+            <div class="store__item-sales" data-product-id=${product.id}>銷售紀錄</div>
+            <div class="store__item-revenue"></div>
             <div class="store__item-price">$${product.price}</div>
             <div class="store__item-status">
                 <img src=${product.status === 0 ? "/static/icons/circle_x.svg" : "/static/icons/circle_v.svg"} />
@@ -28,8 +28,8 @@ export function render_store(sales_list) {
                 </div>
             </div>
         `;
-        total_revenue += product.sales * product.price;
-        total_sales += product.sales;
+        // total_revenue += product.sales * product.price;
+        // total_sales += product.sales;
         store_content.appendChild(item);
     });
     const total = document.createElement("div");
@@ -37,8 +37,8 @@ export function render_store(sales_list) {
     total.innerHTML = `
         <div class="store__total-title">總計</div>
         <div class="store__total-space"></div>
-        <div class="store__total-sales">${total_sales}</div>
-        <div class="store__total-revenue">$${total_revenue}</div>
+        <div class="store__total-sales"></div>
+        <div class="store__total-revenue"></div>
     `;
     store_content.appendChild(total);
 }

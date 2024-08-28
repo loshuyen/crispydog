@@ -18,7 +18,7 @@ export async function render_product(reviews, product_data) {
         <div class="product__name">${product_data.product.name}</div>
         <div class="product__price">$${product_data.product.price}</div>
         <div class="product__seller">
-            <a href=${create_user_store_url(product_data.product.user.username)}>
+            <a href=${create_user_store_url(product_data.product.user.username)} >
                 ${product_data.product.user.username}
             </a>
         </div>

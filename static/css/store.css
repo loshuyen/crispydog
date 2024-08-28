@@ -71,6 +71,9 @@
     width: 10%;
     cursor: pointer;
 }
+.store__item-sales {
+    text-decoration: underline;
+}
 .store__item-name {
     width: 35%;
     padding-left: 1rem;

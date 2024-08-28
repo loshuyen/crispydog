@@ -2,7 +2,7 @@ export async function render_product(product) {
     const sale_product = document.querySelector(".sale__product");
     const item = document.createElement("div");
     item.className = "sale__items";
-    if (!product) {
+    if (product.sales.length === 0) {
         item.textContent = "無交易紀錄";
         return;
     }
@@ -35,11 +35,11 @@ export async function render_sales(sales_list) {
         const item = document.createElement("div");
         item.className = "sale__content-item";
         item.innerHTML = `
-            <div class="sale__buyer">${element.buyer.name}</div>
+            <div class="sale__buyer">${element.sale.buyer.username}</div>
             <div class="sale__buy-time">${element.sale.created_at}</div>
-            <div class="sale__rating">${element.review.rating}顆星</div>
-            <div class="sale__review-content">${element.review.content}</div>
-            <div class="sale__review-time">${element.review.updated_at}</div>
+            <div class="sale__rating">${element.sale.review.rating}顆星</div>
+            <div class="sale__review-content">${element.sale.review.content}</div>
+            <div class="sale__review-time">${element.sale.review.updated_at}</div>
         `;
         sale_product.appendChild(item);
     });

@@ -38,7 +38,7 @@ def get_notifications(user_id, is_read = None):
                     "message_type": message_type,
                     "message": message,
                     "is_read": is_read,
-                    "created_at": created_at.strftime("%Y-%m-%d %H:%M:%S")
+                    "created_at": created_at.strftime("%Y-%m-%d %H:%M")
                 }
             })
         return result 

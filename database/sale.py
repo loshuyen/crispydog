@@ -19,7 +19,7 @@ def get_all_sales(user_id):
             result.append({
                 "sale": {
                     "id": sale_id,
-                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
                     "buyer": {
                         "id": sale_buyer_id,
                         "username": user_username
@@ -58,7 +58,7 @@ def get_sales(user_id, product_id):
             sales_result.append({
                 "sale": {
                     "id": sale_id,
-                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
                     "buyer": {
                         "id": sale_buyer_id,
                         "username": user_username

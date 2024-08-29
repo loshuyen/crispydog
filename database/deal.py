@@ -35,7 +35,7 @@ def get_all_deals(user_id, success):
                     "amount": amount,
                     "delivery_email": delivery_email,
                     "success": success,
-                    "created_at": updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "created_at": updated_at.strftime("%Y-%m-%d %H:%M"),
                     "products": product_result
                 }
             })

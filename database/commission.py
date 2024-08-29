@@ -35,7 +35,7 @@ def get_commissions_by_buyer(user_id):
                     "is_paid": is_paid,
                     "is_delivered": is_delivered,
                     "is_downloaded": is_downloaded,
-                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
                     "deal": {
                         "id": deal_id,
                         "success": deal_success
@@ -92,7 +92,7 @@ def get_commission_by_id_by_buyer(user_id, commission_id):
                     "is_paid": is_paid,
                     "is_delivered": is_delivered,
                     "is_downloaded": is_downloaded,
-                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
                     "deal": {
                         "id": deal_id,
                         "success": deal_success
@@ -145,7 +145,7 @@ def get_commission(commission_id):
             "is_paid": is_paid, 
             "is_delivered": is_delivered, 
             "is_downloaded": is_downloaded,
-            "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
             "deal": {
                 "id": deal_id,
                 "success": deal_success
@@ -256,7 +256,7 @@ def get_commissions_by_seller(user_id):
                         "is_paid": is_paid,
                         "is_delivered": is_delivered,
                         "is_downloaded": is_downloaded,
-                        "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                        "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
                         "deal": {
                             "id": deal_id,
                             "success": deal_success
@@ -309,7 +309,7 @@ def get_commission_by_id_by_seller(user_id, commission_id):
                         "is_paid": is_paid,
                         "is_delivered": is_delivered,
                         "is_downloaded": is_downloaded,
-                        "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                        "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
                         "deal": {
                             "id": deal_id,
                             "success": deal_success
@@ -364,7 +364,7 @@ def get_commission_download_by_id_by_buyer(user_id, commission_id):
                     "is_paid": is_paid,
                     "is_delivered": is_delivered,
                     "is_downloaded": is_downloaded,
-                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M:%S"),
+                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
                     "deal": {
                         "id": deal_id,
                         "success": deal_success

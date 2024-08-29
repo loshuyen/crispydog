@@ -53,7 +53,7 @@ def get_all_storage(user_id, product_id, product_type):
                             "username": user_username
                         }
                     },
-                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M:%S")
+                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M")
                 }
             })
         return result

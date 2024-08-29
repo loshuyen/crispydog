@@ -30,17 +30,30 @@ export async function render_product(product) {
 }
 
 export async function render_sales(sales_list) {
-    const sale_product = document.querySelector(".sale__content");
+    const sale_product = document.querySelector(".sale__records");
     sales_list.forEach(element => {
         const item = document.createElement("div");
-        item.className = "sale__content-item";
+        item.className = "sale__records-item";
         item.innerHTML = `
             <div class="sale__buyer">${element.sale.buyer.username}</div>
-            <div class="sale__buy-time">在 ${element.sale.created_at} 購買</div>
-            <div class="sale__rating"></div>
-            <div class="sale__review-content"></div>
-            <div class="sale__review-time"></div>
+            <div class="sale__buy-time">${element.sale.created_at}</div>
         `;
         sale_product.appendChild(item);
+    });
+}
+
+export async function render_reviews(reviews) {
+    const sale_reviews = document.querySelector(".sale__reviews");
+    reviews.forEach(element => {
+        const item = document.createElement("div");
+        const review = element.review;
+        item.className = "sale__records-item";
+        item.innerHTML = `
+            <div class="sale__reviewer">${review.reviewer.name}</div>
+            <div class="sale__review-rating">${review.rating}</div>
+            <div class="sale__review-content">${review.content}</div>
+            <div class="sale__review-time">${review.updated_at}</div>
+        `;
+        sale_reviews.appendChild(item);
     });
 }

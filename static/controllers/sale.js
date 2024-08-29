@@ -2,17 +2,20 @@ import * as dashboard from "./dashboard.js";
 import * as views from "../views/sale.js";
 import {get_sales} from "../models/sale.js";
 import {toggle_product_status} from "../models/product.js";
+import {get_reviews} from "../models/review.js";
 
 const product_id = parseInt(window.location.pathname.split("/")[2]);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const sales = await get_sales(product_id);
+    const reviews = await get_reviews(product_id, 0).then(data => data.data);
     if (!sales) {
         const sale_div = document.querySelector(".sale");
         sale_div.innerHTML = "無交易紀錄";
     } else {
         await views.render_product(sales.product);
         await views.render_sales(sales.product.sales);
+        await views.render_reviews(reviews)
     }
     
     const edit_btn = document.querySelectorAll(".sale__item-actions > img");

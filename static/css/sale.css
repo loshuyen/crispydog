@@ -88,25 +88,68 @@
 }
 .sale__content {
     width: 100%;
+    height: 22rem;
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+.sale__records,
+.sale__reviews {
     border: 1px solid black;
     border-radius: 5px;
-    margin: 2rem 0;
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll;
 }
-.sale__content-item {
+.sale__records {
+    margin-right: 1rem;
+    position: relative;
+}
+.sale__records-item,
+.sale__records-header,
+.sale__reviews-header {
     width: 100%;
     height: 4rem;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid black;
 }
-.sale__buyer,
+.sale__records-header,
+.sale__reviews-header {
+    background-color: black;
+    color: white;
+    height: 1.5rem;
+    position: sticky;
+    top: 0;
+}
 .sale__buy-time,
-.sale__rating,
-.sale__review-content,
-.sale__review-time {
+.sale__buy-time-header {
     padding: 0 1rem;
 }
-.sale__review-content {
-    margin-right: auto;
+.sale__buyer,
+.sale__buyer-header {
+    padding: 0 1rem;
+    width: 30%;
+}
+.sale__reviewer,
+.sale__reviewer-header {
+    width: 20%;
+    padding: 0 1rem;
+}
+.sale__review-rating,
+.sale__rating-header {
+    width: 15%;
+    padding: 0 1rem;
+}
+.sale__review-content,
+.sale__review-content-header {
+    width: 40%;
+    padding: 0 1rem;
+}
+.sale__review-time,
+.sale__review-time-header {
+    width: 25%;
+    padding: 0 1rem;
 }
 .notification__item-read {
     width: 5rem;

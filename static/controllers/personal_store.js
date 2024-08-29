@@ -2,8 +2,19 @@ import * as model from "../models/product.js";
 import * as view from "../views/personal_store.js";
 // import * as header from "./header.js";
 
+
+function decode_chinese_url(url) {
+    try {
+        const decoded_url = decodeURIComponent(url);
+        return decoded_url;
+    } catch (e) {
+        return url;
+    }
+}
+
 const url_path_list = window.location.href.split("/");
-const username = url_path_list[url_path_list.length - 1];
+const username_url = url_path_list[url_path_list.length - 1];
+const username = decode_chinese_url(username_url);
 
 document.addEventListener("DOMContentLoaded", async () => {
     const website_title = document.head.querySelector("title");

@@ -23,6 +23,7 @@
     font-size: 3rem;
     font-weight: 700;
     margin-left: 1rem;
+    border-bottom: 4px solid #ff74f9;
 }
 .landing__slogan-left {
     justify-content: flex-start;
@@ -33,10 +34,11 @@
     padding-right: 5rem;
 }
 .landing__container {
-    max-width: 1200px;
+    width: 1200px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 .landing__product-commission,
 .landing__product {
@@ -44,7 +46,7 @@
     height: 10rem;
     margin-right: 2rem;
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 200px;
     font-size: 2rem;
     display: flex;
     justify-content: center;
@@ -62,4 +64,12 @@
 .landing__product span {
     margin-left: 1rem;
     font-size: 1.5rem;
+    border-bottom: 2px solid #ff74f9;
+}
+@media (max-width: 680px) {
+    .landing__product-commission,
+    .landing__product {
+        width: 90%;
+        margin-bottom: 1rem;
+    }
 }

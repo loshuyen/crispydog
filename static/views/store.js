@@ -1,5 +1,8 @@
 export function render_store(products) {
     const store_content = document.querySelector(".store__content");
+    if (!products) {
+        return store_content.innerHTML = "目前無商品";
+    }
     let total_sales = 0;
     let total_revenue = 0;
     products.forEach(element => {

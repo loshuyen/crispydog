@@ -38,6 +38,10 @@ TPDirect.card.setup({
 });
 
 export default async function order_submit(product_id_list, amount) {
+    if(product_id_list.length === 0) {
+        return alert("請加入商品");
+    }
+    
     triggerEvent(document, "request-start", null);
 
     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
@@ -82,6 +86,9 @@ export default async function order_submit(product_id_list, amount) {
 }
 
 export async function line_pay(product_id_list, amount) {
+    if (product_id_list.length === 0) {
+        return alert("請加入商品");
+    }
     TPDirect.linePay.getPrime(async (result) => {
         const phone_number = document.querySelector(".checkout__phone-input > input").value;
         const name = document.querySelector(".checkout__line-name > input").value;

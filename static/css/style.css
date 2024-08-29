@@ -267,6 +267,21 @@ hr {
     transform: translate(-3px, -3px);
     background-color: #ff74f9;
 }
+.personal-store__footer {
+    margin-top: auto;
+    height: 10rem;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid black;
+    display: none;
+}
+.personal-store__footer > span {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-left: 1rem;
+    cursor: pointer;
+}
 @media (max-width: 1200px) {
     .header__container,
     .header__product-type-container {

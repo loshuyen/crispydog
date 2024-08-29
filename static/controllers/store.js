@@ -1,6 +1,5 @@
 import * as dashboard from "./dashboard.js";
 import * as views from "../views/store.js";
-import {get_all_sales} from "../models/sale.js";
 import {toggle_product_status, get_products_by_owner} from "../models/product.js";
 
 function triggerEvent(element, eventType, eventDetail) {

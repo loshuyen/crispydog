@@ -60,6 +60,10 @@ def property():
 def store():
     return FileResponse("./static/store.html")
 
+@app.get("/store/{username}", include_in_schema=False)
+def personal_store():
+    return FileResponse("./static/personal_store.html")
+
 @app.get("/sale/{product_id}", include_in_schema=False)
 def sale():
     return FileResponse("./static/sale.html")

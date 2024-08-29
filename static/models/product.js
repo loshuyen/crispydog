@@ -42,7 +42,12 @@ export async function toggle_product_status(product_id) {
 }
 
 export async function get_products_by_owner() {
-    const response = await fetch_with_token("/api/products/owner", "GET");
+    const response = await fetch_with_token("/api/products/auth", "GET");
     const data = await response.json();
     return data.data;
+}
+
+export async function get_products_by_username(username) {
+    const product = await fetch(`/api/products/owner?username=${username}`).then(response => response.json()).then(data => data.data);
+    return product;
 }

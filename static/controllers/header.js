@@ -130,7 +130,6 @@ async function refresh_notification() {
 const token = localStorage.getItem("token");
 const ws = new WebSocket(`${config.WEBSOCKET_URL}/api/notification?token=${token}`);
 ws.onmessage = async function(event) {
-    console.log(event.data);
     notitfications_count++;
     await refresh_notification();
 };
@@ -138,6 +137,16 @@ ws.onmessage = async function(event) {
 let notifications;
 let notitfications_count = 0;
 document.addEventListener("DOMContentLoaded", async () => {
+    const store_username = new URLSearchParams(window.location.search).get("personal_store");
+    if (store_username) {
+        const header_title = document.querySelector(".header__title");
+        const personal_store_footer  = document.querySelector(".personal-store__footer");
+        header_title.textContent = store_username;
+        personal_store_footer.style.display = "flex";
+        personal_store_footer.addEventListener("click", () => {
+            window.location.href = `${window.location.origin}/index`;
+        });
+    }
     await update_auth_links();
     await update_cart_count();
     notifications = await get_notifications();
@@ -197,27 +206,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     title.addEventListener("click", () => {
-        window.location.href = "/index";
+        if (store_username) {
+            window.location.href = `/store/${store_username}`;
+        } else {
+            window.location.href = "/index";
+        }
     });
 
     cart_icon.addEventListener("click", () => {
         if (user) {
-            window.location.href = "/checkout";
+            if (store_username) {
+                window.open(`/checkout?personal_store=${store_username}`);
+            } else {
+                window.location.href = "/checkout";
+            }
         } else {
             open_login_box();
         }
     });
     
-    // member_link.addEventListener("click", (event) => {
-    //     event.stopPropagation();
-    //     if (dropdown_menu.style.display === "block") {
-    //         triggerEvent(document, "close-menu", null)
-    //     } else {
-    //         triggerEvent(document, "open-menu", null)
-    //         triggerEvent(document, "close-notification", null)
-    //     }
-    // });
-
     member_link.addEventListener("mouseenter", () => {
         triggerEvent(document, "open-menu", null)
     });
@@ -225,16 +232,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     member_link.addEventListener("mouseleave", () => {
         triggerEvent(document, "close-menu", null)
     });
-
-    // notification_icon.addEventListener("click", (event) => {
-    //     event.stopPropagation();
-    //     if (dropdown_notification.style.display === "block") {
-    //         triggerEvent(document, "close-notification", null)
-    //     } else {
-    //         triggerEvent(document, "open-notification", null)
-    //         triggerEvent(document, "close-menu", null)
-    //     }
-    // });
 
     notification_icon.addEventListener("mouseenter", () => {
         triggerEvent(document, "open-notification", null)

@@ -163,3 +163,35 @@ def get_owner_products(user_id):
     finally:
         cursor.close()
         db.close()
+
+def get_product_by_ownername(owner_name):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("""
+            SELECT product.id, product.name, price, rating_avg, review_count, introduction, specification, image_urls, user.username, file_size, product_type, thumbnail_url
+            FROM product INNER JOIN user ON product.owner_id = user.id
+            WHERE status = 1 AND user.username = %s;""", (owner_name, ))
+        products = cursor.fetchall()
+        result = []
+        for product in products:
+            product_id, product_name, price, rating_avg, review_count, introduction, specification, image_urls, user_username, file_size, product_type, thumbnail_url = product
+            result.append({
+                "id": product_id,
+                "name": product_name,
+                "price": price,
+                "product_type": product_type,
+                "rating_avg": rating_avg,
+                "review_count": review_count,
+                "introduction": introduction,
+                "specification": specification,
+                "images": image_urls,
+                "file_size": file_size,
+                "thumbnail": thumbnail_url
+            })
+        return result
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        db.close()

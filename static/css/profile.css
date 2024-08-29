@@ -9,8 +9,8 @@
     margin: 2rem 2rem
 }
 .profile__photo {
-    max-width: 10rem;
-    max-height: 10rem;
+    width: 10rem;
+    height: 10rem;
     display: flex;
     justify-content: center;
     align-items: center;

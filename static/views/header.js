@@ -1,4 +1,5 @@
 import {mark_all_as_read, mark_as_read} from "../models/notification.js";
+import {create_time_response} from "../views/product.js";
 
 export function select_response(message_type) {
     let response;
@@ -61,6 +62,18 @@ export function render_header_notifications(notifications) {
           window.location.href = url;
         });
         notification_div.textContent = `${notification.sender.username} ${select_response(notification.message_type)}`;
+        const created_at = document.createElement("div");
+        created_at.className = "header__notification-time";
+        created_at.textContent = `${create_time_response(notification.created_at)}`;
+        created_at.setAttribute("data-notification-id", notification.id);
+        created_at.setAttribute("data-url", url);
+        created_at.addEventListener("click", async (event) => {
+          const notification_id = event.target.getAttribute("data-notification-id");
+          await mark_as_read(notification_id);
+          const url = event.target.getAttribute("data-url");
+          window.location.href = url;
+        });
+        notification_div.appendChild(created_at);
         if (notification.is_read === 1) {
           notification_div.style.opacity = "0.5";
         }

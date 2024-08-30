@@ -120,8 +120,7 @@
 .header__menu-library,
 .header__menu-store,
 .header__menu-member,
-.header__logout,
-.header__notification {
+.header__logout {
     width: 8rem;
     height: 2rem;
     padding: 1.5rem 1rem;
@@ -130,8 +129,16 @@
     justify-content: center;
 }
 .header__notification {
-    width: 12rem;
+    width: 18rem;
+    height: 2rem;
+    padding: 1.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid black;
+}
+.header__notification-time {
+    margin-left: 1rem;
 }
 .header__menu-library:hover,
 .header__menu-store:hover,

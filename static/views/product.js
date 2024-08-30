@@ -7,6 +7,23 @@ function create_user_store_url(username) {
     return `${protocol}//${username}.${domain_name}${port}`;
 }
 
+export function create_time_response(datatime) {
+    const input_time = new Date(datatime);
+    const current_time = new Date();
+    const interval = Math.floor((current_time - input_time) / (1000 * 60));
+    if (interval <= 10) {
+        return "剛剛";
+    } else if (interval > 10 && interval < 60) {
+        return `${interval} 分鐘前`;
+    } else if (interval > 60 && interval <= 60 * 24) {
+        return `${Math.floor(interval / 60)} 小時前`;
+    } else if (interval > 60 * 24 && interval <= 60 * 24 * 6) {
+        return `${Math.floor(interval / (60 * 24))} 天前`;
+    } else {
+        return datatime.split(" ")[0];
+    }
+}
+
 export async function render_product(reviews, product_data) {
     const next_page = reviews.next_page;
     reviews = reviews.data;
@@ -54,8 +71,13 @@ export async function render_product(reviews, product_data) {
             <div class="testimonial__content">
                 ${review.review.content}
             </div>
-            <div class="testimonial__consumer">
-                by ${review.review.reviewer.name}
+            <div class="testimonial__viewer">
+                <div class="testimonial__username">
+                    by ${review.review.reviewer.name}
+                </div>
+                <div class="testimonial__updated_at">
+                    ${create_time_response(review.review.updated_at)}
+                </div>
             </div>
         `;
         testimonial.appendChild(testimonial_container);

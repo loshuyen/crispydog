@@ -17,6 +17,22 @@ def add_payment(payment, deal_id, user_id):
         cursor.close()
         db.close()
 
+def add_wallet_payment(order_number, deal_id, user_id, amount):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("""
+            INSERT INTO payment 
+            (id, user_id, pay_method, deal_id, amount) VALUES
+            (%s, %s, %s, %s, %s)
+        """, (order_number, user_id, "wallet", deal_id, amount))
+        db.commit()
+    except Exception as e:
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
 def get_payment(id):
     try:
         db = pool.get_connection()

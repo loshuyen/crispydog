@@ -110,3 +110,32 @@ def get_user_profile_by_id(id):
     finally:
         cursor.close()
         db.close()
+
+def get_savings(id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("SELECT savings FROM user WHERE id = %s", (id, ))
+        savings = cursor.fetchall()[0][0]
+        return savings
+    except Exception as e:
+        print(e)
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
+def update_buyer_savings(user_id, amount):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        cursor.execute("SELECT savings FROM user WHERE id = %s", (user_id, ))
+        savings = cursor.fetchall()[0][0]
+        cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (savings - amount, user_id))
+        db.commit()
+    except Exception as e:
+        print(e)
+        raise e
+    finally:
+        cursor.close()
+        db.close()

@@ -54,7 +54,7 @@ async def get_commission_download(commission_id:int, user = Depends(get_auth_use
         product = data["commission"]["product"]
         if data["commission"]["is_downloaded"] == 0:
             commission.update_commission(commission_id=commission_id, is_downloaded=1)
-            deal.update_savings([product["id"]])
+            deal.update_seller_savings([product["id"]])
             await notification.add_notification(user["id"], user["username"], [product["owner"]["id"]], 7, [product["id"]], None, commission_id=commission_id)
         return JSONResponse(status_code=200, content={"file_url": data["commission"]["file_url"]})
     except Exception as e:

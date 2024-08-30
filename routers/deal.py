@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query, Body
 from fastapi.responses import JSONResponse, RedirectResponse
-from database import deal as db, cart, payment, notification, product, commission
+from database import deal as db, cart, payment, notification, product, commission, user as user_db
 from .user import get_auth_user
 from .notification import notify_user
 from models import deal as model
@@ -28,8 +28,8 @@ def get_deal(
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
-@router.post("/api/deal")
-async def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
+@router.post("/api/deal/credit_card")
+async def create_credit_card_deal(deal: model.Deal, user = Depends(get_auth_user)):
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -51,7 +51,7 @@ async def create_deal(deal: model.Deal, user = Depends(get_auth_user)):
             db.add_sale_records(deal_id, user["id"], deal.deal.products)
             cart.remove_all_product_from_cart(user["id"])
             payment.add_payment(pay_result, deal_id, user["id"])
-            db.update_savings(deal.deal.products)
+            db.update_seller_savings(deal.deal.products)
             await add_notification_to_db(user["id"], user["username"], deal.deal.products, 0, message = None, commission_id=None)
             return {"data": pay_result}
         else:
@@ -97,6 +97,28 @@ async def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
 
+@router.post("/api/deal/wallet")
+async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)):
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        if deal.amount != db.calculate_amount(deal.products):
+            return JSONResponse(status_code=400, content={"error": True, "message": "輸入金額錯誤"})
+        savings = user_db.get_savings(user["id"])
+        if savings < deal.amount:
+            return JSONResponse(status_code=400, content={"error": True, "message": "錢包餘額不足"})
+        deal_id = db.add_deal(user["id"], deal.products, deal.delivery_email, deal.amount, 1)
+        db.add_sale_records(deal_id, user["id"], deal.products)
+        cart.remove_all_product_from_cart(user["id"])
+        order_number = datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"])
+        payment.add_wallet_payment(order_number, deal_id, user["id"], deal.amount)
+        db.update_seller_savings(deal.products)
+        user_db.update_buyer_savings(user["id"], deal.amount)
+        await add_notification_to_db(user["id"], user["username"], deal.products, 0, message = None, commission_id=None)
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
+
 @router.post("/api/deal/line/notify", include_in_schema=False)
 async def get_line_callback(body = Body()):
     try:
@@ -111,7 +133,7 @@ async def get_line_callback(body = Body()):
             db.add_sale_records(deal_id, user_id, products)
             if label != "commission":
                 cart.remove_all_product_from_cart(user_id)
-                db.update_savings(products)
+                db.update_seller_savings(products)
                 await add_notification_to_db(user_id, username, products, 0, message=None, commission_id=None)
             elif label == "commission":
                 commission.update_commission(commission_id=commission_id, is_paid=1)

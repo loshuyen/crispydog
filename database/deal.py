@@ -59,7 +59,7 @@ def get_deal_products_by_id(id):
         cursor.close()
         db.close()
 
-def add_deal(buyer_id, products, delivery_email, amount):
+def add_deal(buyer_id, products, delivery_email, amount, success=None):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
@@ -71,11 +71,18 @@ def add_deal(buyer_id, products, delivery_email, amount):
         if len(result) != len(products):
             raise IndexError
         
-        cursor.execute("""
-            INSERT INTO deal
-            (buyer_id, amount, products, delivery_email) VALUES
-            (%s, %s, %s, %s);""", 
-            (buyer_id, amount, json.dumps(products), delivery_email))
+        if success != None:
+            cursor.execute("""
+                INSERT INTO deal
+                (buyer_id, amount, products, delivery_email, success) VALUES
+                (%s, %s, %s, %s, %s);
+            """, (buyer_id, amount, json.dumps(products), delivery_email, success))
+        else:
+            cursor.execute("""
+                INSERT INTO deal
+                (buyer_id, amount, products, delivery_email) VALUES
+                (%s, %s, %s, %s);
+            """, (buyer_id, amount, json.dumps(products), delivery_email))
         deal_id = cursor.lastrowid
         db.commit()
         return deal_id
@@ -134,7 +141,7 @@ def add_sale_records(deal_id, buyer_id, products):
         cursor.close()
         db.close()
 
-def update_savings(products):
+def update_seller_savings(products):
     try:
         db = pool.get_connection()
         cursor = db.cursor()

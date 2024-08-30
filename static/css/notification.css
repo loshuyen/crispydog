@@ -36,12 +36,14 @@
     border-bottom: 1px solid black;
     cursor: pointer;
 }
-.notification__item-sender,
-.notification__item-message-type {
-    min-width: max-content;
+.notification__item-sender {
+    width: 20%;
     padding: 0 1rem;
     display: flex;
     justify-content: center;
+}
+.notification__item-message-type {
+    width: 30%;
 }
 .notification__item-read {
     width: 5rem;
@@ -71,6 +73,9 @@
 .notification__item-actions > img {
     width: 30%;
     height: 100%;
+}
+.notification__item-time {
+    margin-right: 1rem;
 }
 .notification__item-edit {
     position: absolute;

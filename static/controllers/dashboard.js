@@ -9,6 +9,9 @@ const sidebar = document.querySelector(".dashboard__left");
 const notification = document.querySelector(".dashboard__item-notification");
 const commission = document.querySelector(".dashboard__item-commission");
 const work = document.querySelector(".dashboard__item-work");
+const dashboard_menu = document.querySelector(".dasboard__menu > img");
+const dasboard__menu_close = document.querySelector(".dashboard__close-menu > img");
+
 
 function update_notification_count(count) {
     const conut_display = document.querySelector(".dashboard__notification-count");
@@ -48,6 +51,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
     await refresh_notification();
+
+    dashboard_menu.addEventListener("click", () => {
+        sidebar.style.display = "flex";
+    });
+
+    dasboard__menu_close.addEventListener("click", () => {
+        sidebar.style.display = "none";
+    });
 
     website_title.addEventListener("click", () => {
         window.location.href = "/index";

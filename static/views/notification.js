@@ -24,6 +24,9 @@ export function render_notification(notifications) {
             <div class="notification__item-message-type" data-notification-id=${notification.id} data-product-id=${notification.product_id} data-url=${url}>
                 ${select_response(notification.message_type)}
             </div>
+            <div class="notification__item-time">
+                ${notification.created_at}
+            </div>
             <div class="notification__item-read" data-url=${url}>
                 <img src="/static/icons/circle_v.svg" class=${notification.is_read === 0 ? "notification__un-read" : "notification__is-read"} />
                 ${notification.is_read === 0 ? "未讀" : "已讀"}

@@ -1,3 +1,5 @@
+import {create_star} from "./sale.js";
+
 export async function render_all_products(products) {
     const gallery = document.querySelector(".gallery__container");
     gallery.innerHTML = "";
@@ -16,7 +18,7 @@ export async function render_all_products(products) {
                     ${product.owner_name}
                 </div>
                 <div class="gallery__rating">
-                    ⭑${product.rating_avg} (${product.review_count}個評價)
+                    ${create_star(product.rating_avg)} (${product.review_count}個評價)
                 </div>
             </div>
             <div class="gallery__price">

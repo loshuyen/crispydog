@@ -138,18 +138,34 @@
 }
 .sale__review-rating,
 .sale__rating-header {
-    width: 15%;
+    width: 20%;
     padding: 0 1rem;
 }
 .sale__review-content,
 .sale__review-content-header {
-    width: 40%;
-    padding: 0 1rem;
+    width: 35%;
+    /* padding: 0 1rem; */
 }
 .sale__review-time,
 .sale__review-time-header {
     width: 25%;
     padding: 0 1rem;
+}
+.rating__star-0 {
+    width: 1rem;
+    height: 1rem;
+    stroke: black;
+    stroke-width: 50px;
+    fill: white;
+    margin-right: 2px;
+}
+.rating__star-1 {
+    width: 1rem;
+    height: 1rem;
+    stroke: black;
+    stroke-width: 50px;
+    fill: #f0ff43;
+    margin-right: 2px;
 }
 .notification__item-read {
     width: 5rem;

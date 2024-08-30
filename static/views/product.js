@@ -1,3 +1,5 @@
+import {create_star} from "./sale.js";
+
 function create_user_store_url(username) {
     const protocol = window.location.protocol;
     const domain_name = window.location.hostname;
@@ -47,7 +49,7 @@ export async function render_product(reviews, product_data) {
         testimonial_container.className = "testimonial__container";
         testimonial_container.innerHTML = `
             <div class="testimonial__rating-star">
-                ${review.review.rating}顆星
+                ${create_star(review.review.rating)}
             </div>
             <div class="testimonial__content">
                 ${review.review.content}

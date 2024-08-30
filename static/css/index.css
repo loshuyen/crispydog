@@ -51,6 +51,22 @@
     padding: 1rem;
     
 }
+.rating__star-0 {
+    width: 1rem;
+    height: 1rem;
+    stroke: black;
+    stroke-width: 50px;
+    fill: white;
+    margin-right: 2px;
+}
+.rating__star-1 {
+    width: 1rem;
+    height: 1rem;
+    stroke: black;
+    stroke-width: 50px;
+    fill: #f0ff43;
+    margin-right: 2px;
+}
 @media (max-width: 1200px) {
     .gallery__container {
         width: 100%;

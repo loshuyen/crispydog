@@ -126,6 +126,17 @@
     border-radius: 3px;
     font-size: 1rem;
     cursor: pointer;
+    transition: transform .3s ease;
+}
+.pay-mehthod-active {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    transform: translate(-3px, -3px);
+}
+.checkout__pay-method-credit:hover,
+.checkout__pay-method-line:hover,
+.checkout__pay-method-wallet:hover {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    transform: translate(-3px, -3px);
 }
 .checkout__pay-icon,
 .checkout__wallet-icon {

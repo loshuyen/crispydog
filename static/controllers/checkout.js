@@ -25,6 +25,9 @@ async function handle_click_remove(event) {
 }
 
 function show_line_pay_ui() {
+    credit_card_btn.classList.remove("pay-mehthod-active");
+    line_btn.classList.add("pay-mehthod-active");
+    wallet_btn.classList.remove("pay-mehthod-active");
     line_submit_btn.style.display = "block";
     credit_card_submit_btn.style.display = "none";
     wallet_submit_btn.style.display = "none";
@@ -46,6 +49,9 @@ function show_line_pay_ui() {
 }
 
 function show_credit_card_ui() {
+    credit_card_btn.classList.add("pay-mehthod-active");
+    line_btn.classList.remove("pay-mehthod-active");
+    wallet_btn.classList.remove("pay-mehthod-active");
     line_submit_btn.style.display = "none";
     credit_card_submit_btn.style.display = "block";
     credit_card_submit_btn.style.marginTop = "2rem";
@@ -68,6 +74,9 @@ function show_credit_card_ui() {
 }
 
 function show_wallet_ui() {
+    credit_card_btn.classList.remove("pay-mehthod-active");
+    line_btn.classList.remove("pay-mehthod-active");
+    wallet_btn.classList.add("pay-mehthod-active");
     line_submit_btn.style.display = "none";
     credit_card_submit_btn.style.display = "none";
     wallet_submit_btn.style.display = "block";

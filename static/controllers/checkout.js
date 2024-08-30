@@ -147,6 +147,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             product_id_list.push(element.id);
             amount += element.price;
         });
+        if (product_id_list.length === 0) {
+            return alert("請加入商品");
+        }
         const email = document.querySelector(".checkout__email-input > input").value;
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             alert("請填入正確的聯絡資訊")

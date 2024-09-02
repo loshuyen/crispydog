@@ -15,7 +15,7 @@ export async function render_all_products(products) {
                     ${product.name}
                 </div>
                 <div class="gallery__seller">
-                    ${product.owner_name}
+                    ${product.owner.username}
                 </div>
                 <div class="gallery__rating">
                     ${create_star(product.rating_avg)} (${product.review_count}個評價)

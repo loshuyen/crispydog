@@ -32,21 +32,21 @@ export async function render_product(reviews, product_data) {
     const rating = document.querySelector(".testimonial__rating");
     const testimonial = document.querySelector(".testimonial");
     const product_img = document.querySelector(".product__image > img");
-    product_img.src = product_data.product.images;
+    product_img.src = product_data.images;
     product_detail.innerHTML = `
-        <div class="product__name">${product_data.product.name}</div>
-        <div class="product__price">$${product_data.product.price}</div>
+        <div class="product__name">${product_data.name}</div>
+        <div class="product__price">$${product_data.price}</div>
         <div class="product__seller">
-                <a href="/store/${product_data.product.user.username}" >${product_data.product.user.username}</a>
+                <a href="/store/${product_data.owner.username}" >${product_data.owner.username}</a>
         </div>
         <div class="product__rating">
-            ${product_data.product.rating_avg.toFixed(1)} (${product_data.product.review_count}個評價)
+            ${product_data.rating_avg.toFixed(1)} (${product_data.review_count}個評價)
         </div>
         <div class="product__description">
-            ${product_data.product.introduction}
+            ${product_data.introduction}
         </div>
     `;
-    const specifications = product_data.product.specification?.split("&").filter(Boolean);
+    const specifications = product_data.specification?.split("&").filter(Boolean);
     specifications?.forEach(element => {
         const [i, j] = element.split(",").filter(Boolean); 
         if (!i || !j) return;
@@ -57,9 +57,9 @@ export async function render_product(reviews, product_data) {
     });
     const file_content = document.createElement("div");
     file_content.className = "product__size";
-    file_content.innerHTML = product_data.product.file_size? `檔案容量 <span>${product_data.product.file_size}MB</span>` : "無預設購買檔案";
+    file_content.innerHTML = product_data.file_size? `檔案容量 <span>${product_data.file_size}MB</span>` : "無預設購買檔案";
     spec.appendChild(file_content);
-    rating.textContent = `評價 ⭑${product_data.product.rating_avg.toFixed(1)} (${product_data.product.review_count}個)`;
+    rating.textContent = `評價 ⭑${product_data.rating_avg.toFixed(1)} (${product_data.review_count}個)`;
     if (reviews.length === 0) return;
     reviews.forEach((review) => {
         const testimonial_container = document.createElement("div");

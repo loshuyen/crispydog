@@ -7,7 +7,7 @@ def get_published_products(keyword, product_type):
         db = pool.get_connection()
         cursor = db.cursor()
         params = None
-        base_statement = "SELECT product.id, product.name, user.username, price, rating_avg, review_count, thumbnail_url, product_type FROM product INNER JOIN user ON product.owner_id = user.id WHERE status = 1"
+        base_statement = "SELECT user.id, product.id, product.name, user.username, price, rating_avg, review_count, thumbnail_url, product_type FROM product INNER JOIN user ON product.owner_id = user.id WHERE status = 1"
         statement = None
         if keyword and product_type:
             statement = f"{base_statement} AND product.name LIKE %s AND product_type = %s ORDER BY product.created_at DESC"
@@ -24,15 +24,19 @@ def get_published_products(keyword, product_type):
         cursor.execute(statement, params)
         data = cursor.fetchall()
         for item in data:
+            user_id, product_id, product_name, user_username, price, rating_avg, review_count, thumbnail_url, product_type_result = item
             result.append({
-                "id": item[0],
-                "name": item[1],
-                "owner_name": item[2],
-                "rating_avg": item[4],
-                "review_count": item[5],
-                "price": item[3],
-                "thumbnail_url": item[6],
-                "product_type": item[7]
+                "id": product_id,
+                "name": product_name,
+                "rating_avg": rating_avg,
+                "review_count": review_count,
+                "price": price,
+                "thumbnail_url": thumbnail_url,
+                "product_type": product_type_result,
+                "owner": {
+                    "id": user_id,
+                    "username": user_username
+                }
             })
         return result
     except Exception as e:
@@ -53,25 +57,23 @@ def get_product(id):
             WHERE status = 1 AND product.id = %s;""", (id, ))
         data = cursor.fetchall()[0]
         result = {
-            "product": {
-                "id": data[10],
-                "name": data[0],
-                "price": data[1],
-                "product_type": data[11],
-                "rating_avg": data[2],
-                "review_count": data[3],
-                "introduction": data[4],
-                "specification": None,
-                "images": data[6],
-                "file_size": data[8],
-                "user": {
-                    "id": data[9],
-                    "username": data[7]
-                }
+            "id": data[10],
+            "name": data[0],
+            "price": data[1],
+            "product_type": data[11],
+            "rating_avg": data[2],
+            "review_count": data[3],
+            "introduction": data[4],
+            "specification": None,
+            "images": data[6],
+            "file_size": data[8],
+            "owner": {
+                "id": data[9],
+                "username": data[7]
             }
         }
         if data[5]:
-            result["product"]["specification"] = json.loads(data[5])
+            result["specification"] = json.loads(data[5])
         return result
     except Exception as e:
         print(e)
@@ -133,7 +135,7 @@ def get_owner_products(user_id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT id, product.name, price, introduction, specification, image_urls, thumbnail_url, file_size, product_type , status, stock
+            SELECT id, product.name, price, introduction, specification, image_urls, thumbnail_url, file_size, product_type , status, stock, rating_avg, review_count
             FROM product WHERE owner_id = %s
             ORDER BY created_at DESC;
         """, (user_id, ))
@@ -142,20 +144,20 @@ def get_owner_products(user_id):
             return None
         result = []
         for product in products:
-            id, product_name, price, introduction, specification, image_urls, thumbnail_url, file_size, product_type , status, stock = product
+            id, product_name, price, introduction, specification, image_urls, thumbnail_url, file_size, product_type , status, stock, rating_avg, review_count = product
             result.append({
-                "product": {
-                    "id": id,
-                    "name": product_name,
-                    "price": price,
-                    "thumbnail": thumbnail_url,
-                    "product_type": product_type,
-                    "introduction": introduction,
-                    "specification": specification,
-                    "image_urls": image_urls,
-                    "status": status,
-                    "stock": stock
-                }
+                "id": id,
+                "name": product_name,
+                "price": price,
+                "thumbnail": thumbnail_url,
+                "product_type": product_type,
+                "introduction": introduction,
+                "specification": specification,
+                "images": image_urls,
+                "status": status,
+                "stock": stock,
+                "rating_avg": rating_avg,
+                "review_count": review_count
             })
         return result
     except Exception as e:
@@ -187,7 +189,7 @@ def get_product_by_ownername(owner_name):
                 "specification": specification,
                 "images": image_urls,
                 "file_size": file_size,
-                "thumbnail": thumbnail_url
+                "thumbnail": thumbnail_url,
             })
         return result
     except Exception as e:

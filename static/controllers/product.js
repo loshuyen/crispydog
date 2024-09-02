@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     review_page = await view.render_product(reviews, product_data);
 
     const user = await fetch_auth_user();
-    if (product_data.product.user.id === user?.id) {
+    if (product_data.owner.id === user?.id) {
         add_to_cart_btn.disabled = true;
         add_commission.disabled = true;
         add_to_cart_btn.style.opacity = ".5";
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         add_commission.style.pointerEvents = "none";
     }
 
-    if (product_data.product.product_type === 1) {
+    if (product_data.product_type === 1) {
         add_commission.style.display = "block";
     } else {
         add_to_cart_btn.style.display = "block";
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!user) {
             return header.open_login_box();
         }
-        window.location.href = `/add_commission/${product_data.product.id}`;
+        window.location.href = `/add_commission/${product_data.id}`;
     });
 
     add_to_cart_btn.addEventListener("click", async () => {

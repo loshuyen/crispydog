@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class UserIn(BaseModel):
     username: str
@@ -10,3 +10,16 @@ class UserOut(BaseModel):
 
 class UserResponse(BaseModel):
     data: UserOut | None
+
+class Token(BaseModel):
+    token: str | None = None
+
+class UserInfo(BaseModel):
+    id: int
+    username: str
+    email: EmailStr | None = None
+    savings: int
+    photo: str | None = None
+
+class RedirectUrl(BaseModel):
+    url: str

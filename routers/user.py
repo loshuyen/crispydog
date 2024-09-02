@@ -5,6 +5,8 @@ import jwt
 import os
 import datetime
 from models import user as model
+from models.response import ResponseError, ResponseOK
+from typing import Union
 from database import user as db
 from utils import google_auth
 import requests
@@ -39,7 +41,7 @@ def get_current_user(user = Depends(get_auth_user)) -> model.UserResponse:
     except:
         return {"data": None}
     
-@router.put("/api/user/auth")
+@router.put("/api/user/auth", response_model=Union[model.Token, ResponseError])
 def login(user: model.UserIn):
     try:
         user_data = db.verify_password(user.username, user.password)
@@ -52,7 +54,7 @@ def login(user: model.UserIn):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.get("/api/user")
-def get_user_profile(user = Depends(get_auth_user)):
+def get_user_profile(user = Depends(get_auth_user)) -> model.UserInfo:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -63,7 +65,7 @@ def get_user_profile(user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.post("/api/user")
-def signup(user: model.UserIn):
+def signup(user: model.UserIn) -> ResponseOK:
     try:
         exist_user = db.get_user_by_username(user.username)
         if exist_user:
@@ -74,7 +76,7 @@ def signup(user: model.UserIn):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.get("/api/user/auth/google")
-def request_google_auth_token():
+def request_google_auth_token() -> model.RedirectUrl:
     authorization_url = google_auth.fetch_auth()
     return {"url": authorization_url}
 

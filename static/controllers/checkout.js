@@ -170,13 +170,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             delivery_email: email,
         }
         header.triggerEvent(document, "request-start", null);
-        const respone = await create_wallet_deal(request_body);
-        if (respone.status === 200) {
+        const response = await create_wallet_deal(request_body);
+        if (response.status === 200) {
             header.triggerEvent(document, "request-end", null);
             window.location.href = "/library";
         } else {
             header.triggerEvent(document, "request-end", null);
-            const res = await respone.json()
+            const res = await response.json()
             alert(await res.message);
         }
     });

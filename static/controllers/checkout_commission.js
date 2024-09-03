@@ -1,9 +1,10 @@
 import * as header from "./header.js";
-import {get_cart_list, remove_from_cart} from "../models/cart.js";
+import {remove_from_cart} from "../models/cart.js";
 import {commission_order_submit, commission_line_pay} from "../utils/tappay.js";
 import {fetch_auth_user} from "../models/user.js";
 import {get_commission_storage_by_id} from "../models/storage.js";
 import * as views from "../views/checkout_commission.js";
+import {pay_commission_wallet} from "../models/commission.js";
 
 const credit_card_submit_btn = document.querySelector(".checkout__submit-btn");
 const line_submit_btn = document.querySelector(".checkout__submit-line-btn");
@@ -100,7 +101,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         await commission_line_pay(commission_id);
     });
 
-    wallet_submit_btn.addEventListener("click", () => {
-        alert("即將開放錢包付款");
+    wallet_submit_btn.addEventListener("click", async () => {
+        const email = document.querySelector(".checkout__email-input > input").value;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert("請填入正確的聯絡資訊")
+            return;
+        }
+        header.triggerEvent(document, "request-start", null);
+        const request_body = {
+            commission_id: commission_id,
+            delivery_email: email,
+        };
+        const response = await pay_commission_wallet(request_body);
+        if (response.status === 200) {
+            header.triggerEvent(document, "request-end", null);
+            window.location.href = `/property/commission/${commission_id}`;
+        } else {
+            header.triggerEvent(document, "request-end", null);
+            const res = await response.json()
+            alert(await res.message);
+        }
     });
 });

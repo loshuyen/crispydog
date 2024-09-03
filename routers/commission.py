@@ -2,7 +2,7 @@ from fastapi import APIRouter, Form, Depends, UploadFile, Body
 from fastapi.responses import JSONResponse
 from typing import Annotated
 from pydantic import ValidationError
-from database import commission as db, deal, notification, product, payment, sale
+from database import commission as db, deal, notification, product, payment, user as user_db
 from models import commission as model
 from models.response import ResponseOK
 from models.deal import PayResultOut
@@ -79,6 +79,8 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
         commission_info = db.get_commission(commission.commission_id)
+        if commission_info["is_accepted"] != 1 or commission_info["buyer"]["id"] != user["id"]:
+            return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
         pay_result = pay.tappay_direct_pay(
             prime=commission.prime, 
             amount=commission_info["product"]["price"], 
@@ -110,6 +112,41 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
+    
+@router.put("/api/commission/pay/wallet")
+async def pay_commission_by_wallet(commission: model.PayWallet, user = Depends(get_auth_user)) -> PayResultOut:
+    if not user:
+        return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
+    try:
+        commission_info = db.get_commission(commission.commission_id)
+        if commission_info["is_accepted"] != 1 or commission_info["buyer"]["id"] != user["id"]:
+            return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
+        savings = user_db.get_savings(user["id"])
+        order_number = datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"])
+        
+        if savings < commission_info["product"]["price"]:
+            return JSONResponse(status_code=400, content={"error": True, "message": "錢包餘額不足"})
+        
+        deal.mark_as_success(commission_info["deal"]["id"])
+        deal.add_sale_records(commission_info["deal"]["id"], user["id"], [commission_info["product"]["id"]])
+        payment.add_wallet_payment(order_number, commission_info["deal"]["id"], user["id"], commission_info["product"]["price"])
+        db.update_commission(commission_id=commission.commission_id, is_paid=1)
+        deal.update_seller_savings([commission_info["product"]["id"]])
+        user_db.update_buyer_savings(user["id"], commission_info["product"]["price"])
+        await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 5, [commission_info["product"]["id"]], None, commission_id=commission.commission_id)        
+        return {
+            "data": {
+                "number": order_number,
+                "payment": {
+                    "method": "wallet",
+                    "status": 0,
+                    "message": "success",
+                }
+            }
+        }
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/commission/pay/line")
 async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_auth_user)) -> model.CommissionLinePayUrl:
@@ -117,6 +154,8 @@ async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_au
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
         commission_info = db.get_commission(commission.commission_id)
+        if commission_info["is_accepted"] != 1 or commission_info["buyer"]["id"] != user["id"]:
+            return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
         pay_result = pay.tappay_line_pay(
             prime=commission.prime, 
             amount=commission_info["product"]["price"], 
@@ -147,13 +186,14 @@ async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_au
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
+
 @router.put("/api/commission/delivery")
 async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: UploadFile, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
         commission_info = db.get_commission(commission_id)
-        if commission_info["owner"]["id"] != user["id"]:
+        if commission_info["owner"]["id"] != user["id"] or commission_info["is_paid"] != 1:
             return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
         file_type = outcome.filename.split(".")[1]
         file_url, _ = aws_s3.upload_file(outcome.file, file_type).values()

@@ -53,3 +53,8 @@ export async function pay_commission_linepay(request_body) {
     const response = await fetch_with_token("/api/commission/pay/line", "PUT", request_body);
     return response;
 }
+
+export async function pay_commission_wallet(request_body) {
+    const response = await fetch_with_token("/api/commission/pay/wallet", "PUT", request_body);
+    return response;
+}

@@ -13,6 +13,10 @@ class Pay(BaseModel):
     commission_id: int
     contact: Contact
 
+class PayWallet(BaseModel):
+    commission_id: int
+    delivery_email: EmailStr | None
+
 class Deal(BaseModel):
     id: int
     success: int

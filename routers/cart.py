@@ -2,13 +2,14 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from database import cart as db, product as product_db
 from models import cart as model
+from models.response import ResponseOK
 from .user import get_auth_user
 from mysql.connector import DataError
 
 router = APIRouter()
 
 @router.get("/api/cart")
-def get_cart_list(user = Depends(get_auth_user)):
+def get_cart_list(user = Depends(get_auth_user)) -> model.CartOut:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -19,7 +20,7 @@ def get_cart_list(user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"}) 
 
 @router.post("/api/cart")
-def add_product_to_cart(product: model.cartIn, user = Depends(get_auth_user)):
+def add_product_to_cart(product: model.CartIn, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -36,7 +37,7 @@ def add_product_to_cart(product: model.cartIn, user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"}) 
 
 @router.delete("/api/cart")
-def remove_product_from_cart(product: model.cartIn, user = Depends(get_auth_user)):
+def remove_product_from_cart(product: model.CartIn, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:

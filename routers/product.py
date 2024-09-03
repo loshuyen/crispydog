@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Form, Depends
+from fastapi import APIRouter, UploadFile, Form, Depends, Query
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from typing import Annotated, Union
@@ -11,10 +11,10 @@ from .user import get_auth_user
 router = APIRouter()
 
 @router.get("/api/products")
-def get_all_products(keyword: str | None = None, product_type: str | None = None) -> model.Product:
+def get_all_products(keyword: str | None = None, product_type: str | None = None, page: Annotated[int, Query(ge=0)] = 0) -> model.Product:
     try:
-        data = db.get_published_products(keyword, product_type)
-        return JSONResponse(status_code=200, content={"data": data})
+        data = db.get_published_products(keyword, product_type, page)
+        return JSONResponse(status_code=200, content=data)
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})

@@ -1,7 +1,7 @@
 from .database import pool
 import json
 
-def get_published_products(keyword, product_type):
+def get_published_products(keyword, product_type, page):
     try:
         result = []
         db = pool.get_connection()
@@ -11,20 +11,24 @@ def get_published_products(keyword, product_type):
         statement = None
         if keyword and product_type:
             statement = f"{base_statement} AND product.name LIKE %s AND product_type = %s ORDER BY product.created_at DESC"
-            params = (f"%{keyword}%", product_type)
+            params = (f"%{keyword}%", product_type, page * 15)
         elif not keyword and product_type:
             statement = f"{base_statement} AND product_type = %s ORDER BY product.created_at DESC"
-            params = (product_type, )
+            params = (product_type, page * 15)
         elif keyword and not product_type:
             statement = f"{base_statement} AND product.name LIKE %s ORDER BY product.created_at DESC"
-            params = (f"%{keyword}%", )
+            params = (f"%{keyword}%", page * 15)
         else:
             statement = base_statement
-            params = None
+            params = (page * 15, )
+        statement += " LIMIT 16 OFFSET %s"
         cursor.execute(statement, params)
         data = cursor.fetchall()
-        for item in data:
-            user_id, product_id, product_name, user_username, price, rating_avg, review_count, thumbnail_url, product_type_result = item
+        next_page = None
+        if len(data) > 15:
+            next_page = page + 1
+        for i in range(min(15, len(data))):
+            user_id, product_id, product_name, user_username, price, rating_avg, review_count, thumbnail_url, product_type_result = data[i]
             result.append({
                 "id": product_id,
                 "name": product_name,
@@ -38,7 +42,7 @@ def get_published_products(keyword, product_type):
                     "username": user_username
                 }
             })
-        return result
+        return {"next_page": next_page, "data": result}
     except Exception as e:
         print(e)
         return None

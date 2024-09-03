@@ -3,7 +3,7 @@ export function render_library(storage_list) {
     storage_list.forEach(element => {
         const library_item = document.createElement("div");
         library_item.className = "library__item";
-        const product = element.storage.product;
+        const product = element.product;
         library_item.innerHTML = `
             <div class="library__item-image">
                 <img src=${product.thumbnail ?? "/static/icons/image.svg"} data-product-id=${product.id}>
@@ -16,7 +16,7 @@ export function render_library(storage_list) {
                     <img src="/static/icons/user.svg">
                 </div>
                 <div class="library__seller-name">
-                    ${product.seller.username}
+                    ${product.owner.username}
                 </div>
             </div>
             <div class="library__item-price">$${product.price}</div>

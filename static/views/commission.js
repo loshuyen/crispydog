@@ -3,9 +3,9 @@ export function render_commission(commissions) {
     commissions.forEach(element => {
         const container = document.createElement("div");
         container.className = "commission__container";
-        const product = element.commission.product;
+        const product = element.product;
         container.setAttribute("data-product-id", product.id);
-        container.setAttribute("data-commission-id", element.commission.id);
+        container.setAttribute("data-commission-id", element.id);
         container.innerHTML = `
             <div class="commission__progress">    
                 <div class="commission__progress-1 on-progress">照片上傳</div>

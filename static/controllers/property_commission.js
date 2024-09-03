@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const url = window.location.pathname;
     const commission_id = url.substring(url.lastIndexOf("/") + 1);
     const storage = await models.get_commission_storage_by_id(commission_id);
-    const product_id = storage.commission.product.id;
+    const product_id = storage.product.id;
     views.render_commission_property(storage);
     views.render_commission_progress(storage);
 

@@ -1,11 +1,5 @@
 import {fetch_with_token} from "./user.js";
 
-export async function get_all_storage() {
-    const response = await fetch_with_token("/api/storage", "GET");
-    const data = await response.json();
-    return data.data;
-}
-
 export async function get_all_library_storage() {
     const response = await fetch_with_token("/api/storage", "GET");
     const data = await response.json();
@@ -25,13 +19,13 @@ export async function get_commission_storage_by_id(commission_id) {
 }
 
 export async function get_commission_storage_download_by_id(commission_id) {
-    const response = await fetch_with_token(`/api/storage/commission/download/${commission_id}`, "GET");
+    const response = await fetch_with_token(`/api/storage/download/commission/${commission_id}`, "GET");
     const data = await response.json();
     return data;
 }
 
 export async function get_storage_by_product_id(id) {
-    const response = await fetch_with_token(`/api/storage/${id}`, "GET");
+    const response = await fetch_with_token(`/api/storage/product/${id}`, "GET");
     const data = await response.json();
     return data;
 }

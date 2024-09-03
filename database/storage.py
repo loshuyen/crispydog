@@ -38,23 +38,21 @@ def get_all_storage(user_id, product_id, product_type):
         for product in products:
             product_type, product_file_type, product_file_size, product_id, product_name, product_price,product_owner_id, user_username, product_thumbnail_url, sale_download_endpoint, sale_created_at = product
             result.append({
-                "storage": {
-                    "product": {
-                        "id": product_id, 
-                        "name": product_name,
-                        "price": product_price,
-                        "thumbnail": product_thumbnail_url,
-                        "download_endpoint": sale_download_endpoint,
-                        "file_type": product_file_type,
-                        "file_size": product_file_size,
-                        "product_type": product_type,
-                        "seller": {
-                            "id": product_owner_id,
-                            "username": user_username
-                        }
-                    },
-                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M")
-                }
+                "download_endpoint": sale_download_endpoint,
+                "file_type": product_file_type,
+                "file_size": product_file_size,
+                "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
+                "product": {
+                    "id": product_id, 
+                    "name": product_name,
+                    "price": product_price,
+                    "thumbnail": product_thumbnail_url,
+                    "product_type": product_type,
+                    "owner": {
+                        "id": product_owner_id,
+                        "username": user_username
+                    }
+                },
             })
         return result
     except Exception as e:

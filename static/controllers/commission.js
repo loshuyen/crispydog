@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     for (let i = 0; i < storage.length; i++) {
-        const progress = get_progress(storage[i].commission);
+        const progress = get_progress(storage[i]);
         for (let j = 0; j < progress; j++) {
             const icon = commission_containers[i].querySelector(`.commission__progress-icon-${j + 2}`);
             const progress_title = commission_containers[i].querySelector(`.commission__progress-${j + 2}`);

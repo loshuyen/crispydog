@@ -183,7 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             request_body.append("product_type", product_type);
         }
-        console.log(product_type)
         triggerEvent(document, "request-start", null)
         const response = await add_product(request_body);
         triggerEvent(document, "request-end", null)

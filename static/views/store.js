@@ -5,7 +5,6 @@ export function render_store(products) {
     }
     let total_sales = 0;
     let total_revenue = 0;
-    console.log(products)
     products.forEach(element => {
         const item = document.createElement("div");
         item.className = "store__items";

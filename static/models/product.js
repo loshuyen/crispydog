@@ -1,20 +1,21 @@
 import {fetch_with_token} from "./user.js";
 
-export async function get_all_products(keyword) {
+export async function get_all_products(keyword, page) {
+    if (page === null) return;
     let url;
     if (keyword) {
-        url = `/api/products?keyword=${keyword}`;
+        url = `/api/products?keyword=${keyword}&page=${page}`;
     } else {
-        url = "/api/products";
+        url = `/api/products?page=${page}`;
     }
-    const products = await fetch(url).then(response => response.json()).then(data => data.data);
-    return products;
+    const data = await fetch(url).then(response => response.json()).then(data => data);
+    return data;
 }
 
-export async function get_all_products_by_type(product_type) {
-    const url = `/api/products?product_type=${product_type}`;
-    const products = await fetch(url).then(response => response.json()).then(data => data.data);
-    return products;
+export async function get_all_products_by_type(product_type, page) {
+    const url = `/api/products?product_type=${product_type}&page=${page}`;
+    const data = await fetch(url).then(response => response.json()).then(data => data);
+    return data;
 }
 
 export async function get_product(id) {

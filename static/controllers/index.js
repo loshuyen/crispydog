@@ -5,13 +5,35 @@ import * as header from "../controllers/header.js";
 const params = new URLSearchParams(window.location.search);
 const product_type = params.get("product_type");
 
-document.addEventListener("DOMContentLoaded", async () => {
-    
-    let products;
+async function load_more_products() {
+    if (page === null) return;
+    if (loading) return;
+    loading = true;
     if (product_type) {
-        products = await model.get_all_products_by_type(product_type)
+        const data = await model.get_all_products_by_type(product_type, page);
+        products = data.data;
+        page = data.next_page;
     } else {
-        products = await model.get_all_products();
+        const data = await model.get_all_products(null, page);
+        products = data.data;
+        page = data.next_page;
+    }
+    await view.render_more_products(products);
+    loading = false;
+}
+
+let page = 0;
+let loading = false;
+let products;
+document.addEventListener("DOMContentLoaded", async () => {
+    if (product_type) {
+        const data = await model.get_all_products_by_type(product_type, page);
+        products = data.data;
+        page = data.next_page;
+    } else {
+        const data = await model.get_all_products(null, page);
+        products = data.data;
+        page = data.next_page;
     }
     await view.render_all_products(products);
     
@@ -39,6 +61,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             const keyword = search_bar.value;
             const products = await model.get_all_products(keyword);
             await view.render_all_products(products);
+        }
+    });
+
+    window.addEventListener("scroll", async () => {
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 100) {
+            await load_more_products();
         }
     });
 

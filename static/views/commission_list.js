@@ -3,9 +3,9 @@ export function render_commission(commissions) {
     commissions.forEach(element => {
         const container = document.createElement("div");
         container.className = "commission__container";
-        const product = element.commission.product;
+        const product = element.product;
         container.setAttribute("data-product-id", product.id);
-        container.setAttribute("data-commission-id", element.commission.id);
+        container.setAttribute("data-commission-id", element.id);
         container.innerHTML = `
             <div class="commission__progress">    
                 <div class="commission__progress-1 on-progress">照片上傳</div>
@@ -38,7 +38,7 @@ export function render_commission(commissions) {
                         <img src="/static/icons/user.svg">
                     </div>
                     <div class="commission__seller-name">
-                        ${element.commission.buyer.username}
+                        ${element.buyer.username}
                     </div>
                 </div>
                 <div class="commission__item-price">$${product.price}</div>

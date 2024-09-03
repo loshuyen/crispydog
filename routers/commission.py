@@ -4,6 +4,8 @@ from typing import Annotated
 from pydantic import ValidationError
 from database import commission as db, deal, notification, product, payment, sale
 from models import commission as model
+from models.response import ResponseOK
+from models.deal import PayResultOut
 from .user import get_auth_user
 from utils import aws_s3, pay
 from datetime import datetime
@@ -11,7 +13,7 @@ from datetime import datetime
 router = APIRouter()
 
 @router.get("/api/commissions")
-def get_all_commissions_by_seller(user = Depends(get_auth_user)):
+def get_all_commissions_by_seller(user = Depends(get_auth_user)) -> model.CommissionOutList:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -24,7 +26,7 @@ def get_all_commissions_by_seller(user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.get("/api/commission/{commission_id}")
-def get_commission_by_seller(commission_id:int, user = Depends(get_auth_user)):
+def get_commission_by_seller(commission_id:int, user = Depends(get_auth_user)) -> model.CommissionOut:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -37,7 +39,7 @@ def get_commission_by_seller(commission_id:int, user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.post("/api/commission")
-async def create_commission(product_id: Annotated[int, Form()], photo_file: UploadFile, user = Depends(get_auth_user)):
+async def create_commission(product_id: Annotated[int, Form()], photo_file: UploadFile, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -55,7 +57,7 @@ async def create_commission(product_id: Annotated[int, Form()], photo_file: Uplo
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/commission/photo")
-async def confirm_photo(commission: model.Commission, user = Depends(get_auth_user)):
+async def confirm_photo(commission: model.Commission, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -72,7 +74,7 @@ async def confirm_photo(commission: model.Commission, user = Depends(get_auth_us
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
     
 @router.put("/api/commission/pay/creditcard")
-async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(get_auth_user)):
+async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(get_auth_user)) -> PayResultOut:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -93,16 +95,24 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
             payment.add_payment(pay_result, commission_info["deal"]["id"], user["id"])
             db.update_commission(commission_id=commission.commission_id, is_paid=1)
             await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 5, [commission_info["product"]["id"]], None, commission_id=commission.commission_id)
-            return JSONResponse(status_code=200, content={"ok": True})
+            return {
+                "data": {
+                    "number": pay_result["number"],
+                    "payment": {
+                        "method": "credit_card",
+                        "status": pay_result["payment"]["status"],
+                        "message": pay_result["payment"]["message"],
+                    }
+                }
+            }
     except ValidationError:
         return JSONResponse(status_code=400, content={"error": True, "message": "輸入不正確"})
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
-    
 
 @router.put("/api/commission/pay/line")
-async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_auth_user)):
+async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_auth_user)) -> model.CommissionLinePayUrl:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -138,7 +148,7 @@ async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_au
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/commission/delivery")
-async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: UploadFile, user = Depends(get_auth_user)):
+async def deliver_outcome(commission_id: Annotated[int, Form()], outcome: UploadFile, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:

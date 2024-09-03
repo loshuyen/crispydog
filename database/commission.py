@@ -242,29 +242,27 @@ def get_commissions_by_seller(user_id):
             product_name, product_price, product_thumbnail_url = cursor.fetchall()[0]
             if product_name:
                 data.append({
-                    "commission": {
-                        "id": commission_id,
-                        "photo_url": photo_url,
-                        "file_url": file_url,
-                        "is_accepted": is_accepted,
-                        "is_paid": is_paid,
-                        "is_delivered": is_delivered,
-                        "is_downloaded": is_downloaded,
-                        "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
-                        "deal": {
-                            "id": deal_id,
-                            "success": deal_success
-                        },
-                        "product": {
-                            "id": product_id,
-                            "name": product_name,
-                            "price": product_price,
-                            "thumbnail": product_thumbnail_url,
-                        },
-                        "buyer": {
-                            "id": buyer_id,
-                            "username": buyer_username
-                        }
+                    "id": commission_id,
+                    "photo_url": photo_url,
+                    "file_url": file_url,
+                    "is_accepted": is_accepted,
+                    "is_paid": is_paid,
+                    "is_delivered": is_delivered,
+                    "is_downloaded": is_downloaded,
+                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
+                    "deal": {
+                        "id": deal_id,
+                        "success": deal_success
+                    },
+                    "product": {
+                        "id": product_id,
+                        "name": product_name,
+                        "price": product_price,
+                        "thumbnail": product_thumbnail_url,
+                    },
+                    "buyer": {
+                        "id": buyer_id,
+                        "username": buyer_username
                     }
                 })
         return data
@@ -295,29 +293,27 @@ def get_commission_by_id_by_seller(user_id, commission_id):
             product_name, product_price, product_thumbnail_url = cursor.fetchall()[0]
             if product_name:
                 data.append({
-                    "commission": {
-                        "id": commission_id,
-                        "photo_url": photo_url,
-                        "file_url": file_url,
-                        "is_accepted": is_accepted,
-                        "is_paid": is_paid,
-                        "is_delivered": is_delivered,
-                        "is_downloaded": is_downloaded,
-                        "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
-                        "deal": {
-                            "id": deal_id,
-                            "success": deal_success
-                        },
-                        "product": {
-                            "id": product_id,
-                            "name": product_name,
-                            "price": product_price,
-                            "thumbnail": product_thumbnail_url,
-                        },
-                        "buyer": {
-                            "id": buyer_id,
-                            "username": buyer_username
-                        }
+                    "id": commission_id,
+                    "photo_url": photo_url,
+                    "file_url": file_url,
+                    "is_accepted": is_accepted,
+                    "is_paid": is_paid,
+                    "is_delivered": is_delivered,
+                    "is_downloaded": is_downloaded,
+                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
+                    "deal": {
+                        "id": deal_id,
+                        "success": deal_success
+                    },
+                    "product": {
+                        "id": product_id,
+                        "name": product_name,
+                        "price": product_price,
+                        "thumbnail": product_thumbnail_url,
+                    },
+                    "buyer": {
+                        "id": buyer_id,
+                        "username": buyer_username
                     }
                 })
         return data

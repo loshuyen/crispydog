@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     const commission = await get_commission_storage_by_id(commission_id);
-    const product = commission.commission.product;
+    const product = commission.product;
     views.render_checkout_commission(product);
 
     const cart_icon = document.querySelector(".header__cart-icon");

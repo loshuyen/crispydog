@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Query, WebSocket, WebSocketDisconnect, Depends
 from fastapi.responses import JSONResponse
 from database import notification as db
+from models import notification as model
+from models.response import ResponseOK
 from routers.user import get_auth_user
 import jwt
 import os
@@ -30,7 +32,7 @@ async def websocket_endpoint(websocket: WebSocket, token = Query()):
         del connections[user_id]
 
 @router.get("/api/notifications")
-def get_notifications(is_read: int | None = None, user = Depends(get_auth_user)):
+def get_notifications(is_read: int | None = None, user = Depends(get_auth_user)) -> model.NotificationListData:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -41,7 +43,7 @@ def get_notifications(is_read: int | None = None, user = Depends(get_auth_user))
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
     
 @router.put("/api/notifications")
-async def update_all_as_read(user = Depends(get_auth_user)):
+async def update_all_as_read(user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -52,7 +54,7 @@ async def update_all_as_read(user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.put("/api/notification")
-async def update_read_status(notification_id:int, is_read:int, user = Depends(get_auth_user)):
+async def update_read_status(notification_id:int, is_read:int, user = Depends(get_auth_user)) -> ResponseOK:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:

@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await update_cart_count();
     notifications = await get_notifications();
     notifications?.forEach(element => {
-        if (element.notification.is_read === 0) {
+        if (element.is_read === 0) {
             notitfications_count += 1;
         }
     });

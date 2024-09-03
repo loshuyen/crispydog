@@ -26,20 +26,17 @@ def get_notifications(user_id, is_read = None):
         for note in notes:
             commission_id, sender_username, notification_id, sender_id, receiver_id, message_type, message, is_read, created_at, product_id = note
             result.append({
-                "notification": {
-                    "id": notification_id,
-                    "sender": {
-                        "id": sender_id,
-                        "username": sender_username
-                    },
-                    "product_id": product_id,
-                    "commission_id": commission_id,
-                    "receiver_id": receiver_id,
-                    "message_type": message_type,
-                    "message": message,
-                    "is_read": is_read,
-                    "created_at": created_at.strftime("%Y-%m-%d %H:%M")
-                }
+                "id": notification_id,
+                "sender": {
+                    "id": sender_id,
+                    "username": sender_username
+                },
+                "product_id": product_id,
+                "commission_id": commission_id,
+                "message_type": message_type,
+                "message": message,
+                "is_read": is_read,
+                "created_at": created_at.strftime("%Y-%m-%d %H:%M")
             })
         return result 
     except Exception as e:

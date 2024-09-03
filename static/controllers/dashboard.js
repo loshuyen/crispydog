@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     notifications = await get_notifications();
     notifications?.forEach(element => {
-        if (element.notification.is_read === 0) {
+        if (element.is_read === 0) {
             notitfications_count += 1;
         }
     });

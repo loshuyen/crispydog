@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const sale_div = document.querySelector(".sale");
         sale_div.innerHTML = "無交易紀錄";
     } else {
-        await views.render_product(sales.product);
+        await views.render_product(sales);
         await views.render_sales(sales.product.sales);
         await views.render_reviews(reviews)
     }

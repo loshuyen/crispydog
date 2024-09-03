@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from database import sale as db
+from models import sale as model
 from .user import get_auth_user
 
 router = APIRouter()
 
 @router.get("/api/sales")
-def get_sales(user = Depends(get_auth_user)):
+def get_sales(user = Depends(get_auth_user)) -> model.SaleList:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -16,8 +17,8 @@ def get_sales(user = Depends(get_auth_user)):
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
     
-@router.get("/api/sale/{product_id}")
-def get_sales(product_id:int, user = Depends(get_auth_user)):
+@router.get("/api/sale/product/{product_id}")
+def get_sales_by_product(product_id:int, user = Depends(get_auth_user)) -> model.ProductSaleData:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:

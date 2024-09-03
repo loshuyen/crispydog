@@ -17,19 +17,17 @@ def get_all_sales(user_id):
         for sale in sales:
             sale_id, sale_buyer_id, sale_created_at, user_username, product_id, product_name, product_price, product_thumbnail_url = sale
             result.append({
-                "sale": {
-                    "id": sale_id,
-                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
-                    "buyer": {
-                        "id": sale_buyer_id,
-                        "username": user_username
-                    },
-                    "product": {
-                        "id": product_id,
-                        "name": product_name,
-                        "price": product_price,
-                        "thumbnail": product_thumbnail_url,
-                    }
+                "id": sale_id,
+                "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
+                "buyer": {
+                    "id": sale_buyer_id,
+                    "username": user_username
+                },
+                "product": {
+                    "id": product_id,
+                    "name": product_name,
+                    "price": product_price,
+                    "thumbnail": product_thumbnail_url,
                 }
             })
         return result 
@@ -56,13 +54,11 @@ def get_sales(user_id, product_id):
         for sale in sales:
             sale_id, sale_buyer_id, sale_created_at, user_username = sale
             sales_result.append({
-                "sale": {
-                    "id": sale_id,
-                    "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
-                    "buyer": {
-                        "id": sale_buyer_id,
-                        "username": user_username
-                    }
+                "id": sale_id,
+                "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
+                "buyer": {
+                    "id": sale_buyer_id,
+                    "username": user_username
                 }
             })
         cursor.execute("""

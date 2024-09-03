@@ -13,7 +13,9 @@ export function render_store(products) {
                 <img src=${element.thumbnail}>
             </div>
             <div class="store__item-name" data-product-id=${element.id}>${element.name}</div>
-            <div class="store__item-sales" data-product-id=${element.id}>銷售紀錄</div>
+            <div class="store__item-sales" data-product-id=${element.id}>
+                銷售紀錄
+            </div>
             <div class="store__item-revenue"></div>
             <div class="store__item-price">$${element.price}</div>
             <div class="store__item-status">

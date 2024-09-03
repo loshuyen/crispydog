@@ -31,6 +31,10 @@
     width: 35%;
     padding-left: 1rem;
 }
+.sale__item-sale-count {
+    width: 35%;
+    padding-left: 1rem;
+}
 .sale__item-status {
     width: 20%;
     display: flex;

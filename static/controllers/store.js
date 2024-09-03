@@ -11,8 +11,8 @@ const add_product = document.querySelector(".store__add-product-btn");
 const add_product_commission = document.querySelector(".store__add-commission-product-btn");
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const producs = await get_products_by_owner();
-    views.render_store(producs);
+    const products = await get_products_by_owner();
+    views.render_store(products);
 
     const dashboard_div = document.querySelector(".dashboard__item-store");
     const dashboard_div_img = document.querySelector(".dashboard__item-store > img");

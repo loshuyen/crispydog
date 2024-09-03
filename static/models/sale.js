@@ -7,7 +7,7 @@ export async function get_all_sales() {
 }
 
 export async function get_sales(product_id) {
-    const response = await fetch_with_token(`/api/sale/${product_id}`, "GET");
+    const response = await fetch_with_token(`/api/sale/product/${product_id}`, "GET");
     const data = await response.json();
     return data.data;
 }

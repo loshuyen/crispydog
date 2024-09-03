@@ -1,7 +1,8 @@
-export async function render_product(product) {
+export async function render_product(sales) {
     const sale_product = document.querySelector(".sale__product");
     const item = document.createElement("div");
     item.className = "sale__items";
+    const product = sales.product;
     if (product.sales.length === 0) {
         item.textContent = "無交易紀錄";
         return;
@@ -11,6 +12,7 @@ export async function render_product(product) {
             <img src=${product.thumbnail}>
         </div>
         <div class="sale__item-name">${product.name}</div>
+        <div class="sale__item-sale-count">售出 ${product.sales_count} 件</div>
         <div class="sale__item-price">$${product.price}</div>
         <div class="sale__item-status">
             <img src=${product.status === 0 ? "/static/icons/circle_x.svg" : "/static/icons/circle_v.svg"} />
@@ -35,8 +37,8 @@ export async function render_sales(sales_list) {
         const item = document.createElement("div");
         item.className = "sale__records-item";
         item.innerHTML = `
-            <div class="sale__buyer">${element.sale.buyer.username}</div>
-            <div class="sale__buy-time">${element.sale.created_at}</div>
+            <div class="sale__buyer">${element.buyer.username}</div>
+            <div class="sale__buy-time">${element.created_at}</div>
         `;
         sale_product.appendChild(item);
     });

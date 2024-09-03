@@ -81,6 +81,7 @@ def get_product(id):
         return result
     except Exception as e:
         print(e)
+        return None
     finally:
         cursor.close()
         db.close()

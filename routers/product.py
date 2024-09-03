@@ -20,7 +20,7 @@ def get_all_products(keyword: str | None = None, product_type: str | None = None
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.get("/api/product/{id}")
-def get_product_by_id(id) -> model.ProductDetail:
+def get_product_by_id(id) -> model.ProductDetail | dict:
     try:
         data = db.get_product(id)
         print(data)

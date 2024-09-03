@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await get_my_review(product_id);
     const existing_review = data[0];
     if (existing_review) {
-        const my_review = data[0].review;
+        const my_review = data[0];
         views.render_library_review(my_review.rating, my_review.content);
     }
 

@@ -18,15 +18,13 @@ def get_reviews(product_id, page):
         result = []
         for i in range(min(10, len(reviews))):
             result.append({
-                "review": {
-                    "id":reviews[i][4],
-                    "rating":reviews[i][1],
-                    "content":reviews[i][2],
-                    "updated_at":reviews[i][3].strftime("%Y-%m-%d %H:%M"),
-                    "reviewer":{
-                        "id":reviews[i][5],
-                        "name":reviews[i][0]
-                    }
+                "id":reviews[i][4],
+                "rating":reviews[i][1],
+                "content":reviews[i][2],
+                "updated_at":reviews[i][3].strftime("%Y-%m-%d %H:%M"),
+                "reviewer":{
+                    "id":reviews[i][5],
+                    "username":reviews[i][0]
                 }
             })
         return {"next_page": next_page, "data": result}
@@ -87,15 +85,13 @@ def get_review(product_id, user_id):
         for review in reviews:
             review_id, rating, content, product_id, product_name, review_updated_at = review
             result.append({
-                "review": {
-                    "id": review_id,
-                    "rating": rating,
-                    "content": content,
-                    "updated_at": review_updated_at.strftime("%Y-%m-%d %H:%M"),
-                    "product": {
-                        "id": product_id,
-                        "name": product_name
-                    }
+                "id": review_id,
+                "rating": rating,
+                "content": content,
+                "updated_at": review_updated_at.strftime("%Y-%m-%d %H:%M"),
+                "product": {
+                    "id": product_id,
+                    "name": product_name
                 }
             })
         return result

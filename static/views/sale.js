@@ -67,13 +67,12 @@ export async function render_reviews(reviews) {
     const sale_reviews = document.querySelector(".sale__reviews");
     reviews.forEach(element => {
         const item = document.createElement("div");
-        const review = element.review;
         item.className = "sale__records-item";
         item.innerHTML = `
-            <div class="sale__reviewer">${review.reviewer.name}</div>
-            <div class="sale__review-rating">${create_star(review.rating)}</div>
-            <div class="sale__review-content">${review.content}</div>
-            <div class="sale__review-time">${review.updated_at}</div>
+            <div class="sale__reviewer">${element.reviewer.username}</div>
+            <div class="sale__review-rating">${create_star(element.rating)}</div>
+            <div class="sale__review-content">${element.content}</div>
+            <div class="sale__review-time">${element.updated_at}</div>
         `;
         sale_reviews.appendChild(item);
     });

@@ -66,17 +66,17 @@ export async function render_product(reviews, product_data) {
         testimonial_container.className = "testimonial__container";
         testimonial_container.innerHTML = `
             <div class="testimonial__rating-star">
-                ${create_star(review.review.rating)}
+                ${create_star(review.rating)}
             </div>
             <div class="testimonial__content">
-                ${review.review.content}
+                ${review.content}
             </div>
             <div class="testimonial__viewer">
                 <div class="testimonial__username">
-                    by ${review.review.reviewer.name}
+                    by ${review.reviewer.username}
                 </div>
                 <div class="testimonial__updated_at">
-                    ${create_time_response(review.review.updated_at)}
+                    ${create_time_response(review.updated_at)}
                 </div>
             </div>
         `;

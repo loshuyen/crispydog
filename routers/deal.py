@@ -4,6 +4,7 @@ from database import deal as db, cart, payment, notification, product, commissio
 from .user import get_auth_user
 from .notification import notify_user
 from models import deal as model
+from models.response import ResponseOK
 from datetime import datetime
 from utils import pay
 import json
@@ -17,8 +18,8 @@ async def add_notification_to_db(sender_id, sender_name, product_id_list, messag
     await notification.add_notification(sender_id, sender_name, receiver_id_list, message_type, product_id_list, message, commission_id)
 
 @router.get("/api/deals")
-def get_deal(
-        success: int | None = Query(default=None, ge=0, le=1, description="0: 未成交的訂單、1: 已成交的訂單、Null: 所有訂單"), user = Depends(get_auth_user)):
+def get_all_deals(
+        success: int | None = Query(default=None, ge=0, le=1, description="0: 未成交的訂單、1: 已成交的訂單、Null: 所有訂單"), user = Depends(get_auth_user)) -> model.DealOut:
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -29,7 +30,7 @@ def get_deal(
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
 
 @router.post("/api/deal/credit_card")
-async def create_credit_card_deal(deal: model.Deal, user = Depends(get_auth_user)):
+async def create_credit_card_deal(deal: model.Deal, user = Depends(get_auth_user)) -> model.PayResultOut:
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -53,7 +54,16 @@ async def create_credit_card_deal(deal: model.Deal, user = Depends(get_auth_user
             payment.add_payment(pay_result, deal_id, user["id"])
             db.update_seller_savings(deal.deal.products)
             await add_notification_to_db(user["id"], user["username"], deal.deal.products, 0, message = None, commission_id=None)
-            return {"data": pay_result}
+            return {
+                "data": {
+                    "number": pay_result["number"],
+                    "payment": {
+                        "method": "credit_card",
+                        "status": pay_result["payment"]["status"],
+                        "message": pay_result["payment"]["message"],
+                    }
+                }
+            }
         else:
             return JSONResponse(status_code=400, content={"error": True, "message": "訂單建立失敗，輸入不正確或其他原因"})
     except Exception as e:
@@ -61,7 +71,7 @@ async def create_credit_card_deal(deal: model.Deal, user = Depends(get_auth_user
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
     
 @router.post("/api/deal/line")
-async def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
+async def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)) -> model.PaymentUrl:
     try:
         if not user:
             return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
@@ -98,7 +108,7 @@ async def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)):
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  
 
 @router.post("/api/deal/wallet")
-async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)):
+async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)) -> model.PayResultOut:
     if not user:
         return JSONResponse(status_code=403, content={"error": True, "message": "未登入系統，拒絕存取"})
     try:
@@ -115,6 +125,16 @@ async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)
         db.update_seller_savings(deal.products)
         user_db.update_buyer_savings(user["id"], deal.amount)
         await add_notification_to_db(user["id"], user["username"], deal.products, 0, message = None, commission_id=None)
+        return {
+            "data": {
+                "number": order_number,
+                "payment": {
+                    "method": "wallet",
+                    "status": 0,
+                    "message": "success",
+                }
+            }
+        }
     except Exception as e:
         print(e)
         return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})  

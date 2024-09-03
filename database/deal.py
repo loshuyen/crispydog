@@ -23,21 +23,21 @@ def get_all_deals(user_id, success):
                 cursor.execute("SELECT product.name, product.price, user.username, user.id FROM product INNER JOIN user ON product.owner_id = user.id WHERE product.id = %s", (id, ))
                 product_name, product_price, seller_name, seller_id = cursor.fetchall()[0]
                 product_result.append({
-                    "product_id": id,
-                    "product_name": product_name, 
-                    "product_price": product_price, 
-                    "seller_id": seller_id,
-                    "seller_name": seller_name
+                    "id": id,
+                    "name": product_name, 
+                    "price": product_price, 
+                    "owner": {
+                        "id": seller_id,
+                        "username": seller_name
+                    } 
                 })
             result.append({
-                "deal": {
-                    "id": id,
-                    "amount": amount,
-                    "delivery_email": delivery_email,
-                    "success": success,
-                    "created_at": updated_at.strftime("%Y-%m-%d %H:%M"),
-                    "products": product_result
-                }
+                "id": id,
+                "amount": amount,
+                "delivery_email": delivery_email,
+                "success": success,
+                "created_at": updated_at.strftime("%Y-%m-%d %H:%M"),
+                "products": product_result
             })
         return result
     except Exception as e:

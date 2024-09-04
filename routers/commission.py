@@ -46,7 +46,7 @@ async def create_commission(product_id: Annotated[int, Form()], photo_file: Uplo
         photo_file_type = photo_file.filename.split(".")[1]
         photo_url, _ = aws_s3.upload_file(photo_file.file, photo_file_type).values()
         deal_id = deal.add_deal(user["id"], [product_id], "", 0)
-        commission_id = db.add_commission(deal_id, photo_url)
+        commission_id = db.add_commission(deal_id, photo_url, product_id)
         owner_id = product.get_owner_by_product_id(product_id)
         await notification.add_notification(user["id"], user["username"], [owner_id], 3, [product_id], None, commission_id=commission_id)
         return JSONResponse(status_code=200, content={"ok": True})

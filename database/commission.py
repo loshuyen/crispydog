@@ -164,15 +164,15 @@ def get_commission(commission_id):
         cursor.close()
         db.close()
 
-def add_commission(deal_id, photo_url):
+def add_commission(deal_id, photo_url, product_id):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
             INSERT INTO commission
-            (deal_id, photo_url) VALUES
-            (%s, %s)
-        """, (deal_id, photo_url))
+            (deal_id, photo_url, product_id) VALUES
+            (%s, %s, %s)
+        """, (deal_id, photo_url, product_id))
         commission_id = cursor.lastrowid
         db.commit()
         return commission_id
@@ -227,44 +227,42 @@ def get_commissions_by_seller(user_id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT commission.id, deal_id ,photo_url, file_url, is_accepted, is_paid, is_delivered, is_downloaded, commission.updated_at, deal.products, deal.success, user.id, user.username
+            SELECT commission.id, deal.id ,photo_url, file_url, is_accepted, is_paid, is_delivered, is_downloaded, commission.updated_at, deal.success, user.id, user.username, product.id, product.name, product.price, product.thumbnail_url
             FROM commission 
-            INNER JOIN deal ON commission.deal_id = deal.id
+            INNER JOIN product ON commission.product_id = product.id
+            INNER JOIN deal ON deal.id = commission.deal_id
             INNER JOIN user ON deal.buyer_id = user.id
+            WHERE product.owner_id = %s
             ORDER BY commission.updated_at DESC;
-        """)
-        data1 = cursor.fetchall()
+        """, (user_id, ))
+        result = cursor.fetchall()
         data = []
-        for item in data1:
-            commission_id, deal_id ,photo_url, file_url, is_accepted, is_paid, is_delivered, is_downloaded, commission_updated_at, deal_products, deal_success, buyer_id, buyer_username = item
-            product_id = json.loads(deal_products)[0]
-            cursor.execute("SELECT product.name, product.price, product.thumbnail_url FROM product WHERE id = %s AND owner_id = %s", (product_id, user_id))
-            product_name, product_price, product_thumbnail_url = cursor.fetchall()[0]
-            if product_name:
-                data.append({
-                    "id": commission_id,
-                    "photo_url": photo_url,
-                    "file_url": file_url,
-                    "is_accepted": is_accepted,
-                    "is_paid": is_paid,
-                    "is_delivered": is_delivered,
-                    "is_downloaded": is_downloaded,
-                    "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
-                    "deal": {
-                        "id": deal_id,
-                        "success": deal_success
-                    },
-                    "product": {
-                        "id": product_id,
-                        "name": product_name,
-                        "price": product_price,
-                        "thumbnail": product_thumbnail_url,
-                    },
-                    "buyer": {
-                        "id": buyer_id,
-                        "username": buyer_username
-                    }
-                })
+        for item in result:
+            commission_id, deal_id ,photo_url, file_url, is_accepted, is_paid, is_delivered, is_downloaded, commission_updated_at, deal_success, buyer_id, buyer_username, product_id, product_name, product_price, product_thumbnail_url = item
+            data.append({
+                "id": commission_id,
+                "photo_url": photo_url,
+                "file_url": file_url,
+                "is_accepted": is_accepted,
+                "is_paid": is_paid,
+                "is_delivered": is_delivered,
+                "is_downloaded": is_downloaded,
+                "updated_at": commission_updated_at.strftime("%Y-%m-%d %H:%M"),
+                "deal": {
+                    "id": deal_id,
+                    "success": deal_success
+                },
+                "product": {
+                    "id": product_id,
+                    "name": product_name,
+                    "price": product_price,
+                    "thumbnail": product_thumbnail_url,
+                },
+                "buyer": {
+                    "id": buyer_id,
+                    "username": buyer_username
+                }
+            })
         return data
     except Exception as e:
         return []

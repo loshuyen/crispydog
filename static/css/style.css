@@ -211,13 +211,16 @@
 .signup__submit-btn {
     width: 100%;
     margin: 2rem 0;
-    height: 2.5rem;
+    height: 40px;
     cursor: pointer;
     border: 1px solid black;
     border-radius: 3px;
     transition: transform .3s ease;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .login__submit-btn:hover,
 .login__google:hover,
@@ -225,8 +228,11 @@
 .signup__submit-btn:hover {
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     transform: translate(-3px, -3px);
-    background-color: #ff74f9;
-    color: black
+}
+.login__google > img,
+.signup__google > img {
+    width: 38px;
+    height: 38px;
 }
 hr {
     border: .5px solid black;

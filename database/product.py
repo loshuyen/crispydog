@@ -19,7 +19,7 @@ def get_published_products(keyword, product_type, page):
             statement = f"{base_statement} AND product.name LIKE %s ORDER BY product.created_at DESC"
             params = (f"%{keyword}%", page * 15)
         else:
-            statement = base_statement
+            statement = f"{base_statement} ORDER BY product.created_at DESC"
             params = (page * 15, )
         statement += " LIMIT 16 OFFSET %s"
         cursor.execute(statement, params)

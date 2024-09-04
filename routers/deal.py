@@ -117,13 +117,12 @@ async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)
         savings = user_db.get_savings(user["id"])
         if savings < deal.amount:
             return JSONResponse(status_code=400, content={"error": True, "message": "錢包餘額不足"})
+        db.transfer_savings(deal.products, user["id"])
         deal_id = db.add_deal(user["id"], deal.products, deal.delivery_email, deal.amount, 1)
         db.add_sale_records(deal_id, user["id"], deal.products)
         cart.remove_all_product_from_cart(user["id"])
         order_number = datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"])
         payment.add_wallet_payment(order_number, deal_id, user["id"], deal.amount)
-        db.update_seller_savings(deal.products)
-        user_db.update_buyer_savings(user["id"], deal.amount)
         await add_notification_to_db(user["id"], user["username"], deal.products, 0, message = None, commission_id=None)
         return {
             "data": {

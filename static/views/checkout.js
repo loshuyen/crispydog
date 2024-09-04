@@ -13,7 +13,7 @@ export async function render_cart_list(products) {
                 <div class="checkout__product-name">
                     ${product.name}
                     <div class="checkout__product-seller">
-                        賣家
+                        ${product.owner.username}
                     </div>
                 </div>
                 <div class="checkout__product-price">

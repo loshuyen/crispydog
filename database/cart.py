@@ -5,19 +5,24 @@ def get_all_from_cart(user_id):
         db = pool.get_connection()
         cursor = db.cursor()
         cursor.execute("""
-            SELECT product_id, product.name, product.price, thumbnail_url
+            SELECT user.id, user.username, product_id, product.name, product.price, thumbnail_url
             FROM cart INNER JOIN product ON cart.product_id = product.id
+            INNER JOIN user ON product.owner_id = user.id
             WHERE cart.user_id = %s
         """, (user_id, ))
         products = cursor.fetchall()
         result = []
         for product in products:
-            product_id, product_name, product_price, thumbnail_url = product
+            owner_id, owner_username, product_id, product_name, product_price, thumbnail_url = product
             result.append({
                 "id": product_id,
                 "name": product_name,
                 "price": product_price,
-                "thumbnail": thumbnail_url
+                "thumbnail": thumbnail_url,
+                "owner": {
+                    "id": owner_id,
+                    "username": owner_username
+                }
             })
         return result
     except Exception as e:

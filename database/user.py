@@ -129,8 +129,10 @@ def update_buyer_savings(user_id, amount):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        cursor.execute("SELECT savings FROM user WHERE id = %s", (user_id, ))
+        cursor.execute("SELECT savings FROM user WHERE id = %s FOR UPDATE", (user_id, ))
         savings = cursor.fetchall()[0][0]
+        if savings < amount:
+            raise Exception("Not enough savings.")
         cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (savings - amount, user_id))
         db.commit()
     except Exception as e:

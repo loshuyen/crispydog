@@ -145,16 +145,60 @@ def update_seller_savings(products):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
+        pairs = []
         for product_id in products:
             cursor.execute("""
-                SELECT user.id, product.price, user.savings
+                SELECT user.id, product.price
                 FROM product INNER JOIN user ON product.owner_id = user.id
                 WHERE product.id = %s
             """, (product_id, ))
-            user_id, price, savings = cursor.fetchall()[0]
-            cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (savings + price, user_id))
-            db.commit()
+            pairs.append(cursor.fetchone())
+        db.commit()
+        
+        db.start_transaction()
+        for pair in pairs:
+            user_id, product_price = pair
+            cursor.execute("SELECT savings FROM user WHERE id = %s FOR UPDATE", (user_id, ))
+            savings = cursor.fetchone()[0]
+            cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (savings + product_price, user_id))
+        db.commit()
+            
     except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cursor.close()
+        db.close()
+
+def transfer_savings(products, buyer_id):
+    try:
+        db = pool.get_connection()
+        cursor = db.cursor()
+        pairs = []
+        for product_id in products:
+            cursor.execute("""
+                SELECT user.id, product.price
+                FROM product INNER JOIN user ON product.owner_id = user.id
+                WHERE product.id = %s
+            """, (product_id, ))
+            pairs.append(cursor.fetchone())
+        db.commit()
+        
+        db.start_transaction()
+        for pair in pairs:
+            owner_id, product_price = pair
+            cursor.execute("SELECT savings FROM user WHERE id = %s FOR UPDATE", (buyer_id, ))
+            buyer_savings = cursor.fetchall()[0][0]
+            if buyer_savings < product_price:
+                raise Exception("Not enough savings.")
+            cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (buyer_savings - product_price, buyer_id))
+            cursor.execute("SELECT savings FROM user WHERE id = %s FOR UPDATE", (owner_id, ))
+            owner_savings = cursor.fetchall()[0][0]
+            cursor.execute("UPDATE user SET savings = %s WHERE id = %s", (owner_savings + product_price, owner_id))
+        db.commit()
+            
+    except Exception as e:
+        db.rollback()
         raise e
     finally:
         cursor.close()

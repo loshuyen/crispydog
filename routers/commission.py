@@ -127,12 +127,11 @@ async def pay_commission_by_wallet(commission: model.PayWallet, user = Depends(g
         if savings < commission_info["product"]["price"]:
             return JSONResponse(status_code=400, content={"error": True, "message": "錢包餘額不足"})
         
+        user_db.update_buyer_savings(user["id"], commission_info["product"]["price"])
         deal.mark_as_success(commission_info["deal"]["id"])
         deal.add_sale_records(commission_info["deal"]["id"], user["id"], [commission_info["product"]["id"]])
         payment.add_wallet_payment(order_number, commission_info["deal"]["id"], user["id"], commission_info["product"]["price"])
         db.update_commission(commission_id=commission.commission_id, is_paid=1)
-        deal.update_seller_savings([commission_info["product"]["id"]])
-        user_db.update_buyer_savings(user["id"], commission_info["product"]["price"])
         await notification.add_notification(user["id"], user["username"], [commission_info["owner"]["id"]], 5, [commission_info["product"]["id"]], None, commission_id=commission.commission_id)        
         return {
             "data": {

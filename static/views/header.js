@@ -37,7 +37,7 @@ export function select_response(message_type) {
 export function convert_datetime_to_local(datetime) {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const utcTime = new Date(datetime);
-    const options = { timeZone: userTimeZone, dateStyle: "full", timeStyle: "long" };
+    const options = { timeZone: userTimeZone, dateStyle: "short", timeStyle: "short" };
     const userTime = new Intl.DateTimeFormat([], options).format(utcTime);
     return userTime;
 }

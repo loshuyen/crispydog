@@ -6,6 +6,7 @@ from .notification import notify_user
 from models import deal as model
 from models.response import ResponseOK
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from utils import pay
 import json
 
@@ -48,7 +49,7 @@ async def create_credit_card_deal(deal: model.Deal, user = Depends(get_auth_user
         pay_result = pay.tappay_direct_pay(
             prime=deal.prime, 
             amount=deal.deal.amount, 
-            order_number=datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"]), 
+            order_number=datetime.now(ZoneInfo("UTC")).strftime("%Y%m%d%H%M%S") + str(user["id"]), 
             phone_number=deal.contact.phone_number, 
             name=deal.contact.name, 
             email=deal.contact.email
@@ -89,7 +90,7 @@ async def create_line_deal(deal: model.Deal, user = Depends(get_auth_user)) -> m
         pay_result = pay.tappay_line_pay(
             prime=deal.prime, 
             amount=deal.deal.amount, 
-            order_number=datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"]), 
+            order_number=datetime.now(ZoneInfo("UTC")).strftime("%Y%m%d%H%M%S") + str(user["id"]), 
             phone_number=deal.contact.phone_number, 
             name=deal.contact.name, 
             email=deal.contact.email
@@ -129,7 +130,7 @@ async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)
         deal_id = db.add_deal(user["id"], deal.products, deal.delivery_email, deal.amount, 1)
         db.add_sale_records(deal_id, user["id"], deal.products)
         cart.remove_all_product_from_cart(user["id"])
-        order_number = datetime.now().strftime("%Y%m%d%H%M%S") + str(user["id"])
+        order_number = datetime.now(ZoneInfo("UTC")).strftime("%Y%m%d%H%M%S") + str(user["id"])
         payment.add_wallet_payment(order_number, deal_id, user["id"], deal.amount)
         await add_notification_to_db(user["id"], user["username"], deal.products, 0, message = None, commission_id=None)
         return {

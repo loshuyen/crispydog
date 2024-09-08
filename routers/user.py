@@ -3,7 +3,8 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import jwt
 import os
-import datetime
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from models import user as model
 from models.response import ResponseError, ResponseOK
 from typing import Union
@@ -27,9 +28,9 @@ def get_auth_user(credentials: HTTPAuthorizationCredentials = Depends(security))
         return None
 	
 def generate_token(user_data):
-    current_utc_time = datetime.datetime.now()
+    current_utc_time = datetime.now(ZoneInfo("UTC"))
     future_utc_time = current_utc_time + datetime.timedelta(days=7)
-    future_unix_timestamp = int(datetime.datetime.timestamp(future_utc_time))
+    future_unix_timestamp = int(datetime.timestamp(future_utc_time))
     user_data["exp"] = future_unix_timestamp
     token = jwt.encode(user_data, os.getenv("TOKEN_SECRET_KEY"), algorithm="HS256")
     return token

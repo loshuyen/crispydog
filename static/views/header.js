@@ -34,6 +34,14 @@ export function select_response(message_type) {
     return response;
 }
 
+export function convert_datetime_to_local(datetime) {
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const utcTime = new Date(datetime);
+    const options = { timeZone: userTimeZone, dateStyle: "full", timeStyle: "long" };
+    const userTime = new Intl.DateTimeFormat([], options).format(utcTime);
+    return userTime;
+}
+
 export function render_header_notifications(notifications) {
     const dropdown = document.querySelector(".header__dropdown-notification");
     dropdown.innerHTML = "";
@@ -63,7 +71,8 @@ export function render_header_notifications(notifications) {
         notification_div.textContent = `${element.sender.username} ${select_response(element.message_type)}`;
         const created_at = document.createElement("div");
         created_at.className = "header__notification-time";
-        created_at.textContent = `${create_time_response(element.created_at)}`;
+        const created_time = convert_datetime_to_local(element.created_at);
+        created_at.textContent = `${create_time_response(created_time)}`;
         created_at.setAttribute("data-notification-id", element.id);
         created_at.setAttribute("data-url", url);
         created_at.addEventListener("click", async (event) => {

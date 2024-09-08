@@ -17,6 +17,14 @@ async def add_notification_to_db(sender_id, sender_name, product_id_list, messag
         receiver_id_list.append(product.get_owner_by_product_id(product_id))
     await notification.add_notification(sender_id, sender_name, receiver_id_list, message_type, product_id_list, message, commission_id)
 
+def parse_order_num(order_number):
+    try:
+        split_list = order_number.split("-")
+        label, commission_id = split_list[-2], split_list[-1]
+        return label, commission_id
+    except:
+        return None, None
+
 @router.get("/api/deals")
 def get_all_deals(
         success: int | None = Query(default=None, ge=0, le=1, description="0: 未成交的訂單、1: 已成交的訂單、Null: 所有訂單"), user = Depends(get_auth_user)) -> model.DealOut:
@@ -141,11 +149,12 @@ async def create_wallet_deal(deal: model.DealBase, user = Depends(get_auth_user)
 @router.post("/api/deal/line/notify", include_in_schema=False)
 async def get_line_callback(body = Body()):
     try:
+        print("body: ", body)
         order_number = body["order_number"]
-        label = order_number.split("-")[-2]
-        commission_id = order_number.split("-")[-1]
+        label, commission_id = parse_order_num(order_number)
         if body["status"] == 0:
             deal_id, user_id, username = payment.get_payment(order_number)
+            print("deal_id: ", deal_id, 'user_id: ', user_id, 'username: ', username)
             db.mark_as_success(deal_id)
             products = db.get_deal_products_by_id(deal_id)
             products = json.loads(products)
@@ -164,8 +173,9 @@ async def get_line_callback(body = Body()):
 @router.get("/api/deal/line/redirect", include_in_schema=False)
 def line_frontend(status:int = Query(), order_number:str = Query()):
     try:
-        commission_id = int(order_number.split("-")[-1])
-        label = order_number.split("-")[-2]
+        label, commission_id = parse_order_num(order_number)
+        if commission_id:
+            commission_id = int(commission_id)
         if status == 0:
             if label == "commission" and commission_id:
                 return RedirectResponse(f"/property/commission/{commission_id}")

@@ -43,7 +43,7 @@ Notify users while they should be responding to trading actions
 
 # Google OAuth 2.0 Integration
 * Generate JWT with user information from google
-* Deliver JWT to the frontend through the query parameter in the front page redirection url
+* Deliver JWT to the frontend through the query parameter in the redirection url
 <img width="906" alt="image" src="https://github.com/user-attachments/assets/5cfe5523-4542-4940-8c12-c3e0a768ba45">
 
 # Download Endpoint Generation and Download Process for 直購商品

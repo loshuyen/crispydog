@@ -4,13 +4,13 @@ A platform for trading digital goods online
 Website URL: https://crispydog.xyz
 
 # Contents
-* [Core Features](Core-Features)
-* [Tech Stack](Tech-Stack)
-* [System Architecture](System-Architecture)
-* [RESTful APIs](RESTful-APIs)
-* [Database ERD](Database-ERD)
-* [Implements](Implements)
-* [Contact](Contact)
+* [Core Features](#Core-Features)
+* [Tech Stack](#Tech-Stack)
+* [System Architecture](#System-Architecture)
+* [RESTful APIs](#RESTful-APIs)
+* [Database ERD](#Database-ERD)
+* [Implements](#Implements)
+* [Contact](#Contact)
 
 # Core Features
 ### User Flow

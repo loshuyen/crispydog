@@ -222,6 +222,12 @@
     justify-content: center;
     align-items: center;
 }
+.login__submit-btn {
+    background-color: #ff74f9;
+}
+#test-login {
+    background-color: white;
+}
 .login__submit-btn:hover,
 .login__google:hover,
 .signup__google:hover,

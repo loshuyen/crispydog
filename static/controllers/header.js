@@ -137,6 +137,14 @@ ws.onmessage = async function(event) {
 let notifications;
 let notitfications_count = 0;
 document.addEventListener("DOMContentLoaded", async () => {
+    // Provide username & password for visitors
+    const username = document.querySelector(".login__username > input");
+    const password = document.querySelector(".login__password > input");
+    if (username && password) {
+        username.value = "test";
+        password.value = "test";
+    }
+    
     const store_username = new URLSearchParams(window.location.search).get("personal_store");
     if (store_username) {
         const header_title = document.querySelector(".header__title");
@@ -289,6 +297,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
         const response = await model.fetch_token({username, password});
+        if (response.status === 200) {
+            const token = await response.json();
+            localStorage.setItem("token", token.token);
+            window.location.reload();
+        } else {
+            const error_message = await response.json();
+            message.textContent = error_message.message;
+        }
+    });
+
+    // Button for visitors to log in as a seller
+    const seller_test_login = document.querySelector("#test-login");
+    seller_test_login?.addEventListener("click", async () => {
+        const response = await model.fetch_token({username: "user1", password: "user1"});
         if (response.status === 200) {
             const token = await response.json();
             localStorage.setItem("token", token.token);

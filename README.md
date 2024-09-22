@@ -19,6 +19,11 @@ Website URL: https://crispydog.xyz
 ### Real-time Notification System
 Notify users while they should be responding to trading actions
 
+### Demo Videos
+[直購商品](https://youtu.be/f_hwcqRy090)
+
+[似顏繪](https://youtu.be/qnAeB0XSzE0)
+
 # Tech Stack
 ### Backend
 * Python (FastAPI)

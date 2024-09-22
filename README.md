@@ -1,5 +1,5 @@
 # CrispyDog
-A platform for trading digital goods online
+### A platform for trading digital goods online
 
 Website URL: https://crispydog.xyz
 

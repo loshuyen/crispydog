@@ -1,6 +1,5 @@
 from .database import pool
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import datetime, timedelta, timezone
 
 def get_reviews(product_id, page):
     try:
@@ -116,7 +115,7 @@ def update_review(rating, content, product_id, review_id):
         cursor.execute("UPDATE product SET rating_avg = %s WHERE id = %s;", (new_rating_avg, product_id))
         db.commit()
 
-        cursor.execute("UPDATE review SET rating = %s, content = %s, updated_at = %s WHERE id = %s;", (rating, content, datetime.now(ZoneInfo("UTC")), review_id))
+        cursor.execute("UPDATE review SET rating = %s, content = %s, updated_at = %s WHERE id = %s;", (rating, content, datetime.now(tz=timezone(timedelta(hours=8))), review_id))
         db.commit()
     except Exception as e:
         print(e)

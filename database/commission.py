@@ -1,5 +1,5 @@
 from .database import pool
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 import json
 
@@ -193,16 +193,16 @@ def update_commission(commission_id, is_accepted=None, is_paid=None, is_delivere
         params = None
         if is_accepted:
             statement = f"{statement_start} is_accepted = %s {statement_end}"
-            params = (datetime.now(ZoneInfo("UTC")), is_accepted, commission_id)
+            params = (datetime.now(tz=timezone(timedelta(hours=8))), is_accepted, commission_id)
         elif is_paid:
             statement = f"{statement_start} is_paid = %s {statement_end}"
-            params = (datetime.now(ZoneInfo("UTC")), is_paid, commission_id)
+            params = (datetime.now(tz=timezone(timedelta(hours=8))), is_paid, commission_id)
         elif is_delivered:
             statement = f"{statement_start} is_delivered = %s {statement_end}"
-            params = (datetime.now(ZoneInfo("UTC")), is_delivered, commission_id)
+            params = (datetime.now(tz=timezone(timedelta(hours=8))), is_delivered, commission_id)
         else:
             statement = f"{statement_start} is_downloaded = %s {statement_end}"
-            params = (datetime.now(ZoneInfo("UTC")), is_downloaded, commission_id)
+            params = (datetime.now(tz=timezone(timedelta(hours=8))), is_downloaded, commission_id)
         cursor.execute(statement, params)
         db.commit()
     except Exception as e:
@@ -215,7 +215,7 @@ def update_file_url(commission_id, file_url):
     try:
         db = pool.get_connection()
         cursor = db.cursor()
-        cursor.execute("UPDATE commission SET file_url = %s, updated_at = %s WHERE id = %s", (file_url, datetime.now(ZoneInfo("UTC")), commission_id))
+        cursor.execute("UPDATE commission SET file_url = %s, updated_at = %s WHERE id = %s", (file_url, datetime.now(tz=timezone(timedelta(hours=8))), commission_id))
         db.commit()
     except Exception as e:
         raise e

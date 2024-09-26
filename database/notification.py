@@ -1,5 +1,6 @@
 from .database import pool
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from routers import notification
 import json
 
@@ -36,7 +37,7 @@ def get_notifications(user_id, is_read = None):
                 "message_type": message_type,
                 "message": message,
                 "is_read": is_read,
-                "created_at": created_at.strftime("%Y-%m-%d %H:%M")
+                "created_at": created_at.astimezone(ZoneInfo("Asia/Taipei")).astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M")
             })
         return result 
     except Exception as e:

@@ -1,5 +1,6 @@
 from .database import pool
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 def get_all_sales(user_id):
     try:
@@ -18,7 +19,7 @@ def get_all_sales(user_id):
             sale_id, sale_buyer_id, sale_created_at, user_username, product_id, product_name, product_price, product_thumbnail_url = sale
             result.append({
                 "id": sale_id,
-                "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
+                "created_at": sale_created_at.astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M"),
                 "buyer": {
                     "id": sale_buyer_id,
                     "username": user_username
@@ -55,7 +56,7 @@ def get_sales(user_id, product_id):
             sale_id, sale_buyer_id, sale_created_at, user_username = sale
             sales_result.append({
                 "id": sale_id,
-                "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
+                "created_at": sale_created_at.astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M"),
                 "buyer": {
                     "id": sale_buyer_id,
                     "username": user_username

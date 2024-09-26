@@ -1,5 +1,6 @@
 from .database import pool
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 def get_all_storage(user_id, product_id, product_type):
     try:
@@ -41,7 +42,7 @@ def get_all_storage(user_id, product_id, product_type):
                 "download_endpoint": sale_download_endpoint,
                 "file_type": product_file_type,
                 "file_size": product_file_size,
-                "created_at": sale_created_at.strftime("%Y-%m-%d %H:%M"),
+                "created_at": sale_created_at.astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M"),
                 "product": {
                     "id": product_id, 
                     "name": product_name,

@@ -22,7 +22,7 @@ def get_reviews(product_id, page):
                 "id":reviews[i][4],
                 "rating":reviews[i][1],
                 "content":reviews[i][2],
-                "updated_at":reviews[i][3].strftime("%Y-%m-%d %H:%M"),
+                "updated_at":reviews[i][3].astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M"),
                 "reviewer":{
                     "id":reviews[i][5],
                     "username":reviews[i][0]
@@ -89,7 +89,7 @@ def get_review(product_id, user_id):
                 "id": review_id,
                 "rating": rating,
                 "content": content,
-                "updated_at": review_updated_at.strftime("%Y-%m-%d %H:%M"),
+                "updated_at": review_updated_at.astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M"),
                 "product": {
                     "id": product_id,
                     "name": product_name

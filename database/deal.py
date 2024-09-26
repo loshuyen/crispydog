@@ -1,5 +1,6 @@
 from .database import pool
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import json
 from uuid import uuid4
 
@@ -36,7 +37,7 @@ def get_all_deals(user_id, success):
                 "amount": amount,
                 "delivery_email": delivery_email,
                 "success": success,
-                "created_at": updated_at.strftime("%Y-%m-%d %H:%M"),
+                "created_at": updated_at.astimezone(ZoneInfo("Asia/Taipei")).strftime("%Y-%m-%d %H:%M"),
                 "products": product_result
             })
         return result

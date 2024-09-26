@@ -8,7 +8,8 @@ from models.response import ResponseOK
 from models.deal import PayResultOut
 from .user import get_auth_user
 from utils import aws_s3, pay
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 router = APIRouter()
 
@@ -89,7 +90,7 @@ async def pay_commission_by_credit_card(commission: model.Pay, user = Depends(ge
         pay_result = pay.tappay_direct_pay(
             prime=commission.prime, 
             amount=commission_info["product"]["price"], 
-            order_number=datetime.now(tz=timezone(timedelta(hours=8))).strftime("%Y%m%d-%H%M%S-") + str(user["id"]),
+            order_number=datetime.now(ZoneInfo("Asia/Taipei")).strftime("%Y%m%d-%H%M%S-") + str(user["id"]),
             phone_number=commission.contact.phone_number, 
             name=commission.contact.name, 
             email=commission.contact.email
@@ -127,7 +128,7 @@ async def pay_commission_by_wallet(commission: model.PayWallet, user = Depends(g
         if commission_info["is_accepted"] != 1 or commission_info["buyer"]["id"] != user["id"]:
             return JSONResponse(status_code=400, content={"error": True, "message": "無操作權限"})
         savings = user_db.get_savings(user["id"])
-        order_number = datetime.now(tz=timezone(timedelta(hours=8))).strftime("%Y%m%d%H%M%S") + str(user["id"])
+        order_number = datetime.now(ZoneInfo("Asia/Taipei")).strftime("%Y%m%d%H%M%S") + str(user["id"])
         
         if savings < commission_info["product"]["price"]:
             return JSONResponse(status_code=400, content={"error": True, "message": "錢包餘額不足"})
@@ -163,7 +164,7 @@ async def pay_commission_by_linepay(commission: model.Pay, user = Depends(get_au
         pay_result = pay.tappay_line_pay(
             prime=commission.prime, 
             amount=commission_info["product"]["price"], 
-            order_number=datetime.now(tz=timezone(timedelta(hours=8))).strftime("%Y%m%d%H%M%S") + str(user["id"]) + "-" + "commission" + "-" + str(commission.commission_id), 
+            order_number=datetime.now(ZoneInfo("Asia/Taipei")).strftime("%Y%m%d%H%M%S") + str(user["id"]) + "-" + "commission" + "-" + str(commission.commission_id), 
             phone_number=commission.contact.phone_number, 
             name=commission.contact.name, 
             email=commission.contact.email

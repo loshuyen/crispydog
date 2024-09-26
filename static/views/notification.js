@@ -1,4 +1,4 @@
-import {select_response, convert_datetime_to_local} from "../views/header.js";
+import {select_response} from "../views/header.js";
 
 export function render_notification(notifications) {
     const notification_content = document.querySelector(".notification__content");
@@ -15,7 +15,6 @@ export function render_notification(notifications) {
         } else if (element.message_type == 4 || element.message_type == 6) {
           url = `/property/commission/${element.commission_id}`;
         }
-        const created_time = convert_datetime_to_local(element.created_at);
         item.innerHTML = `
             <div class="notification__item-sender" data-url=${url}>
                 ${element.sender.username}
@@ -24,7 +23,7 @@ export function render_notification(notifications) {
                 ${select_response(element.message_type)}
             </div>
             <div class="notification__item-time">
-                ${created_time}
+                ${element.created_at}
             </div>
             <div class="notification__item-read" data-url=${url}>
                 <img src="/static/icons/circle_v.svg" class=${element.is_read === 0 ? "notification__un-read" : "notification__is-read"} />

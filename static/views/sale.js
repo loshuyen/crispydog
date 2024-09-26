@@ -1,4 +1,3 @@
-import {convert_datetime_to_local} from "./header.js";
 
 export async function render_product(sales) {
     const sale_product = document.querySelector(".sale__product");
@@ -38,10 +37,9 @@ export async function render_sales(sales_list) {
     sales_list.forEach(element => {
         const item = document.createElement("div");
         item.className = "sale__records-item";
-        const created_time = convert_datetime_to_local(element.created_at);
         item.innerHTML = `
             <div class="sale__buyer">${element.buyer.username}</div>
-            <div class="sale__buy-time">${created_time}</div>
+            <div class="sale__buy-time">${element.created_at}</div>
         `;
         sale_product.appendChild(item);
     });

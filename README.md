@@ -57,6 +57,10 @@ Notify users while they should be responding to trading actions
 <img width="673" alt="image" src="https://github.com/user-attachments/assets/624175bf-6439-4c58-82ad-a26f81de26f0">
 
 # Implements
+### Transaction and Row Lock Mechanisms in Savings Data Manipulation
+* Utilize rollback logic for integrity in updating multiple savings data
+* Utilize row lock of savings data when updating to prevent dirty read by other transactions
+
 ### Google OAuth 2.0 Integration
 * Generate JWT with user information from google
 * Deliver JWT to the frontend through the query parameter in the redirection url

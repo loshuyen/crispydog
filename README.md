@@ -60,6 +60,8 @@ Notify users while they should be responding to trading actions
 ### Transaction and Row Lock Mechanisms in Savings Data Manipulation
 * Utilize rollback logic for integrity in updating multiple savings data
 * Utilize row lock of savings data when updating to prevent dirty read by other transactions
+<img width="673" alt="image" src="https://github.com/user-attachments/assets/02441bae-09a7-4499-82ee-420a4f67c43c">
+
 
 ### Google OAuth 2.0 Integration
 * Generate JWT with user information from google
